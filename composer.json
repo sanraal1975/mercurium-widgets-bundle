@@ -1,0 +1,14 @@
+{
+  "name": "comitium5/mercurium-widgets-bundle",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Jordi",
+      "email": "jordi.sola@gmail.com"
+    }
+  ],
+  "require": {
+  }
+}
