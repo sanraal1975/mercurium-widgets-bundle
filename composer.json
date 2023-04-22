@@ -1,25 +1,30 @@
 {
-  "name": "comitium5/mercurium-widgets-bundle",
-  "description": "description",
-  "minimum-stability": "stable",
-  "license": "proprietary",
-  "authors": [
-    {
-      "name": "Jordi",
-      "email": "jordi.sola@gmail.com"
-    }
-  ],
-  "require": {
-    "php": ">=7.2",
-    "comitium5/api-client-bundle": "^7.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "@stable"
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://satis.wearebab.com"
-    }
-  ]
+    "name": "comitium5/mercurium-widgets-bundle",
+    "description": "description",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Jordi",
+            "email": "jordi.sola@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Comitium5\\MercuriumWidgetsBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=7.2",
+        "comitium5/api-client-bundle": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.wearebab.com"
+        }
+    ]
 }
