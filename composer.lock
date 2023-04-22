@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "698d6d2c7243c9a2d3237a5e4cf7a115",
+    "content-hash": "0fd51b1aa15db227d5fae85d2d0f3211",
     "packages": [
         {
             "name": "comitium5/api-client-bundle",
@@ -2426,7 +2426,9 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.2"
+    },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
 }
