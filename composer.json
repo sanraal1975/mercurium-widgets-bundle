@@ -10,8 +10,15 @@
     }
   ],
   "require": {
+    "comitium5/api-client-bundle": "^7.0"
   },
   "require-dev": {
     "phpunit/phpunit": "@stable"
-  }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis.wearebab.com"
+    }
+  ]
 }
