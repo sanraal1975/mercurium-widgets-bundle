@@ -16,6 +16,10 @@ use TypeError;
  */
 class ArticleHelperTest extends TestCase
 {
+    const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "ArticleHelper::get. entityId must be greater than 0";
+
+    const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "ArticleHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
+
     /**
      *
      * @return void
@@ -40,7 +44,7 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
         $helper = new ArticleHelper($api);
         $helper->get(-1);
@@ -55,7 +59,7 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
         $helper = new ArticleHelper($api);
         $helper->get(0);
@@ -99,6 +103,7 @@ class ArticleHelperTest extends TestCase
     public function testGetByIdsWithEmptyString()
     {
         $api = new Client("https://foo.bar", "fake_token");
+
         $helper = new ArticleHelper($api);
         $result = $helper->getByIds("");
 
@@ -129,7 +134,7 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
         $helper = new ArticleHelper($api);
         $helper->getByIds("-1");
@@ -146,6 +151,7 @@ class ArticleHelperTest extends TestCase
 
         $helper = new ArticleHelper($api);
         $result = $helper->getByIds("0");
+
         $this->assertEquals([], $result);
     }
 
@@ -158,7 +164,7 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
         $helper = new ArticleHelper($api);
         $helper->getByIds("1," . null);
@@ -173,7 +179,7 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
         $helper = new ArticleHelper($api);
         $helper->getByIds("1,-1");
@@ -188,9 +194,323 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
         $helper = new ArticleHelper($api);
         $helper->getByIds("1,0");
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithEmptyStringAndDefaultQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("");
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithNullStringAndDefaultQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectException(TypeError::class);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity(null);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithNegativeValueAndDefaultQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity("-1");
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithZeroValueAndDefaultQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("0");
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNullValueAndDefaultQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity("1," . null);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNegativeValueAndDefaultQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity("1,-1");
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndZeroValueAndDefaultQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity("1,0");
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithEmptyStringAndNegativeQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("", -1);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithNullStringAndNegativeQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectException(TypeError::class);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity(null, -1);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithNegativeValueAndNegativeQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity("-1", -1);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithZeroValueAndNegativeQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("0", -1);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNullValueAndNegativeQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity("1," . null, -1);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNegativeValueAndNegativeQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity("1,-1", -1);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndZeroValueAndNegativeQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity("1,0", -1);
+    }
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithEmptyStringAndZeroQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("", 0);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithNullStringAndZeroQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectException(TypeError::class);
+
+        $helper = new ArticleHelper($api);
+        $helper->getByIdsAndQuantity(null, 0);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithNegativeValueAndZeroQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("-1", 0);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithZeroValueAndZeroQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("0", 0);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNullValueAndZeroQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("1," . null, 0);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNegativeValueAndZeroQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("1,-1", 0);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndZeroValueAndZeroQuantity()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->getByIdsAndQuantity("1,0", 0);
+
+        $this->assertEquals([], $result);
     }
 }
