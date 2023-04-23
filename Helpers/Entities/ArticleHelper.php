@@ -52,4 +52,29 @@ class ArticleHelper extends AbstractEntityHelper
 
         return $this->service->find(new IdentifiedValue($entityId));
     }
+
+    /**
+     * @param string $entitiesIds
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getByIds(string $entitiesIds): array
+    {
+        if (empty($entitiesIds)) {
+            return [];
+        }
+
+        $entitiesIdsAsArray = explode(",", $entitiesIds);
+        $entities = [];
+        foreach ($entitiesIdsAsArray as $entityId) {
+            $entityId = (int)$entityId;
+            $entity = $this->get($entityId);
+            if (!empty($entity)) {
+                $entities[] = $entity;
+            }
+        }
+
+        return $entities;
+    }
 }
