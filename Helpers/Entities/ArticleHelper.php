@@ -16,6 +16,10 @@ use Exception;
  */
 class ArticleHelper extends AbstractEntityHelper
 {
+    const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "ArticleHelper::get. entityId must be greater than 0";
+
+    const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "ArticleHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
+
     /**
      * @var ArticleApiService
      */
@@ -47,7 +51,7 @@ class ArticleHelper extends AbstractEntityHelper
     public function get(int $entityId)
     {
         if ($entityId < 1) {
-            throw new Exception(__METHOD__ . ". entityId must be greater than 0");
+            throw new Exception(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
         }
 
         return $this->service->find(new IdentifiedValue($entityId));
@@ -70,8 +74,57 @@ class ArticleHelper extends AbstractEntityHelper
         foreach ($entitiesIdsAsArray as $entityId) {
             $entityId = (int)$entityId;
             $entity = $this->get($entityId);
-            if (!empty($entity)) {
-                $entities[] = $entity;
+            if (empty($entity)) {
+                continue;
+            }
+            if (empty($entity['searchable'])) {
+                continue;
+            }
+            $entities[] = $entity;
+        }
+
+        return $entities;
+    }
+
+    /**
+     * @param string $entitiesIds
+     * @param int $quantityOfEntities
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getByIdsAndQuantity(string $entitiesIds, int $quantityOfEntities = PHP_INT_MAX): array
+    {
+        if (empty($entitiesIds)) {
+            return [];
+        }
+
+        if ($quantityOfEntities < 0) {
+            throw new Exception(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        }
+
+        if ($quantityOfEntities == 0) {
+            return [];
+        }
+
+        $entitiesIdsAsArray = explode(",", $entitiesIds);
+        $entities = [];
+        foreach ($entitiesIdsAsArray as $entityId) {
+            $entityId = (int)$entityId;
+            $entity = $this->get($entityId);
+
+            if (empty($entity)) {
+                continue;
+            }
+
+            if (empty($entity['searchable'])) {
+                continue;
+            }
+
+            $entities[] = $entity;
+
+            if (count($entities) == $quantityOfEntities) {
+                break;
             }
         }
 
