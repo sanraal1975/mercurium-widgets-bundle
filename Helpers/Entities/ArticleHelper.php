@@ -5,7 +5,9 @@ namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
+use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\MercuriumWidgetsBundle\Factory\ApiServiceFactory;
+use Exception;
 
 /**
  * Class ArticleHelper
@@ -34,5 +36,20 @@ class ArticleHelper extends AbstractEntityHelper
     public function getService(): AbstractApiService
     {
         return $this->service;
+    }
+
+    /**
+     * @param int $entityId
+     *
+     * @return array|mixed
+     * @throws Exception
+     */
+    public function get(int $entityId)
+    {
+        if ($entityId < 1) {
+            throw new Exception(__METHOD__ . ". entityId must be greater than 0");
+        }
+
+        return $this->service->find(new IdentifiedValue($entityId));
     }
 }
