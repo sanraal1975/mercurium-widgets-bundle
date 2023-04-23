@@ -11,5 +11,10 @@ use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 abstract class AbstractEntityHelper
 {
 
-    abstract public function getService():AbstractApiService;
+    abstract public function getService(): AbstractApiService;
+
+    abstract public function getByIds(string $entitiesIds): array;
+
+    abstract public function getByIdsAndQuantity(string $entitiesIds, int $quantityOfEntities = PHP_INT_MAX): array;
+
 }
