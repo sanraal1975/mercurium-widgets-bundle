@@ -1,10 +1,10 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Tests\Factory;
+namespace Comitium5\MercuriumWidgetsBundle\Tests\Factories;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
-use Comitium5\MercuriumWidgetsBundle\Factory\ApiServiceFactory;
+use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
