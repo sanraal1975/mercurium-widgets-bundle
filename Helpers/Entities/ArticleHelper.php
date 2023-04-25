@@ -6,7 +6,8 @@ use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
-use Comitium5\MercuriumWidgetsBundle\Factory\ApiServiceFactory;
+use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
+use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Exception;
 
 /**
@@ -19,6 +20,8 @@ class ArticleHelper extends AbstractEntityHelper
     const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "ArticleHelper::get. entityId must be greater than 0";
 
     const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "ArticleHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
+
+    const TYPE_ID_MUST_BE_GREATER_THAN_ZERO = "ArticleHelper::getLastPublishedWithType. typeId must be greater than 0";
 
     /**
      * @var ArticleApiService
@@ -73,13 +76,17 @@ class ArticleHelper extends AbstractEntityHelper
         $entities = [];
         foreach ($entitiesIdsAsArray as $entityId) {
             $entityId = (int)$entityId;
+
             $entity = $this->get($entityId);
+
             if (empty($entity)) {
                 continue;
             }
+
             if (empty($entity['searchable'])) {
                 continue;
             }
+
             $entities[] = $entity;
         }
 
@@ -129,5 +136,58 @@ class ArticleHelper extends AbstractEntityHelper
         }
 
         return $entities;
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getBy(array $parameters = []): array
+    {
+        return $this->service->findBy(
+            new ParametersValue($parameters)
+        );
+    }
+
+    /**
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getLastPublished(): array
+    {
+        $results = $this->getBy(
+            [
+                "limit" => 1,
+                "sort" => "publishedAt desc",
+            ]
+        );
+
+        return $results['results'][0] ?? [];
+    }
+
+    /**
+     * @param int $typeId
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getLastPublishedWithType(int $typeId): array
+    {
+        if ($typeId < 1) {
+            throw new Exception(self::TYPE_ID_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        $results = $this->getBy(
+            [
+                "limit" => 1,
+                "sort" => "publishedAt desc",
+                "type" => $typeId
+            ]
+        );
+
+        return $results['results'][0] ?? [];
     }
 }
