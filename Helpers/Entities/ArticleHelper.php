@@ -8,6 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
+use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 
 /**
@@ -165,7 +166,7 @@ class ArticleHelper extends AbstractEntityHelper
             ]
         );
 
-        return $results['results'][0] ?? [];
+        return ApiResultsHelper::extractResults($results);
     }
 
     /**
@@ -188,6 +189,35 @@ class ArticleHelper extends AbstractEntityHelper
             ]
         );
 
-        return $results['results'][0] ?? [];
+        return ApiResultsHelper::extractOne($results);
+    }
+
+    /**
+     * @param array $article
+     * @param int $categoryId
+     *
+     * @return bool
+     */
+    public function hasCategory(array $article, int $categoryId): bool
+    {
+        if (empty($article)) {
+            return false;
+        }
+
+        if (empty($article['categories'])) {
+            return false;
+        }
+
+        if ($categoryId < 1) {
+            return false;
+        }
+
+        foreach ($article['categories'] as $category) {
+            if ($category['id'] == $categoryId) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

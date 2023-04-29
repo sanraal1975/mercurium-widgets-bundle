@@ -108,6 +108,14 @@ class ApiResultsHelperTest extends TestCase
         // position = -1 won't be used in the test
         // key = "" won't be used in the test
 
+        /*
+         * 0 -> empty data
+         * 1 -> data with invalid key
+         * 2 -> data with valid key and empty
+         * 3 -> data with valid key, content and not valid position
+         * 4 -> data with custom key, content, valid key and not valid position
+         */
+
         return [
             [
                 "data" => [],
@@ -145,6 +153,12 @@ class ApiResultsHelperTest extends TestCase
     {
         // position = -1 won't be used in the test
         // key = "" won't be used in the test
+
+        /*
+         * 0 -> data with default key and content
+         * 1 -> data with default key, content and valid position
+         * 2 -> data with custom key and content
+         */
 
         return [
             [

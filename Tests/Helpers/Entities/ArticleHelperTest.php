@@ -409,6 +409,7 @@ class ArticleHelperTest extends TestCase
         $helper = new ArticleHelper($api);
         $helper->getByIdsAndQuantity("1,0", -1);
     }
+
     /**
      *
      * @return void
@@ -557,5 +558,111 @@ class ArticleHelperTest extends TestCase
 
         $helper = new ArticleHelper($api);
         $helper->getLastPublishedWithType(null);
+    }
+
+    /**
+     * @dataProvider hasCategoryReturnFalse
+     *
+     * @param array $article
+     * @param int $categoryId
+     *
+     * @return void
+     */
+    public function testHasCategoryReturnFalse(array $article, int $categoryId)
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->hasCategory($article, $categoryId);
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     *
+     * @return array[]
+     */
+    public function hasCategoryReturnFalse(): array
+    {
+        /*
+         * 0 -> empty article
+         * 1 -> article without categories key
+         * 2 -> invalid categoryId
+         */
+
+        return [
+            [
+                "article" => [],
+                "categoryId" => 0
+            ],
+            [
+                "article" => ["id" => []],
+                "categoryId" => 0
+            ],
+            [
+                "article" => ['categories' => [0 => ["id" => 2]]],
+                "categoryId" => 0
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider hasCategoryReturnTrue
+     *
+     * @param array $article
+     * @param int $categoryId
+     *
+     * @return void
+     */
+    public function testHasCategoryReturnTrue(array $article, int $categoryId)
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->hasCategory($article, $categoryId);
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     *
+     * @return array[]
+     */
+    public function hasCategoryReturnTrue(): array
+    {
+        return [
+            [
+                "article" => ['categories' => [0 => ["id" => 2]]],
+                "categoryId" => 2
+            ]
+        ];
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testHasCategoryTypeErrorExceptionInvalidArticle()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectException(TypeError::class);
+
+        $helper = new ArticleHelper($api);
+        $helper->hasCategory(null, 2);
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function testHasCategoryTypeErrorExceptionInvalidCategoryId()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectException(TypeError::class);
+
+        $helper = new ArticleHelper($api);
+        $helper->hasCategory([], null);
     }
 }
