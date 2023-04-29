@@ -424,7 +424,7 @@ class ArticleHelperTest extends TestCase
                 "quantity" => 0
             ],
             [
-                "ids" => "1,".null,
+                "ids" => "1," . null,
                 "quantity" => 0
             ],
             [
@@ -618,4 +618,59 @@ class ArticleHelperTest extends TestCase
         $helper = new ArticleHelper($api);
         $helper->hasCategory([], null);
     }
+
+    /**
+     *
+     * @return void
+     */
+    public function testHasSubscriptionsReturnsTrue()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->hasSubscriptions(["subscriptions" => ["id" => 1]]);
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @dataProvider hasSubscriptionsReturnsFalse
+     *
+     * @return void
+     */
+    public function testHasSubscriptionsReturnsFalse(array $article)
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new ArticleHelper($api);
+        $result = $helper->hasSubscriptions($article);
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     *
+     * @return \array[][]
+     */
+    public function hasSubscriptionsReturnsFalse()
+    {
+        /*
+         * 0 -> empty article
+         * 1 -> article without 'subscriptions' key
+         * 2 -> article with empty 'subscriptions' key
+         */
+
+        return [
+            [
+                "article" => []
+            ],
+            [
+                "article" => ["id" => 1]
+            ],
+            [
+                "article" => ["subscriptions" => []]
+            ]
+        ];
+    }
+
 }

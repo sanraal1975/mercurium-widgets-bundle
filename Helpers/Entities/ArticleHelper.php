@@ -200,10 +200,6 @@ class ArticleHelper extends AbstractEntityHelper
      */
     public function hasCategory(array $article, int $categoryId): bool
     {
-        if (empty($article)) {
-            return false;
-        }
-
         if (empty($article['categories'])) {
             return false;
         }
@@ -219,5 +215,15 @@ class ArticleHelper extends AbstractEntityHelper
         }
 
         return false;
+    }
+
+    /**
+     * @param array $article
+     *
+     * @return bool
+     */
+    public function hasSubscriptions(array $article): bool
+    {
+        return !empty($article['subscriptions']);
     }
 }
