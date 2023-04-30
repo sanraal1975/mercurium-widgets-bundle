@@ -12,7 +12,7 @@ use TypeError;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities
  */
-class EntiyHelperTest extends TestCase
+class EntityHelperTest extends TestCase
 {
     /**
      * @dataProvider hasCategoryReturnFalse
