@@ -194,31 +194,6 @@ class ArticleHelper extends AbstractEntityHelper
 
     /**
      * @param array $article
-     * @param int $categoryId
-     *
-     * @return bool
-     */
-    public function hasCategory(array $article, int $categoryId): bool
-    {
-        if (empty($article['categories'])) {
-            return false;
-        }
-
-        if ($categoryId < 1) {
-            return false;
-        }
-
-        foreach ($article['categories'] as $category) {
-            if ($category['id'] == $categoryId) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param array $article
      *
      * @return bool
      */
