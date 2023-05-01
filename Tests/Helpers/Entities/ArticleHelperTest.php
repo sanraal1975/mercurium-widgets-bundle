@@ -388,7 +388,7 @@ class ArticleHelperTest extends TestCase
      *
      * @return array[]
      */
-    public function getByIdsAndQuantityReturnEmpty()
+    public function getByIdsAndQuantityReturnEmpty(): array
     {
 
         /*
@@ -544,9 +544,9 @@ class ArticleHelperTest extends TestCase
 
     /**
      *
-     * @return \array[][]
+     * @return array[][]
      */
-    public function hasSubscriptionsReturnsFalse()
+    public function hasSubscriptionsReturnsFalse(): array
     {
         /*
          * 0 -> empty article

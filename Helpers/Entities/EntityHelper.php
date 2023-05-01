@@ -77,4 +77,37 @@ class EntityHelper
 
         return mb_strlen($fieldStripped);
     }
+
+    /**
+     * @param string $field
+     *
+     * @return string
+     */
+    public function clearEmbedScripts(string $field): string
+    {
+        if (empty($field)) {
+            return "";
+        }
+
+        $field = preg_replace('/(<script.+?src="https:\/\/platform\.twitter.*?".*?><\/script>)/', '', $field);
+        $field = preg_replace('/(<script.+?src="\/\/www\.instagram\.com\/embed.*?".*?><\/script>)/', '', $field);
+        $field = preg_replace('/(<script.+?src="https:\/\/www.tiktok.com\/embed.*?".*?><\/script>)/', '', $field);
+        $field = str_replace(' src="https://www.facebook.com/plugins/post.php?', ' loading="lazy" src="https://www.facebook.com/plugins/post.php?', $field);
+
+        return self::replaceYoutubeCode($field);
+    }
+
+    /**
+     * @param string $field
+     *
+     * @return string
+     */
+    public function replaceYoutubeCode(string $field): string
+    {
+        $matched = preg_match('/(<iframe.+?src=".+?youtube.com\/embed\/(.+?)".+?><\/iframe>)/', $field, $matches);
+        if ($matched) {
+            $field = str_replace($matches[1], '<div class="youtube-player" data-id="' . $matches[2] . '"></div>', $field);
+        }
+        return $field;
+    }
 }

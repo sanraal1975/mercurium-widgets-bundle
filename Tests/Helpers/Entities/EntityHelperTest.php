@@ -252,7 +252,7 @@ class EntityHelperTest extends TestCase
 
     /**
      *
-     * @return array
+     * @return array[]
      */
     public function getFieldLengthReturnValue(): array
     {
@@ -276,6 +276,80 @@ class EntityHelperTest extends TestCase
             [
                 "field" => "<p>Lorem  ipsum dolor sit amet,  consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>"
             ]
+        ];
+    }
+
+    /**
+     * @dataProvider clearEmbedScripts
+     *
+     * @param string $data
+     * @param string $expected
+     *
+     * @return void
+     */
+    public function testClearEmbedScripts(string $data, string $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->clearEmbedScripts($data);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     *
+     * @return array[]
+     */
+    public function clearEmbedScripts(): array
+    {
+        return [
+            [
+                "data" => 'Hello <script src="https://platform.twitter.com"></script>twitter',
+                "result" => 'Hello twitter'
+            ],
+            [
+                "data" => 'Hello <script src="https://platform.twitter.com" async></script>twitter',
+                "result" => 'Hello twitter'
+            ],
+            [
+                "data" => 'Hello <script defer src="https://platform.twitter.com"></script>twitter',
+                "result" => 'Hello twitter'
+            ],
+            [
+                "data" => 'Hello <script src="//www.instagram.com/embed"></script>instagram',
+                "result" => 'Hello instagram'
+            ],
+            [
+                "data" => 'Hello <script src="//www.instagram.com/embed/t=1"></script>instagram',
+                "result" => 'Hello instagram'
+            ],
+            [
+                "data" => 'Hello <script defer src="//www.instagram.com/embed/t=1"></script>instagram',
+                "result" => 'Hello instagram'
+            ],
+            [
+                "data" => 'Hello <script src="//www.instagram.com/embed/t=1" async></script>instagram',
+                "result" => 'Hello instagram'
+            ],
+            [
+                "data" => 'Hello <script src="https://www.tiktok.com/embed/t=1"></script>tiktok',
+                "result" => 'Hello tiktok'
+            ],
+            [
+                "data" => 'Hello <script src="https://www.tiktok.com/embed"></script>tiktok',
+                "result" => 'Hello tiktok'
+            ],
+            [
+                "data" => 'Hello <script defer src="https://www.tiktok.com/embed/t=1"></script>tiktok',
+                "result" => 'Hello tiktok'
+            ],
+            [
+                "data" => 'Hello <script src="https://www.tiktok.com/embed/t=1" async></script>tiktok',
+                "result" => 'Hello tiktok'
+            ],
+            [
+                "data" => 'Hello <script src="https://www.facebook.com/plugins/post.php?"></script>facebook',
+                "result" => 'Hello <script loading="lazy" src="https://www.facebook.com/plugins/post.php?"></script>facebook'
+            ],
+
         ];
     }
 }
