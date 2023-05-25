@@ -104,7 +104,7 @@ class EntityHelper
      */
     public function replaceYoutubeCode(string $field): string
     {
-        $matched = preg_match('/(<iframe.+?src=".+?youtube.com\/embed\/(.+?)".+?><\/iframe>)/', $field, $matches);
+        $matched = preg_match('/(<iframe.*?src=".*?youtube.com\/embed\/(.+?)".*?><\/iframe>)/', $field, $matches);
         if ($matched) {
             $field = str_replace($matches[1], '<div class="youtube-player" data-id="' . $matches[2] . '"></div>', $field);
         }

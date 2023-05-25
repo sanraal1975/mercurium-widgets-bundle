@@ -24,9 +24,7 @@ class EntityHelperTest extends TestCase
      */
     public function testHasCategoryReturnFalse(array $article, int $categoryId)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new EntityHelper($api);
+        $helper = new EntityHelper();
         $result = $helper->hasCategory($article, $categoryId);
 
         $this->assertFalse($result);
@@ -295,7 +293,6 @@ class EntityHelperTest extends TestCase
     }
 
     /**
-     *
      * @return array[]
      */
     public function clearEmbedScripts(): array
@@ -350,6 +347,46 @@ class EntityHelperTest extends TestCase
                 "result" => 'Hello <script loading="lazy" src="https://www.facebook.com/plugins/post.php?"></script>facebook'
             ],
 
+        ];
+    }
+
+    /**
+     * @dataProvider replaceYoutubeCode
+     *
+     * @param string $data
+     * @param string $expected
+     *
+     * @return void
+     */
+    public function testReplaceYoutubeCode(string $data, string $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->replaceYoutubeCode($data);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function replaceYoutubeCode(): array
+    {
+        return [
+            [
+                "data" => '<iframe src="youtube.com/embed/embed1"></iframe>',
+                "result" => '<div class="youtube-player" data-id="embed1"></div>'
+            ],
+            [
+                "data" => '<iframe src="youtube.com/embed/embed1" allowfullscreen></iframe>',
+                "result" => '<div class="youtube-player" data-id="embed1"></div>'
+            ],
+            [
+                "data" => '<iframe allowfullscreen src="youtube.com/embed/embed1"></iframe>',
+                "result" => '<div class="youtube-player" data-id="embed1"></div>'
+            ],
+            [
+                "data" => '<iframe allowfullscreen src="youtube.com/embed/embed1" width="100"></iframe>',
+                "result" => '<div class="youtube-player" data-id="embed1"></div>'
+            ],
         ];
     }
 }
