@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
-use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
+use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
@@ -12,20 +12,20 @@ use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 
 /**
- * Class ArticleHelper
+ * Class AssetHelper
  *
  * @package Comitium5\MercuriumWidgetsBundle\Helpers\Entities
  */
-class ArticleHelper extends AbstractEntityHelper
+class AssetHelper extends AbstractEntityHelper
 {
-    const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "ArticleHelper::get. entityId must be greater than 0";
+    const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "AssetHelper::get. entityId must be greater than 0";
 
-    const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "ArticleHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
+    const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "AssetHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
 
-    const TYPE_ID_MUST_BE_GREATER_THAN_ZERO = "ArticleHelper::getLastPublishedWithType. typeId must be greater than 0";
+    const TYPE_ID_MUST_BE_GREATER_THAN_ZERO = "AssetHelper::getLastPublishedWithType. typeId must be greater than 0";
 
     /**
-     * @var ArticleApiService
+     * @var AssetApiService
      */
     private $service;
 
@@ -35,10 +35,11 @@ class ArticleHelper extends AbstractEntityHelper
     public function __construct(Client $api)
     {
         $factory = new ApiServiceFactory($api);
-        $this->service = $factory->createArticleApiService();
+        $this->service = $factory->createAssetApiService();
     }
 
     /**
+     *
      * @return AbstractApiService
      */
     public function getService(): AbstractApiService
@@ -136,8 +137,7 @@ class ArticleHelper extends AbstractEntityHelper
             }
         }
 
-        return $entities;
-    }
+        return $entities;    }
 
     /**
      * @param array $parameters
@@ -190,15 +190,5 @@ class ArticleHelper extends AbstractEntityHelper
         );
 
         return ApiResultsHelper::extractOne($results);
-    }
-
-    /**
-     * @param array $article
-     *
-     * @return bool
-     */
-    public function hasSubscriptions(array $article): bool
-    {
-        return !empty($article['subscriptions']);
     }
 }

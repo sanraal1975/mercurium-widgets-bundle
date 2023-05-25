@@ -20,6 +20,13 @@ abstract class AbstractEntityHelper implements AbstractEntityInterface
     abstract public function getService(): AbstractApiService;
 
     /**
+     * @param int $entityId
+     *
+     * @return array
+     */
+    abstract public function get(int $entityId): array;
+
+    /**
      * @param string $entitiesIds
      *
      * @return array
