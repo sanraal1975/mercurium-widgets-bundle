@@ -192,6 +192,26 @@ class ImageHelperTest extends TestCase
             [
                 "crop" => "100|100|100",
                 "expected" => [100,100]
+            ],
+            [
+                "crop" => "100.0|100",
+                "expected" => [100,100]
+            ],
+            [
+                "crop" => "100|100.0",
+                "expected" => [100,100]
+            ],
+            [
+                "crop" => "100.0|100.0",
+                "expected" => [100,100]
+            ],
+            [
+                "crop" => "100.0|100.0|100",
+                "expected" => [100,100]
+            ],
+            [
+                "crop" => "100.0|100|100.0",
+                "expected" => [100,100]
             ]
         ];
     }
@@ -250,5 +270,47 @@ class ImageHelperTest extends TestCase
 
         $helper = new ImageHelper($api);
         $helper->validateCrop("|250");
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testValidateCropNonNumericCropExceptionFirstValueString()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(ImageHelper::NON_NUMERIC_CROP);
+
+        $helper = new ImageHelper($api);
+        $helper->validateCrop("a|250");
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testValidateCropNonNumericCropExceptionSecondValueString()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(ImageHelper::NON_NUMERIC_CROP);
+
+        $helper = new ImageHelper($api);
+        $helper->validateCrop("250|a");
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testValidateCropNonNumericCropExceptionBothValuesString()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectExceptionMessage(ImageHelper::NON_NUMERIC_CROP);
+
+        $helper = new ImageHelper($api);
+        $helper->validateCrop("a|a");
     }
 }

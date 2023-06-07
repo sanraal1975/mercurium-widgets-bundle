@@ -12,6 +12,7 @@ use Exception;
  */
 class ImageHelper extends AssetHelper
 {
+    const NON_NUMERIC_CROP = "ImageHelper::validateCrop. Crop with non numeric values.";
     const WRONG_CROP = "ImageHelper::validateCrop. Wrong crop definition.";
     const EMPTY_CROP = "ImageHelper::validateCrop. Crop can not be empty";
 
@@ -73,10 +74,10 @@ class ImageHelper extends AssetHelper
     /**
      * @param string $crop
      *
-     * @return false|string[]
+     * @return array
      * @throws Exception
      */
-    public function validateCrop(string $crop)
+    public function validateCrop(string $crop): array
     {
         if (empty($crop)) {
             throw new Exception(self::EMPTY_CROP);
@@ -91,6 +92,10 @@ class ImageHelper extends AssetHelper
             throw new Exception(self::WRONG_CROP . ": " . $crop);
         }
 
-        return [$size[0],$size[1]];
+        if (!is_numeric($size[0]) || !is_numeric($size[1])) {
+            throw new Exception(self::NON_NUMERIC_CROP . ": " . $crop);
+        }
+
+        return [(int)$size[0], (int)$size[1]];
     }
 }
