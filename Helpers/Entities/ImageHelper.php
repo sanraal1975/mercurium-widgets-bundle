@@ -3,6 +3,8 @@
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
+use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropsValueObject;
+use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
 use Exception;
 
 /**
@@ -12,10 +14,6 @@ use Exception;
  */
 class ImageHelper extends AssetHelper
 {
-    const NON_NUMERIC_CROP = "ImageHelper::validateCrop. Crop with non numeric values.";
-    const WRONG_CROP = "ImageHelper::validateCrop. Wrong crop definition.";
-    const EMPTY_CROP = "ImageHelper::validateCrop. Crop can not be empty";
-
     /**
      * @return array
      * @throws Exception
@@ -37,12 +35,12 @@ class ImageHelper extends AssetHelper
 
     /**
      * @param array $image
-     * @param array $crop
+     * @param CropsValueObject $cropsValueObject
      *
      * @return bool
      * @throws Exception
      */
-    public function hasCrop(array $image, array $crop): bool
+    public function hasCrop(array $image, CropsValueObject $cropsValueObject): bool
     {
         if (empty($image)) {
             return false;
@@ -52,17 +50,14 @@ class ImageHelper extends AssetHelper
             return false;
         }
 
-        if (empty($crop)) {
-            return false;
-        }
+        $crops = $cropsValueObject->getCrops();
 
-        $totalResizes = count($crop);
+        $totalResizes = count($crops);
         $sizesFound = 0;
 
         foreach ($image['children'] as $child) {
-            foreach ($crop as $size) {
-                $size = $this->validateCrop($size);
-                if ($child['metadata']['width'] == $size[0] && $child['metadata']['height'] == $size[1]) {
+            foreach ($crops as $crop) {
+                if ($child['metadata']['width'] == $crop->getWidth() && $child['metadata']['height'] == $crop->getHeight()) {
                     $sizesFound++;
                 }
             }
@@ -72,30 +67,30 @@ class ImageHelper extends AssetHelper
     }
 
     /**
-     * @param string $crop
+     * @param array $image
+     * @param CropValueObject $crop
      *
      * @return array
-     * @throws Exception
      */
-    public function validateCrop(string $crop): array
+    public function setCrop(array $image, CropValueObject $crop): array
     {
-        if (empty($crop)) {
-            throw new Exception(self::EMPTY_CROP);
+        if (empty($image)) {
+            return $image;
         }
 
-        $size = explode("|", $crop);
-        if (count($size) < 2) {
-            throw new Exception(self::WRONG_CROP . ": " . $crop);
+        if (empty($image['children'])) {
+            return $image;
         }
 
-        if (empty($size[0]) || empty($size[1])) {
-            throw new Exception(self::WRONG_CROP . ": " . $crop);
+        foreach ($image['children'] as $child) {
+            if ($child['metadata']['width'] == $crop->getWidth() && $child['metadata']['height'] == $crop->getHeight()) {
+                $image['url'] = $child['url'];
+                $image['metadata']['width'] = $child['metadata']['width'];
+                $image['metadata']['height'] = $child['metadata']['height'];
+                break;
+            }
         }
 
-        if (!is_numeric($size[0]) || !is_numeric($size[1])) {
-            throw new Exception(self::NON_NUMERIC_CROP . ": " . $crop);
-        }
-
-        return [(int)$size[0], (int)$size[1]];
+        return $image;
     }
 }

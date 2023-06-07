@@ -4,6 +4,8 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
+use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropsValueObject;
+use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -18,24 +20,21 @@ class ImageHelperTest extends TestCase
     /**
      * @dataProvider hasCropReturnFalse
      *
-     * @param array $image
-     * @param array $crop
-     *
-     * @return void
      * @throws Exception
      */
-    public function testHasCropReturnFalse(array $image, array $crop)
+    public function testHasCropReturnFalse(array $image, CropsValueObject $crops)
     {
         $api = new Client("https://foo.bar", "fake_token");
 
         $helper = new ImageHelper($api);
-        $result = $helper->hasCrop($image, $crop);
+        $result = $helper->hasCrop($image, $crops);
 
         $this->assertFalse($result);
     }
 
     /**
-     * @return array
+     * @return array[]
+     * @throws Exception
      */
     public function hasCropReturnFalse(): array
     {
@@ -50,24 +49,24 @@ class ImageHelperTest extends TestCase
         return [
             [
                 "image" => [],
-                "crop" => [],
+                "crops" => new CropsValueObject(["100|100"]),
             ],
             [
                 "image" => ["id" => 1],
-                "crop" => [],
+                "crops" => new CropsValueObject(["100|100"]),
             ],
             [
                 "image" => ["children" => []],
-                "crop" => [],
+                "crops" => new CropsValueObject(["100|100"]),
             ],
             [
                 "image" => ["children" => [0 => ['metadata' => ['width' => 100, 'height' => 100]]]],
-                "crop" => [0 => "99|99"],
+                "crops" => new CropsValueObject(["99|99"]),
             ],
             [
                 "image" => ["children" => [0 => ['metadata' => ['width' => 100, 'height' => 100]]]],
-                "crop" => [0 => "99|99", 1 => "100|100"],
-            ]
+                "crops" => new CropsValueObject(["99|99", "100|100"]),
+            ],
         ];
     }
 
@@ -75,12 +74,12 @@ class ImageHelperTest extends TestCase
      * @dataProvider hasCropReturnTrue
      *
      * @param array $image
-     * @param array $crop
+     * @param CropsValueObject $crop
      *
      * @return void
      * @throws Exception
      */
-    public function testHasCropReturnTrue(array $image, array $crop)
+    public function testHasCropReturnTrue(array $image, CropsValueObject $crop)
     {
         $api = new Client("https://foo.bar", "fake_token");
 
@@ -91,7 +90,8 @@ class ImageHelperTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
+     * @throws Exception
      */
     public function hasCropReturnTrue(): array
     {
@@ -104,15 +104,15 @@ class ImageHelperTest extends TestCase
         return [
             [
                 "image" => ["children" => [0 => ['metadata' => ['width' => 100, 'height' => 100]]]],
-                "crop" => [0 => "100|100"]
+                "crop" => new CropsValueObject(["100|100"])
             ],
             [
                 "image" => ["children" => [0 => ['metadata' => ['width' => 100, 'height' => 100]], 1 => ['metadata' => ['width' => 99, 'height' => 99]]]],
-                "crop" => [0 => "100|100"]
+                "crop" => new CropsValueObject(["100|100"])
             ],
             [
                 "image" => ["children" => [0 => ['metadata' => ['width' => 100, 'height' => 100]], 1 => ['metadata' => ['width' => 99, 'height' => 99]]]],
-                "crop" => [0 => "100|100", 1 => "99|99"]
+                "crop" => new CropsValueObject(["100|100", "99|99"])
             ]
         ];
     }
@@ -128,7 +128,7 @@ class ImageHelperTest extends TestCase
         $this->expectException(TypeError::class);
 
         $helper = new ImageHelper($api);
-        $helper->hasCrop(null, []);
+        $helper->hasCrop(null, new CropsValueObject(["100|100"]));
     }
 
     /**
@@ -149,168 +149,136 @@ class ImageHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testValidateCropEmptyCropException()
+    public function testSetCropWrongTypeImageParameter()
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ImageHelper::EMPTY_CROP);
+        $this->expectException(TypeError::class);
 
         $helper = new ImageHelper($api);
-        $helper->validateCrop("");
+        $helper->hasCrop(null, new CropsValueObject(["100|100"]));
     }
 
     /**
-     * @dataProvider validateCropReturnCrop
+     * @return void
+     * @throws Exception
+     */
+    public function testSetCropWrongTypeCropParameter()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $this->expectException(TypeError::class);
+
+        $helper = new ImageHelper($api);
+        $helper->hasCrop([], null);
+    }
+
+    /**
+     * @dataProvider setCropCropNotFound
      *
      * @return void
      * @throws Exception
      */
-    public function testValidateCropReturnCrop(string $crop, array $expected)
+    public function testSetCropCropNotFound(array $image, CropValueObject $crop, array $expected)
     {
         $api = new Client("https://foo.bar", "fake_token");
 
         $helper = new ImageHelper($api);
-        $result = $helper->validateCrop($crop);
+        $result = $helper->setCrop($image, $crop);
 
         $this->assertEquals($expected, $result);
     }
 
     /**
-     * @return array
+     * @return array[]
      */
-    public function validateCropReturnCrop(): array
+    public function setCropCropNotFound(): array
     {
+        /*
+         * 0 -> empty Image
+         * 1 -> image without children
+         * 2 -> image with children no matching crop
+         */
         return [
             [
-                "crop" => "100|100",
-                "expected" => [100,100]
+                "image" => [],
+                "crop" => new CropValueObject("100|100"),
+                "expected" => []
             ],
             [
-                "crop" => "100|100|",
-                "expected" => [100,100]
+                "image" => ["id" => 1],
+                "crop" => new CropValueObject("100|100"),
+                "expected" => ["id" => 1]
             ],
             [
-                "crop" => "100|100|100",
-                "expected" => [100,100]
+                "image" => [
+                    "id" => 1,
+                    "url" => "https://www.bar.foo",
+                    "metadata" => ["width" => 100, "height" => 100],
+                    "children" => [
+                        0 => [
+                            "url" => "https://www.foo.bar",
+                            "metadata" => ["width" => 10, "height" => 10]
+                        ]
+                    ]
+                ],
+                "crop" => new CropValueObject("100|100"),
+                "expected" => [
+                    "id" => 1,
+                    "url" => "https://www.bar.foo",
+                    "metadata" => ["width" => 100, "height" => 100],
+                    "children" => [
+                        0 => [
+                            "url" => "https://www.foo.bar",
+                            "metadata" => ["width" => 10, "height" => 10]
+                        ]
+                    ]
+                ],
             ],
-            [
-                "crop" => "100.0|100",
-                "expected" => [100,100]
-            ],
-            [
-                "crop" => "100|100.0",
-                "expected" => [100,100]
-            ],
-            [
-                "crop" => "100.0|100.0",
-                "expected" => [100,100]
-            ],
-            [
-                "crop" => "100.0|100.0|100",
-                "expected" => [100,100]
-            ],
-            [
-                "crop" => "100.0|100|100.0",
-                "expected" => [100,100]
-            ]
         ];
     }
 
+
     /**
+     * @dataProvider setCropCropNotFound
+     *
      * @return void
      * @throws Exception
      */
-    public function testValidateCropWrongCropExceptionCropWithOneSize()
+    public function testSetCropCropFound()
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ImageHelper::WRONG_CROP);
-
         $helper = new ImageHelper($api);
-        $helper->validateCrop("250");
-    }
 
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testValidateCropWrongCropExceptionCropWithPipeline()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
+        $image = [
+            "id" => 1,
+            "url" => "https://www.bar.foo",
+            "metadata" => ["width" => 100, "height" => 100],
+            "children" => [
+                0 => [
+                    "url" => "https://www.foo.bar",
+                    "metadata" => ["width" => 10, "height" => 10]
+                ]
+            ]
+        ];
 
-        $this->expectExceptionMessage(ImageHelper::WRONG_CROP);
+        $crop = new CropValueObject("10|10");
 
-        $helper = new ImageHelper($api);
-        $helper->validateCrop("|");
-    }
+        $expected = [
+            "id" => 1,
+            "url" => "https://www.foo.bar",
+            "metadata" => ["width" => 10, "height" => 10],
+            "children" => [
+                0 => [
+                    "url" => "https://www.foo.bar",
+                    "metadata" => ["width" => 10, "height" => 10]
+                ]
+            ]
+        ];
 
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testValidateCropWrongCropExceptionCropWithOneSizeAndPipeline()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
+        $result = $helper->setCrop($image, $crop);
 
-        $this->expectExceptionMessage(ImageHelper::WRONG_CROP);
-
-        $helper = new ImageHelper($api);
-        $helper->validateCrop("250|");
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testValidateCropWrongCropExceptionCropWithPipelineAndOneSize()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(ImageHelper::WRONG_CROP);
-
-        $helper = new ImageHelper($api);
-        $helper->validateCrop("|250");
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testValidateCropNonNumericCropExceptionFirstValueString()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(ImageHelper::NON_NUMERIC_CROP);
-
-        $helper = new ImageHelper($api);
-        $helper->validateCrop("a|250");
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testValidateCropNonNumericCropExceptionSecondValueString()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(ImageHelper::NON_NUMERIC_CROP);
-
-        $helper = new ImageHelper($api);
-        $helper->validateCrop("250|a");
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testValidateCropNonNumericCropExceptionBothValuesString()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(ImageHelper::NON_NUMERIC_CROP);
-
-        $helper = new ImageHelper($api);
-        $helper->validateCrop("a|a");
+        $this->assertEquals($expected, $result);
     }
 }

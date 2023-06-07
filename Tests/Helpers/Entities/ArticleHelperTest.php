@@ -32,7 +32,6 @@ class ArticleHelperTest extends TestCase
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
@@ -62,7 +61,6 @@ class ArticleHelperTest extends TestCase
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
@@ -77,7 +75,6 @@ class ArticleHelperTest extends TestCase
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
@@ -92,7 +89,6 @@ class ArticleHelperTest extends TestCase
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
@@ -107,7 +103,6 @@ class ArticleHelperTest extends TestCase
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
