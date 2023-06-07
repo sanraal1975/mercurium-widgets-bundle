@@ -11,6 +11,8 @@ use Exception;
  */
 class CropsValueObject
 {
+    const EMPTY_CROPS = "CropsValueObject::validate. Crops array can not be empty";
+
     /**
      * @var CropValueObject[];
      */
@@ -22,10 +24,26 @@ class CropsValueObject
      */
     public function __construct(array $sizes)
     {
+        $this->validate($sizes);
+    }
+
+    /**
+     * @param array $sizes
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function validate(array $sizes)
+    {
+        if (empty($sizes)) {
+            throw new Exception(self::EMPTY_CROPS);
+        }
+
         $crops = [];
         foreach ($sizes as $crop) {
             $crops[] = new CropValueObject($crop);
         }
+
         $this->crops = $crops;
     }
 

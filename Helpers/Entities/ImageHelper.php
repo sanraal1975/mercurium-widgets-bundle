@@ -52,18 +52,18 @@ class ImageHelper extends AssetHelper
 
         $crops = $cropsValueObject->getCrops();
 
-        $totalResizes = count($crops);
+        $totalSizes = count($crops);
         $sizesFound = 0;
 
-        foreach ($image['children'] as $child) {
-            foreach ($crops as $crop) {
+        foreach ($crops as $crop) {
+            foreach ($image['children'] as $child) {
                 if ($child['metadata']['width'] == $crop->getWidth() && $child['metadata']['height'] == $crop->getHeight()) {
                     $sizesFound++;
                 }
             }
         }
 
-        return $sizesFound == $totalResizes;
+        return $sizesFound == $totalSizes;
     }
 
     /**
@@ -82,8 +82,11 @@ class ImageHelper extends AssetHelper
             return $image;
         }
 
+        $width = $crop->getWidth();
+        $height = $crop->getHeight();
+
         foreach ($image['children'] as $child) {
-            if ($child['metadata']['width'] == $crop->getWidth() && $child['metadata']['height'] == $crop->getHeight()) {
+            if ($child['metadata']['width'] == $width && $child['metadata']['height'] == $height) {
                 $image['url'] = $child['url'];
                 $image['metadata']['width'] = $child['metadata']['width'];
                 $image['metadata']['height'] = $child['metadata']['height'];
