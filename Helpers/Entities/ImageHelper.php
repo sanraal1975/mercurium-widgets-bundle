@@ -12,7 +12,8 @@ use Exception;
  */
 class ImageHelper extends AssetHelper
 {
-    const WRONG_CROP_FOUND = "ImageHelper::hasCrop. Found wrong crop definition in array crop";
+    const WRONG_CROP = "ImageHelper::validateCrop. Wrong crop definition.";
+    const EMPTY_CROP = "ImageHelper::validateCrop. Crop can not be empty";
 
     /**
      * @return array
@@ -23,7 +24,7 @@ class ImageHelper extends AssetHelper
         $options = [
             "limit" => 1,
             "sort" => "publishedAt desc",
-            "type" => "video",
+            "type" => "image",
         ];
 
         $image = $this->getBy(
@@ -59,10 +60,7 @@ class ImageHelper extends AssetHelper
 
         foreach ($image['children'] as $child) {
             foreach ($crop as $size) {
-                $size = explode("|", $size);
-                if (count($size) < 2) {
-                    throw new Exception(self::WRONG_CROP_FOUND);
-                }
+                $size = $this->validateCrop($size);
                 if ($child['metadata']['width'] == $size[0] && $child['metadata']['height'] == $size[1]) {
                     $sizesFound++;
                 }
@@ -70,5 +68,29 @@ class ImageHelper extends AssetHelper
         }
 
         return $sizesFound == $totalResizes;
+    }
+
+    /**
+     * @param string $crop
+     *
+     * @return false|string[]
+     * @throws Exception
+     */
+    public function validateCrop(string $crop)
+    {
+        if (empty($crop)) {
+            throw new Exception(self::EMPTY_CROP);
+        }
+
+        $size = explode("|", $crop);
+        if (count($size) < 2) {
+            throw new Exception(self::WRONG_CROP . ": " . $crop);
+        }
+
+        if (empty($size[0]) || empty($size[1])) {
+            throw new Exception(self::WRONG_CROP . ": " . $crop);
+        }
+
+        return [$size[0],$size[1]];
     }
 }
