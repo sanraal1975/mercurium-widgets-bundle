@@ -6,6 +6,7 @@ use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropsValueObject;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
 use Exception;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 /**
  * Class CropsValueObjectTest
@@ -14,6 +15,17 @@ use PHPUnit\Framework\TestCase;
  */
 class CropsValueObjectTest extends TestCase
 {
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testConstructWrongTypeArrayParameter()
+    {
+        $this->expectException(TypeError::class);
+
+        new CropsValueObject(null);
+    }
+
     /**
      * @return void
      * @throws Exception

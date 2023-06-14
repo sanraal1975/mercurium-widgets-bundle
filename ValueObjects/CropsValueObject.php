@@ -28,12 +28,10 @@ class CropsValueObject
     }
 
     /**
-     * @param array $sizes
-     *
      * @return void
      * @throws Exception
      */
-    public function validate(array $sizes)
+    private function validate(array $sizes)
     {
         if (empty($sizes)) {
             throw new Exception(self::EMPTY_CROPS);

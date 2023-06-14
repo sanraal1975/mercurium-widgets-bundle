@@ -3,18 +3,18 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
-use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
+use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
+use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**
- * Class ArticleHelperTest
+ * Class AuthorHelperTest
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities
  */
-class ArticleHelperTest extends TestCase
+class AuthorHelperTest extends TestCase
 {
     /**
      * @return void
@@ -23,11 +23,11 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
 
         $service = $helper->getService();
 
-        $this->assertInstanceOf(ArticleApiService::class, $service);
+        $this->assertInstanceOf(AuthorApiService::class, $service);
     }
 
     /**
@@ -38,9 +38,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->get(-1);
     }
 
@@ -53,11 +53,12 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->get(0);
     }
+
 
     /**
      * @return void
@@ -69,9 +70,10 @@ class ArticleHelperTest extends TestCase
 
         $this->expectException(TypeError::class);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->get(null);
     }
+
 
     /**
      * @return void
@@ -83,7 +85,7 @@ class ArticleHelperTest extends TestCase
 
         $this->expectException(TypeError::class);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->get();
     }
 
@@ -97,7 +99,7 @@ class ArticleHelperTest extends TestCase
 
         $this->expectException(TypeError::class);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIds(null);
     }
 
@@ -109,11 +111,12 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIds("-1");
     }
+
 
     /**
      * @dataProvider getByIdsReturnEmpty
@@ -125,17 +128,16 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $result = $helper->getByIds($ids);
 
         $this->assertEquals([], $result);
     }
 
     /**
-     *
      * @return array[]
      */
-    public function getByIdsReturnEmpty()
+    public function getByIdsReturnEmpty(): array
     {
         /*
          *  0 -> empty string
@@ -152,6 +154,7 @@ class ArticleHelperTest extends TestCase
         ];
     }
 
+
     /**
      *
      * @return void
@@ -161,9 +164,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIds("1," . null);
     }
 
@@ -176,9 +179,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIds("1,-1");
     }
 
@@ -191,9 +194,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIds("1,0");
     }
 
@@ -208,7 +211,7 @@ class ArticleHelperTest extends TestCase
 
         $this->expectException(TypeError::class);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity(null);
     }
 
@@ -223,7 +226,7 @@ class ArticleHelperTest extends TestCase
 
         $this->expectException(TypeError::class);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity(null, -1);
     }
 
@@ -238,7 +241,7 @@ class ArticleHelperTest extends TestCase
 
         $this->expectException(TypeError::class);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity(null, 0);
     }
 
@@ -251,9 +254,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity("-1");
     }
 
@@ -266,9 +269,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity("1," . null);
     }
 
@@ -281,9 +284,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity("1,-1");
     }
 
@@ -296,9 +299,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity("1,0");
     }
 
@@ -311,9 +314,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity("-1", -1);
     }
 
@@ -326,9 +329,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity("1," . null, -1);
     }
 
@@ -341,9 +344,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity("1,-1", -1);
     }
 
@@ -356,9 +359,9 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $this->expectExceptionMessage(ArticleHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $helper->getByIdsAndQuantity("1,0", -1);
     }
 
@@ -372,7 +375,7 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $result = $helper->getByIdsAndQuantity($ids, $quantity);
 
         $this->assertEquals([], $result);
@@ -441,7 +444,7 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $result = $helper->getByIdsAndQuantity("");
 
         $this->assertEquals([], $result);
@@ -456,108 +459,39 @@ class ArticleHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new ArticleHelper($api);
+        $helper = new AuthorHelper($api);
         $result = $helper->getByIdsAndQuantity("0");
 
         $this->assertEquals([], $result);
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
-    public function testGetLastPublishedWithTypeWithNegativeType()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(ArticleHelper::TYPE_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new ArticleHelper($api);
-        $helper->getLastPublishedWithType(-1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeWithZeroType()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(ArticleHelper::TYPE_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new ArticleHelper($api);
-        $helper->getLastPublishedWithType(0);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeWithNullType()
+    public function testGetLastPublishedWithTypeWithWrongTypeParameter()
     {
         $api = new Client("https://foo.bar", "fake_token");
 
         $this->expectException(TypeError::class);
 
-        $helper = new ArticleHelper($api);
-        $helper->getLastPublishedWithType(null);
+        $helper = new AuthorHelper($api);
+        $result = $helper->getLastPublishedWithType(null);
     }
 
     /**
-     *
      * @return void
+     * @throws Exception
      */
-    public function testHasSubscriptionsReturnsTrue()
+    public function testGetLastPublishedWithTypeReturnEmptyValue()
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new ArticleHelper($api);
-        $result = $helper->hasSubscriptions(["subscriptions" => ["id" => 1]]);
+        $helper = new AuthorHelper($api);
+        $result = $helper->getLastPublishedWithType(1);
 
-        $this->assertTrue($result);
+        $this->assertEquals([], $result);
     }
 
-    /**
-     * @dataProvider hasSubscriptionsReturnsFalse
-     *
-     * @return void
-     */
-    public function testHasSubscriptionsReturnsFalse(array $article)
-    {
-        $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new ArticleHelper($api);
-        $result = $helper->hasSubscriptions($article);
-
-        $this->assertFalse($result);
-    }
-
-    /**
-     *
-     * @return array[][]
-     */
-    public function hasSubscriptionsReturnsFalse(): array
-    {
-        /*
-         * 0 -> empty article
-         * 1 -> article without 'subscriptions' key
-         * 2 -> article with empty 'subscriptions' key
-         */
-
-        return [
-            [
-                "article" => []
-            ],
-            [
-                "article" => ["id" => 1]
-            ],
-            [
-                "article" => ["subscriptions" => []]
-            ]
-        ];
-    }
 }

@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
@@ -14,6 +15,134 @@ use TypeError;
  */
 class EntityHelperTest extends TestCase
 {
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetAuthorWrongTypeParametersWrongApiClient()
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new EntityHelper();
+        $helper->getAuthor(null, []);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetAuthorWrongTypeParametersWrongEntity()
+    {
+        $this->expectException(TypeError::class);
+
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new EntityHelper();
+        $helper->getAuthor($api, null);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetAuthorWrongTypeParametersWrongField()
+    {
+        $this->expectException(TypeError::class);
+
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new EntityHelper();
+        $helper->getAuthor($api, [], null);
+    }
+
+    /**
+     * @dataProvider getAuthorReturnEntity
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetAuthorReturnEntity(array $entity, string $field)
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $helper = new EntityHelper();
+        $result = $helper->getAuthor($api, $entity, $field);
+
+        $this->assertEquals($entity, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getAuthorReturnEntity(): array
+    {
+        /*
+         * 0 -> empty entity
+         * 1 -> empty field
+         * 2 -> entity without field
+         */
+
+        return [
+            [
+                "entity" => [],
+                "field" => "author"
+            ],
+            [
+                "entity" => ["id" => []],
+                "field" => ""
+            ],
+            [
+                "entity" => ["id" => []],
+                "field" => "author"
+            ]
+        ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testValidateNonNumericAuthorIdWrongKeyIdValue()
+    {
+        $this->expectExceptionMessage(EntityHelper::NON_NUMERIC_AUTHOR_ID);
+
+        $api = new Client("https://foo.bar", "fake_token");
+        $entity = ["author" => ["id" => "a"]];
+
+        $helper = new EntityHelper();
+        $helper->getAuthor($api, $entity);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testValidateNonNumericAuthorIdFieldValueIsString()
+    {
+        $this->expectExceptionMessage(EntityHelper::NON_NUMERIC_AUTHOR_ID);
+
+        $api = new Client("https://foo.bar", "fake_token");
+        $entity = ["author" => "id"];
+
+        $helper = new EntityHelper();
+        $helper->getAuthor($api, $entity);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testValidateNonNumericAuthorIdFieldValueIsArrayWithoutIdKey()
+    {
+        $this->expectExceptionMessage(EntityHelper::NON_NUMERIC_AUTHOR_ID);
+
+        $api = new Client("https://foo.bar", "fake_token");
+        $entity = ["author" => ["title"]];
+
+        $helper = new EntityHelper();
+        $helper->getAuthor($api, $entity);
+    }
+
     /**
      * @dataProvider hasCategoryReturnFalse
      *
@@ -31,7 +160,6 @@ class EntityHelperTest extends TestCase
     }
 
     /**
-     *
      * @return array[]
      */
     public function hasCategoryReturnFalse(): array

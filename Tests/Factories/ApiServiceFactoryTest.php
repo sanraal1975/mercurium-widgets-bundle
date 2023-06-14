@@ -5,6 +5,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Factories;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
+use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +17,6 @@ use PHPUnit\Framework\TestCase;
 class ApiServiceFactoryTest extends TestCase
 {
     /**
-     *
      * @return void
      */
     public function testCreateArticleApiService()
@@ -31,7 +31,6 @@ class ApiServiceFactoryTest extends TestCase
     }
 
     /**
-     *
      * @return void
      */
     public function testCreateAssetApiService()
@@ -43,5 +42,19 @@ class ApiServiceFactoryTest extends TestCase
         $service = $factory->createAssetApiService();
 
         $this->assertInstanceOf(AssetApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateAuthorApiService()
+    {
+        $api = new Client("https://foo.bar", "fake_token");
+
+        $factory = new ApiServiceFactory($api);
+
+        $service = $factory->createAuthorApiService();
+
+        $this->assertInstanceOf(AuthorApiService::class, $service);
     }
 }

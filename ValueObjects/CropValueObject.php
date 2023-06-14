@@ -38,7 +38,7 @@ class CropValueObject
      * @return void
      * @throws Exception
      */
-    public function validate(string $crop)
+    private function validate(string $crop)
     {
         if (empty($crop)) {
             throw new Exception(self::EMPTY_CROP);

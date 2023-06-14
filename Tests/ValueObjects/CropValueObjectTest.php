@@ -5,9 +5,21 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\ValueObjects;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
 use Exception;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 class CropValueObjectTest extends TestCase
 {
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testConstructWrongTypeStringParameter()
+    {
+        $this->expectException(TypeError::class);
+
+        new CropValueObject(null);
+    }
+
     /**
      * @return void
      * @throws Exception
