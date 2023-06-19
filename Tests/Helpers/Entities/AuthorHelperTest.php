@@ -2,7 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
-use Comitium5\ApiClientBundle\Client\Client;
+use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Exception;
@@ -17,14 +17,63 @@ use TypeError;
 class AuthorHelperTest extends TestCase
 {
     /**
+     * @var CommonEntitiesHelperTestFunctions
+     */
+    private $testHelper;
+
+    /**
+     * @param $name
+     * @param array $data
+     * @param $dataName
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        $this->testHelper = new CommonEntitiesHelperTestFunctions();
+    }
+    
+    /**
+     * @return void
+     */
+    public function testConstructThrowsArgumentCounterErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new AuthorHelper();
+    }
+
+    /**
+     * @dataProvider constructThrowsTypeErrorException
+     * @return void
+     */
+    public function testConstructThrowsTypeErrorException($parameter)
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new AuthorHelper($parameter);
+    }
+
+    /**
+     * @return array
+     */
+    public function constructThrowsTypeErrorException(): array
+    {
+        return [
+            [
+                "parameter" => 1,
+            ],
+            [
+                "parameter" => null,
+            ],
+        ];
+    }
+
+    /**
      * @return void
      */
     public function testGetService()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new AuthorHelper($api);
-
+        $helper = new AuthorHelper($this->testHelper->getApi());
         $service = $helper->getService();
 
         $this->assertInstanceOf(AuthorApiService::class, $service);
@@ -34,89 +83,110 @@ class AuthorHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testGetWithNegativeId()
+    public function testGetThrowsArgumentCountErrorException()
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectException(ArgumentCountError::class);
 
-        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->get(-1);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->get();
     }
 
     /**
+     * @dataProvider getThrowsTypeErrorException
      *
      * @return void
      * @throws Exception
      */
-    public function testGetWithZeroId()
+    public function testGetThrowsTypeErrorException($parameter)
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectException(TypeError::class);
 
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->get($parameter);
+    }
+
+    /**
+     * @return array
+     */
+    public function getThrowsTypeErrorException(): array
+    {
+        return [
+            [
+                "parameter" => "",
+            ],
+            [
+                "parameter" => null,
+            ],
+        ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetThrowsCustomExceptionEntityIdGreaterThanZero()
+    {
         $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AuthorHelper($api);
-        $helper->get(0);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->get($this->testHelper->getZeroOrNegativeValue());
     }
-
 
     /**
      * @return void
      * @throws Exception
      */
-    public function testGetWithNull()
+    public function testGetByIdsThrowsArgumentCountErrorException()
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectException(ArgumentCountError::class);
 
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIds();
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsThrowsTypeErrorException()
+    {
         $this->expectException(TypeError::class);
 
-        $helper = new AuthorHelper($api);
-        $helper->get(null);
-    }
-
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testGetWithNoValue()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectException(TypeError::class);
-
-        $helper = new AuthorHelper($api);
-        $helper->get();
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIds(null);
     }
 
     /**
+     * @dataProvider getByIdsThrowsExceptionMessageEntityIdGreaterThanZero
+     *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsWithNullString()
+    public function testGetByIdsThrowsExceptionMessageEntityIdGreaterThanZero(string $parameter)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectException(TypeError::class);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIds(null);
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsWithStringWithNegativeValue()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AuthorHelper($api);
-        $helper->getByIds("-1");
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIds($parameter);
     }
 
+    /**
+     * @return array[]
+     */
+    public function getByIdsThrowsExceptionMessageEntityIdGreaterThanZero(): array
+    {
+        return [
+            [
+                "parameter" => $this->testHelper->getZeroOrNegativeValueAsString(),
+            ],
+            [
+                "parameter" => $this->testHelper->getPositiveValueAndZeroOrNegativeValueAsString(),
+            ],
+            [
+                "parameter" => $this->testHelper->getPositiveValueAndNullValueAsString(),
+            ],
+        ];
+    }
 
     /**
      * @dataProvider getByIdsReturnEmpty
@@ -124,12 +194,10 @@ class AuthorHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsReturnEmpty(string $ids)
+    public function testGetByIdsReturnEmpty()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new AuthorHelper($api);
-        $result = $helper->getByIds($ids);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIds("");
 
         $this->assertEquals([], $result);
     }
@@ -139,11 +207,6 @@ class AuthorHelperTest extends TestCase
      */
     public function getByIdsReturnEmpty(): array
     {
-        /*
-         *  0 -> empty string
-         *  1 -> string with invalid value
-         */
-
         return [
             [
                 "ids" => ""
@@ -154,344 +217,175 @@ class AuthorHelperTest extends TestCase
         ];
     }
 
-
     /**
-     *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsWithStringWithCorrectValueAndNullValue()
+    public function testGetByIdsAndQuantityThrowsArgumentCountErrorException()
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectException(ArgumentCountError::class);
 
-        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIds("1," . null);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity();
     }
 
     /**
+     * @dataProvider getByIdsAndQuantityThrowsTypeErrorException
+     *
+     * @param $entitiesIds
+     * @param $quantity
      *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsWithStringWithCorrectValueAndNegativeValue()
+    public function testGetByIdsAndQuantityThrowsTypeErrorException($entitiesIds, $quantity)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIds("1,-1");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsWithStringWithCorrectValueAndZeroValue()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIds("1,0");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithNullStringAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity(null);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
     }
 
     /**
-     *
-     * @return void
-     * @throws Exception
+     * @return array
      */
-    public function testGetByIdsAndQuantityWithNullStringAndNegativeQuantity()
+    public function getByIdsAndQuantityThrowsTypeErrorException(): array
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectException(TypeError::class);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity(null, -1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithNullStringAndZeroQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectException(TypeError::class);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity(null, 0);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithNegativeValueAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity("-1");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNullValueAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity("1," . null);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNegativeValueAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity("1,-1");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndZeroValueAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity("1,0");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithNegativeValueAndNegativeQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity("-1", -1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNullValueAndNegativeQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity("1," . null, -1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNegativeValueAndNegativeQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity("1,-1", -1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndZeroValueAndNegativeQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-
-        $helper = new AuthorHelper($api);
-        $helper->getByIdsAndQuantity("1,0", -1);
+        return [
+            [
+                "entitiesIds" => null,
+                "quantity" => 1,
+            ],
+            [
+                "entitiesIds" => "1",
+                "quantity" => "",
+            ],
+            [
+                "entitiesIds" => "1",
+                "quantity" => null,
+            ],
+        ];
     }
 
     /**
      * @dataProvider getByIdsAndQuantityReturnEmpty
      *
+     * @param $entitiesIds
+     * @param $quantity
+     *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsAndQuantityReturnEmpty(string $ids, int $quantity)
+    public function testGetByIdsAndQuantityReturnEmpty($entitiesIds, $quantity)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new AuthorHelper($api);
-        $result = $helper->getByIdsAndQuantity($ids, $quantity);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
         $this->assertEquals([], $result);
     }
 
     /**
-     *
-     * @return array[]
+     * @return array
      */
     public function getByIdsAndQuantityReturnEmpty(): array
     {
-
-        /*
-         * 0 -> string with wrong values and default quantity
-         * 1 -> string with wrong values and wrong quantity
-         * 2 -> string with wrong values and wrong quantity
-         * 3 -> string with wrong values and quantity 0
-         * 4 -> string with wrong values and quantity 0
-         * 5 -> string with wrong values and quantity 0
-         * 6 -> string with wrong values and quantity 0
-         * 7 -> String with correct values and quantity 0
-         */
-
         return [
             [
-                "ids" => "",
-                "quantity" => -1
+                "entitiesIds" => "",
+                "quantity" => 1,
             ],
             [
-                "ids" => "0",
-                "quantity" => -1
+                "entitiesIds" => "1",
+                "quantity" => 0,
             ],
-            [
-                "ids" => "",
-                "quantity" => 0
-            ],
-            [
-                "ids" => "0",
-                "quantity" => 0
-            ],
-            [
-                "ids" => "-1",
-                "quantity" => 0
-            ],
-            [
-                "ids" => "1," . null,
-                "quantity" => 0
-            ],
-            [
-                "ids" => "1,-1",
-                "quantity" => 0
-            ],
-            [
-                "ids" => "1,0",
-                "quantity" => 0
-            ]
         ];
     }
 
     /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityThrowsExceptionMessageQuantityGreaterThanZero()
+    {
+        $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity($this->testHelper->getPositiveValueAsString(), $this->testHelper->getZeroOrNegativeValue());
+    }
+
+    /**
+     * @dataProvider getByIdsAndQuantityThrowsExceptionMessageEntityIdGreaterThanZero
      *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsAndQuantityWithEmptyStringAndDefaultQuantity()
+    public function testGetByIdsAndQuantityThrowsExceptionMessageEntityIdGreaterThanZero($entityIds, $quantity)
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AuthorHelper($api);
-        $result = $helper->getByIdsAndQuantity("");
-
-        $this->assertEquals([], $result);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
     /**
+     * @return array
+     */
+    public function getByIdsAndQuantityThrowsExceptionMessageEntityIdGreaterThanZero(): array
+    {
+        return [
+            [
+                "entitiesIds" => $this->testHelper->getZeroOrNegativeValueAsString(),
+                "quantity" => $this->testHelper->getPositiveValue(),
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAndZeroOrNegativeValueAsString(),
+                "quantity" => $this->testHelper->getPositiveValue(),
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAndNullValueAsString(),
+                "quantity" => $this->testHelper->getPositiveValue(),
+            ],
+        ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByThrowArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getBy();
+    }
+
+    /**
+     * @dataProvider getByThrowsTypeErrorException
      *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsAndQuantityWithStringWithZeroValueAndDefaultQuantity()
+    public function testGetByThrowsTypeErrorException($parameters)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new AuthorHelper($api);
-        $result = $helper->getByIdsAndQuantity("0");
-
-        $this->assertEquals([], $result);
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeWithWrongTypeParameter()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new AuthorHelper($api);
-        $result = $helper->getLastPublishedWithType(null);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $result = $helper->getBy($parameters);
     }
 
     /**
-     * @return void
-     * @throws Exception
+     * @return array
      */
-    public function testGetLastPublishedWithTypeReturnEmptyValue()
+    public function getByThrowsTypeErrorException(): array
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new AuthorHelper($api);
-        $result = $helper->getLastPublishedWithType(1);
-
-        $this->assertEquals([], $result);
+        return [
+            [
+                "parameters" => 1
+            ],
+            [
+                "parameters" => null
+            ],
+        ];
     }
-
-
 }

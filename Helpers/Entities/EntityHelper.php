@@ -12,42 +12,7 @@ use Exception;
  */
 class EntityHelper
 {
-    const NON_NUMERIC_AUTHOR_ID = "EntityHelper::getAuthor. non numeric author id.";
 
-    /**
-     * @param Client $api
-     * @param array $entity
-     * @param string $field
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getAuthor(Client $api, array $entity, string $field = "author"): array
-    {
-        if (empty($entity)) {
-            return $entity;
-        }
-
-        if (empty($field)) {
-            return $entity;
-        }
-
-        if (empty($entity[$field])) {
-            return $entity;
-        }
-
-        $authorId = $entity[$field]['id'] ?? $entity[$field];
-
-        if (!is_numeric($authorId)) {
-            throw new Exception(self::NON_NUMERIC_AUTHOR_ID);
-        }
-
-        $helper = new AuthorHelper($api);
-
-        $entity[$field] = $helper->get((int)$authorId);
-
-        return $entity;
-    }
 
     /**
      * @param array $entity

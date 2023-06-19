@@ -37,7 +37,7 @@ interface AbstractEntityInterface
      *
      * @return array
      */
-    public function getBy(array $parameters = []): array;
+    public function getBy(array $parameters): array;
 
     /**
      *

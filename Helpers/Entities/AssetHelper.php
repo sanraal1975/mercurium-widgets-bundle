@@ -145,7 +145,7 @@ class AssetHelper extends AbstractEntityHelper
      * @return array
      * @throws Exception
      */
-    public function getBy(array $parameters = []): array
+    public function getBy(array $parameters): array
     {
         return $this->service->findBy(
             new ParametersValue($parameters)

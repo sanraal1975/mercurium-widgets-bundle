@@ -46,7 +46,7 @@ abstract class AbstractEntityHelper implements AbstractEntityInterface
      *
      * @return array
      */
-    abstract public function getBy(array $parameters = []): array;
+    abstract public function getBy(array $parameters): array;
 
     /**
      *

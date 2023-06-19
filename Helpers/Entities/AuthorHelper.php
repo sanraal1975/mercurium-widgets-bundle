@@ -53,7 +53,8 @@ class AuthorHelper extends AbstractEntityHelper
             throw new Exception(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
         }
 
-        return $this->service->find(new IdentifiedValue($entityId));    }
+        return $this->service->find(new IdentifiedValue($entityId));
+    }
 
     /**
      * @param string $entitiesIds
@@ -139,7 +140,7 @@ class AuthorHelper extends AbstractEntityHelper
      * @return array
      * @throws Exception
      */
-    public function getBy(array $parameters = []): array
+    public function getBy(array $parameters): array
     {
         return $this->service->findBy(
             new ParametersValue($parameters)

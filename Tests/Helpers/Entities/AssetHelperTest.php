@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
+use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
@@ -17,14 +18,65 @@ use TypeError;
 class AssetHelperTest extends TestCase
 {
     /**
+     * @var CommonEntitiesHelperTestFunctions
+     */
+    private $testHelper;
+
+    /**
+     * @param $name
+     * @param array $data
+     * @param $dataName
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        $this->testHelper = new CommonEntitiesHelperTestFunctions();
+    }
+
+    /**
+     * @return void
+     */
+    public function testConstructThrowsArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new AssetHelper();
+    }
+
+    /**
+     * @dataProvider constructThrowsTypeErrorException
+     *
+     * @return void
+     */
+    public function testConstructThrowsTypeErrorException($parameter)
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new AssetHelper($parameter);
+    }
+
+    /**
+     * @return array
+     */
+    public function constructThrowsTypeErrorException(): array
+    {
+        return [
+            [
+                "parameter" => $this->testHelper->getPositiveValue(),
+            ],
+            [
+                "parameter" => null,
+            ],
+        ];
+    }
+
+    /**
      *
      * @return void
      */
     public function testGetService()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new AssetHelper($api);
+        $helper = new AssetHelper($this->testHelper->getApi());
 
         $service = $helper->getService();
 
@@ -32,93 +84,114 @@ class AssetHelperTest extends TestCase
     }
 
     /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->get();
+    }
+
+    /**
+     * @dataProvider getThrowsTypeErrorException
      *
      * @return void
      * @throws Exception
      */
-    public function testGetWithNegativeId()
+    public function testGetThrowsTypeErrorException($parameter)
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectException(TypeError::class);
 
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->get($parameter);
+    }
+
+    /**
+     * @return array
+     */
+    public function getThrowsTypeErrorException(): array
+    {
+        return [
+            [
+                "parameter" => "",
+            ],
+            [
+                "parameter" => null,
+            ],
+        ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetThrowsExceptionMessageEntityIdGreaterThanZero()
+    {
         $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AssetHelper($api);
-        $helper->get(-1);
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $helper->get($this->testHelper->getZeroOrNegativeValue());
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
-    public function testGetWithZeroId()
+    public function testGetByIdsThrowsArgumentCountErrorException()
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectException(ArgumentCountError::class);
 
-        $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->get(0);
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->getByIds();
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
-    public function testGetWithNull()
+    public function testGetByIdsThrowsTypeErrorException()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new AssetHelper($api);
-        $helper->get(null);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetWithNoValue()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectException(TypeError::class);
-
-        $helper = new AssetHelper($api);
-        $helper->get();
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsWithNullString()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectException(TypeError::class);
-
-        $helper = new AssetHelper($api);
+        $helper = new AssetHelper($this->testHelper->getApi());
         $helper->getByIds(null);
     }
 
     /**
+     * @dataProvider getByIdsThrowsExceptionMessageEntityIdGreaterThanZero
+     *
+     * @param string $parameter
      *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsWithStringWithNegativeValue()
+    public function testGetByIdsThrowsExceptionMessageEntityIdGreaterThanZero(string $parameter)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AssetHelper($api);
-        $helper->getByIds("-1");
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->getByIds($parameter);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getByIdsThrowsExceptionMessageEntityIdGreaterThanZero(): array
+    {
+        return [
+            [
+                "parameter" => $this->testHelper->getZeroOrNegativeValueAsString(),
+            ],
+            [
+                "parameter" => $this->testHelper->getPositiveValueAndZeroOrNegativeValueAsString(),
+            ],
+            [
+                "parameter" => $this->testHelper->getPositiveValueAndNullValueAsString(),
+            ],
+        ];
     }
 
     /**
@@ -131,23 +204,17 @@ class AssetHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new AssetHelper($api);
+        $helper = new AssetHelper($this->testHelper->getApi());
         $result = $helper->getByIds($ids);
 
         $this->assertEquals([], $result);
     }
 
     /**
-     *
      * @return array[]
      */
     public function getByIdsReturnEmpty(): array
     {
-        /*
-         *  0 -> empty string
-         *  1 -> string with invalid value
-         */
-
         return [
             [
                 "ids" => ""
@@ -159,226 +226,138 @@ class AssetHelperTest extends TestCase
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsWithStringWithCorrectValueAndNullValue()
+    public function testGetByIdsAndQuantityThrowsArgumentCountErrorException()
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectException(ArgumentCountError::class);
 
-        $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIds("1," . null);
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity();
     }
 
     /**
+     * @dataProvider getByIdsAndQuantityThrowsTypeErrorException
+     *
+     * @param $entitiesIds
+     * @param $quantity
      *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsWithStringWithCorrectValueAndNegativeValue()
+    public function testGetByIdsAndQuantityThrowsTypeErrorException($entitiesIds, $quantity)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIds("1,-1");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsWithStringWithCorrectValueAndZeroValue()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIds("1,0");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithNullStringAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity(null);
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
     }
 
     /**
+     * @return array
+     */
+    public function getByIdsAndQuantityThrowsTypeErrorException(): array
+    {
+        return [
+            [
+                "entitiesIds" => null,
+                "quantity" => $this->testHelper->getPositiveValue(),
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAsString(),
+                "quantity" => "",
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAsString(),
+                "quantity" => null,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getByIdsAndQuantityThrowsExceptionMessageEntityIdGreaterThanZero
      *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsAndQuantityWithNullStringAndNegativeQuantity()
+    public function testGetByIdsAndQuantityThrowsExceptionMessageEntityIdGreaterThanZero($entityIds, $quantity)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectException(TypeError::class);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity(null, -1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithNullStringAndZeroQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectException(TypeError::class);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity(null, 0);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithNegativeValueAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity("-1");
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
     /**
+     * @return array
+     */
+    public function getByIdsAndQuantityThrowsExceptionMessageEntityIdGreaterThanZero(): array
+    {
+        return [
+            [
+                "entitiesIds" => $this->testHelper->getZeroOrNegativeValueAsString(),
+                "quantity" => $this->testHelper->getPositiveValue(),
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAndZeroOrNegativeValueAsString(),
+                "quantity" => $this->testHelper->getPositiveValue(),
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAndNullValueAsString(),
+                "quantity" => $this->testHelper->getPositiveValue(),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getByIdsAndQuantityThrowsExceptionMessageQuantityEqualGreaterThanZero
      *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNullValueAndDefaultQuantity()
+    public function testGetByIdsAndQuantityThrowsExceptionMessageQuantityEqualGreaterThanZero($entityIds, $quantity)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity("1," . null);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNegativeValueAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity("1,-1");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndZeroValueAndDefaultQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity("1,0");
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithNegativeValueAndNegativeQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectExceptionMessage(AssetHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity("-1", -1);
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
     /**
+     * @return array
+     */
+    public function getByIdsAndQuantityThrowsExceptionMessageQuantityEqualGreaterThanZero(): array
+    {
+        return [
+            [
+                "entitiesIds" => $this->testHelper->getNegativeValueAsString(),
+                "quantity" => $this->testHelper->getNegativeValue(),
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAsString(),
+                "quantity" => $this->testHelper->getNegativeValue(),
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAndNullValueAsString(),
+                "quantity" => $this->testHelper->getNegativeValue(),
+            ],
+            [
+                "entitiesIds" => $this->testHelper->getPositiveValueAndZeroOrNegativeValueAsString(),
+                "quantity" => $this->testHelper->getNegativeValue(),
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getByIdsAndQuantityReturnsEmpty
      *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNullValueAndNegativeQuantity()
+    public function testGetByIdsAndQuantityReturnsEmpty(string $ids, int $quantity)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity("1," . null, -1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndNegativeValueAndNegativeQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity("1,-1", -1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityWithStringWithCorrectValueAndZeroValueAndNegativeQuantity()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getByIdsAndQuantity("1,0", -1);
-    }
-
-    /**
-     * @dataProvider getByIdsAndQuantityReturnEmpty
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetByIdsAndQuantityReturnEmpty(string $ids, int $quantity)
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new AssetHelper($api);
+        $helper = new AssetHelper($this->testHelper->getApi());
         $result = $helper->getByIdsAndQuantity($ids, $quantity);
 
         $this->assertEquals([], $result);
@@ -388,127 +367,66 @@ class AssetHelperTest extends TestCase
      *
      * @return array[]
      */
-    public function getByIdsAndQuantityReturnEmpty(): array
+    public function getByIdsAndQuantityReturnsEmpty(): array
     {
-        /*
-         * 0 -> string with wrong values and default quantity
-         * 1 -> string with wrong values and wrong quantity
-         * 2 -> string with wrong values and wrong quantity
-         * 3 -> string with wrong values and quantity 0
-         * 4 -> string with wrong values and quantity 0
-         * 5 -> string with wrong values and quantity 0
-         * 6 -> string with wrong values and quantity 0
-         * 7 -> String with correct values and quantity 0
-         */
-
         return [
             [
                 "ids" => "",
-                "quantity" => -1
+                "quantity" => $this->testHelper->getZeroOrNegativeValue()
             ],
             [
                 "ids" => "0",
-                "quantity" => -1
+                "quantity" => $this->testHelper->getZeroOrNegativeValue()
             ],
             [
-                "ids" => "",
+                "ids" => $this->testHelper->getNegativeValueAsString(),
                 "quantity" => 0
             ],
             [
-                "ids" => "0",
+                "ids" => $this->testHelper->getPositiveValueAndNullValueAsString(),
                 "quantity" => 0
             ],
             [
-                "ids" => "-1",
-                "quantity" => 0
-            ],
-            [
-                "ids" => "1," . null,
-                "quantity" => 0
-            ],
-            [
-                "ids" => "1,-1",
-                "quantity" => 0
-            ],
-            [
-                "ids" => "1,0",
+                "ids" => $this->testHelper->getPositiveValueAndZeroOrNegativeValueAsString(),
                 "quantity" => 0
             ]
         ];
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsAndQuantityWithEmptyStringAndDefaultQuantity()
+    public function testGetLastPublishedWithTypeThrowsArgumentCountErrorException()
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $this->expectException(ArgumentCountError::class);
 
-        $helper = new AssetHelper($api);
-        $result = $helper->getByIdsAndQuantity("");
-
-        $this->assertEquals([], $result);
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->getLastPublishedWithType();
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
-    public function testGetByIdsAndQuantityWithStringWithZeroValueAndDefaultQuantity()
+    public function testGetLastPublishedWithTypeThrowsTypeErrorException()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new AssetHelper($api);
-        $result = $helper->getByIdsAndQuantity("0");
-
-        $this->assertEquals([], $result);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeWithNegativeType()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::TYPE_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getLastPublishedWithType(-1);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeWithZeroType()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $this->expectExceptionMessage(AssetHelper::TYPE_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($api);
-        $helper->getLastPublishedWithType(0);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeWithNullType()
-    {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new AssetHelper($api);
-        $helper->getLastPublishedWithType(null);
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $result = $helper->getLastPublishedWithType(null);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetLastPublishedWithTypeThrowsExceptionMessageTypeIdGreaterThanZero()
+    {
+        $this->expectExceptionMessage(AssetHelper::TYPE_ID_MUST_BE_GREATER_THAN_ZERO);
+
+        $helper = new AssetHelper($this->testHelper->getApi());
+        $helper->getLastPublishedWithType($this->testHelper->getZeroOrNegativeValue());
     }
 }
