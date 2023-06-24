@@ -6,6 +6,7 @@ use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
+use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 
 /**
  * Class ApiServiceFactory
@@ -48,5 +49,13 @@ class ApiServiceFactory
     public function createAuthorApiService(): AuthorApiService
     {
         return new AuthorApiService($this->api);
+    }
+
+    /**
+     * @return CategoryApiService
+     */
+    public function createCategoryApiService(): CategoryApiService
+    {
+        return new CategoryApiService($this->api);
     }
 }
