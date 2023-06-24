@@ -346,7 +346,6 @@ class ArticleHelperTest extends TestCase
      */
     public function getByIdsAndQuantityReturnEmpty(): array
     {
-
         return [
             [
                 "ids" => "",

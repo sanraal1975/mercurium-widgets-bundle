@@ -2,9 +2,6 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
-use Comitium5\ApiClientBundle\Client\Client;
-use Exception;
-
 /**
  * Class EntityHelper
  *
@@ -12,8 +9,6 @@ use Exception;
  */
 class EntityHelper
 {
-
-
     /**
      * @param array $entity
      * @param int $categoryId
