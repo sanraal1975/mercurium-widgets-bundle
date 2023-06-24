@@ -8,6 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,13 +19,26 @@ use PHPUnit\Framework\TestCase;
 class ApiServiceFactoryTest extends TestCase
 {
     /**
+     * @var TestHelper
+     */
+    private $testHelper;
+
+    /**
+     * @param $name
+     * @param array $data
+     * @param $dataName
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        $this->testHelper = new TestHelper();
+    }
+    /**
      * @return void
      */
     public function testCreateArticleApiService()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $factory = new ApiServiceFactory($api);
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
 
         $service = $factory->createArticleApiService();
 
@@ -36,9 +50,7 @@ class ApiServiceFactoryTest extends TestCase
      */
     public function testCreateAssetApiService()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $factory = new ApiServiceFactory($api);
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
 
         $service = $factory->createAssetApiService();
 
@@ -50,9 +62,7 @@ class ApiServiceFactoryTest extends TestCase
      */
     public function testCreateAuthorApiService()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $factory = new ApiServiceFactory($api);
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
 
         $service = $factory->createAuthorApiService();
 
@@ -64,9 +74,7 @@ class ApiServiceFactoryTest extends TestCase
      */
     public function testCreateCategoryApiService()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $factory = new ApiServiceFactory($api);
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
 
         $service = $factory->createCategoryApiService();
 
