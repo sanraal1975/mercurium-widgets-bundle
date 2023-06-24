@@ -143,7 +143,6 @@ class CategoryHelper extends AbstractEntityHelper
     }
 
     /**
-     *
      * @return array
      * @throws Exception
      */
@@ -157,5 +156,52 @@ class CategoryHelper extends AbstractEntityHelper
         );
 
         return ApiResultsHelper::extractResults($results);
+    }
+
+    /**
+     * @param array $category
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getChildren(array $category): array
+    {
+        if (empty($category)) {
+            return $category;
+        }
+
+        if (empty($category['children'])) {
+            return $category;
+        }
+
+        foreach ($category['children'] as $key => $child) {
+            if(empty($child)) {
+                unset ($category['children'][$key]);
+                continue;
+            }
+
+            if (empty($child['id'])) {
+                unset ($category['children'][$key]);
+                continue;
+            }
+
+            $child = $this->get($child['id']);
+
+            if (empty($child)) {
+                unset($category['children'][$key]);
+                continue;
+            }
+
+            if (empty($child['searchable'])) {
+                unset($category['children'][$key]);
+                continue;
+            }
+
+            if (!empty($child['children'])) {
+                $category['children'][$key]['children'] = $this->getChildren($child);
+            }
+        }
+
+        return $category;
     }
 }

@@ -390,4 +390,116 @@ class CategoryHelperTest extends TestCase
         ];
     }
 
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenThrowArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getChildren();
+    }
+
+    /**
+     * @dataProvider getChildrenThrowsTypeErrorException
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenThrowsTypeErrorException($parameters)
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getBy($parameters);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildrenThrowsTypeErrorException(): array
+    {
+        return [
+            [
+                "parameters" => 1
+            ],
+            [
+                "parameters" => null
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getChildrenReturnEntity
+     *
+     * @param $category
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenReturnEntity($category)
+    {
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getChildren($category);
+
+        $this->assertEquals($category, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildrenReturnEntity(): array
+    {
+        return [
+            [
+                "category" => []
+            ],
+            [
+                "category" => ["children" => []]
+            ],
+            [
+                "category" => ["id" => $this->testHelper->getPositiveValue()]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getChildrenRemovesInvalidChildren
+     *
+     * @param $category
+     * @param $expected
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenRemovesInvalidChildren($category, $expected)
+    {
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getChildren($category);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildrenRemovesInvalidChildren(): array
+    {
+        return [
+            [
+                "category" => ["children" => [0 => ""]],
+                "expected" => ["children" => []]
+            ],
+            [
+                "category" => ["children" => [0 => ["id" => ""]]],
+                "expected" => ["children" => []]
+            ],
+            [
+                "category" => ["children" => [0 => ["title" => "category"]]],
+                "expected" => ["children" => []]
+            ],
+        ];
+    }
 }
