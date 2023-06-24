@@ -3,19 +3,19 @@
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Client\Client;
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
+use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Exception;
 
 /**
- * Class EntityAuthorNormalizer
+ * Class EntityAssetNormalizer
  *
  * @package Comitium5\MercuriumWidgetsBundle\Normalizers
  */
-class EntityAuthorNormalizer
+class EntityAssetNormalizer
 {
-    const NON_NUMERIC_AUTHOR_ID = "EntityAuthorNormalizer::normalize. non numeric author id.";
+    const NON_NUMERIC_ASSET_ID = "EntityAssetNormalizer::normalize. non numeric asset id.";
 
-    const EMPTY_FIELD = "EntityAuthorNormalizer::validate. field can not be empty.";
+    const EMPTY_FIELD = "EntityAssetNormalizer::validate. field can not be empty.";
 
     /**
      * @var Client
@@ -32,7 +32,7 @@ class EntityAuthorNormalizer
      * @param string $field
      * @throws Exception
      */
-    public function __construct(Client $api, string $field = "author")
+    public function __construct(Client $api, string $field)
     {
         $this->api = $api;
         $this->field = $field;
@@ -71,15 +71,15 @@ class EntityAuthorNormalizer
             return $entity;
         }
 
-        $authorId = $entity[$this->field]['id'] ?? $entity[$this->field];
+        $assetId = $entity[$this->field]['id'] ?? $entity[$this->field];
 
-        if (!is_numeric($authorId)) {
-            throw new Exception(self::NON_NUMERIC_AUTHOR_ID . " in field " . $this->field);
+        if (!is_numeric($assetId)) {
+            throw new Exception(self::NON_NUMERIC_ASSET_ID . " in field " . $this->field);
         }
 
-        $helper = new AuthorHelper($this->api);
+        $helper = new AssetHelper($this->api);
 
-        $entity[$this->field] = $helper->get((int)$authorId);
+        $entity[$this->field] = $helper->get((int)$assetId);
 
         return $entity;
     }

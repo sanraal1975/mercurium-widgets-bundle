@@ -490,12 +490,6 @@ class ArticleHelperTest extends TestCase
      */
     public function hasSubscriptionsReturnsFalse(): array
     {
-        /*
-         * 0 -> empty article
-         * 1 -> article without 'subscriptions' key
-         * 2 -> article with empty 'subscriptions' key
-         */
-
         return [
             [
                 "article" => []

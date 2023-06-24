@@ -11,6 +11,10 @@ use Comitium5\ApiClientBundle\Client\Client;
  */
 class CommonEntitiesHelperTestFunctions
 {
+    const IMAGE_FIELD_KEY = "image";
+    const VIDEO_FIELD_KEY = "video";
+    const AUTHOR_FIELD_KEY = "author";
+
     /**
      * @return Client
      */

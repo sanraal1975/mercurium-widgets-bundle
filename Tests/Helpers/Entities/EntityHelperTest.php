@@ -4,7 +4,6 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
-use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
