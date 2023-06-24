@@ -6,7 +6,7 @@ use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAuthorNormalizer;
-use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities\CommonEntitiesHelperTestFunctions;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -19,7 +19,7 @@ use TypeError;
 class EntityAuthorNormalizerTest extends TestCase
 {
     /**
-     * @var CommonEntitiesHelperTestFunctions
+     * @var TestHelper
      */
     private $testHelper;
 
@@ -31,7 +31,7 @@ class EntityAuthorNormalizerTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->testHelper = new CommonEntitiesHelperTestFunctions();
+        $this->testHelper = new TestHelper();
     }
 
     /**
@@ -158,16 +158,16 @@ class EntityAuthorNormalizerTest extends TestCase
                 "entity" => [],
             ],
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::AUTHOR_FIELD_KEY => []],
+                "entity" => [TestHelper::AUTHOR_FIELD_KEY => []],
             ],
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::AUTHOR_FIELD_KEY => 0],
+                "entity" => [TestHelper::AUTHOR_FIELD_KEY => 0],
             ],
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::AUTHOR_FIELD_KEY => null],
+                "entity" => [TestHelper::AUTHOR_FIELD_KEY => null],
             ],
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::IMAGE_FIELD_KEY => []],
+                "entity" => [TestHelper::IMAGE_FIELD_KEY => []],
             ],
         ];
     }
@@ -193,19 +193,19 @@ class EntityAuthorNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::AUTHOR_FIELD_KEY => ["id" => "a"]]
+                "entity" => [TestHelper::AUTHOR_FIELD_KEY => ["id" => "a"]]
             ],
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::AUTHOR_FIELD_KEY => ["id" => null]]
+                "entity" => [TestHelper::AUTHOR_FIELD_KEY => ["id" => null]]
             ],
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::AUTHOR_FIELD_KEY => ["id" => []]]
+                "entity" => [TestHelper::AUTHOR_FIELD_KEY => ["id" => []]]
             ],
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::AUTHOR_FIELD_KEY => "id"]
+                "entity" => [TestHelper::AUTHOR_FIELD_KEY => "id"]
             ],
             [
-                "entity" => [CommonEntitiesHelperTestFunctions::AUTHOR_FIELD_KEY => ["title"]]
+                "entity" => [TestHelper::AUTHOR_FIELD_KEY => ["title"]]
             ],
         ];
     }

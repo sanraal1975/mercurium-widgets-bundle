@@ -6,6 +6,7 @@ use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -18,7 +19,7 @@ use TypeError;
 class ArticleHelperTest extends TestCase
 {
     /**
-     * @var CommonEntitiesHelperTestFunctions
+     * @var TestHelper
      */
     private $testHelper;
 
@@ -30,7 +31,7 @@ class ArticleHelperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->testHelper = new CommonEntitiesHelperTestFunctions();
+        $this->testHelper = new TestHelper();
     }
 
     /**
