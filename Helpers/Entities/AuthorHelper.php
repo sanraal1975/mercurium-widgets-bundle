@@ -163,14 +163,4 @@ class AuthorHelper extends AbstractEntityHelper
 
         return ApiResultsHelper::extractResults($results);
     }
-
-    /**
-     * @param int $typeId
-     *
-     * @return array
-     */
-    public function getLastPublishedWithType(int $typeId): array
-    {
-        return [];
-    }
 }

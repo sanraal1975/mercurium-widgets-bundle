@@ -158,15 +158,4 @@ class CategoryHelper extends AbstractEntityHelper
 
         return ApiResultsHelper::extractResults($results);
     }
-
-    /**
-     * @deprecated
-     * @param int $typeId
-     *
-     * @return array
-     */
-    public function getLastPublishedWithType(int $typeId): array
-    {
-        return [];
-    }
 }

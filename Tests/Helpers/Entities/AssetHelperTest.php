@@ -393,41 +393,4 @@ class AssetHelperTest extends TestCase
             ]
         ];
     }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeThrowsArgumentCountErrorException()
-    {
-        $this->expectException(ArgumentCountError::class);
-
-        $helper = new AssetHelper($this->testHelper->getApi());
-        $result = $helper->getLastPublishedWithType();
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeThrowsTypeErrorException()
-    {
-        $this->expectException(TypeError::class);
-
-        $helper = new AssetHelper($this->testHelper->getApi());
-        $result = $helper->getLastPublishedWithType(null);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testGetLastPublishedWithTypeThrowsExceptionMessageTypeIdGreaterThanZero()
-    {
-        $this->expectExceptionMessage(AssetHelper::TYPE_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $helper = new AssetHelper($this->testHelper->getApi());
-        $helper->getLastPublishedWithType($this->testHelper->getZeroOrNegativeValue());
-    }
 }

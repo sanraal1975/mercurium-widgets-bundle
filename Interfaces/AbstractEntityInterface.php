@@ -44,11 +44,4 @@ interface AbstractEntityInterface
      * @return array
      */
     public function getLastPublished(): array;
-
-    /**
-     * @param int $typeId
-     *
-     * @return array
-     */
-    public function getLastPublishedWithType(int $typeId): array;
 }

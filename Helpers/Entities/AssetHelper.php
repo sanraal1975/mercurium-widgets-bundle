@@ -168,27 +168,4 @@ class AssetHelper extends AbstractEntityHelper
 
         return ApiResultsHelper::extractResults($results);
     }
-
-    /**
-     * @param int $typeId
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getLastPublishedWithType(int $typeId): array
-    {
-        if ($typeId < 1) {
-            throw new Exception(self::TYPE_ID_MUST_BE_GREATER_THAN_ZERO);
-        }
-
-        $results = $this->getBy(
-            [
-                "limit" => 1,
-                "sort" => "publishedAt desc",
-                "type" => $typeId
-            ]
-        );
-
-        return ApiResultsHelper::extractOne($results);
-    }
 }

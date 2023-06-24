@@ -12,7 +12,6 @@ use Comitium5\MercuriumWidgetsBundle\Interfaces\AbstractEntityInterface;
  */
 abstract class AbstractEntityHelper implements AbstractEntityInterface
 {
-
     /**
      *
      * @return AbstractApiService
@@ -53,11 +52,4 @@ abstract class AbstractEntityHelper implements AbstractEntityInterface
      * @return array
      */
     abstract public function getLastPublished(): array;
-
-    /**
-     * @param int $typeId
-     *
-     * @return array
-     */
-    abstract public function getLastPublishedWithType(int $typeId): array;
 }
