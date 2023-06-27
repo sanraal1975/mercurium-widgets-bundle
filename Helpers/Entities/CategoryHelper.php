@@ -175,7 +175,7 @@ class CategoryHelper extends AbstractEntityHelper
         }
 
         foreach ($category['children'] as $key => $child) {
-            if(empty($child)) {
+            if (empty($child)) {
                 unset ($category['children'][$key]);
                 continue;
             }
@@ -203,5 +203,32 @@ class CategoryHelper extends AbstractEntityHelper
         }
 
         return $category;
+    }
+
+    /**
+     * @param array $category
+     *
+     * @return array
+     */
+    public function getChildrenIds(array $category): array
+    {
+        if (empty($category)) {
+            return [];
+        }
+
+        if (empty($category['id'])) {
+            return [];
+        }
+
+        if (empty($category['children'])) {
+            return [$category['id']];
+        }
+
+        $categoriesIds[] = $category['id'];
+        foreach ($category['children'] as $child) {
+            $categoriesIds = array_merge($categoriesIds, $this->getChildrenIds($child));
+        }
+
+        return $categoriesIds;
     }
 }

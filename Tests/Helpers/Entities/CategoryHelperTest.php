@@ -502,4 +502,114 @@ class CategoryHelperTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenIdsThrowArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getChildrenIds();
+    }
+
+    /**
+     * @dataProvider getChildrenIdsThrowsTypeErrorException
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenIdsThrowsTypeErrorException($parameters)
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getBy($parameters);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildrenIdsThrowsTypeErrorException(): array
+    {
+        return [
+            [
+                "parameters" => 1
+            ],
+            [
+                "parameters" => null
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getChildrenIdsReturnEmpty
+     *
+     * @param $category
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenIdsReturnEmpty($category)
+    {
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getChildrenIds($category);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildrenIdsReturnEmpty(): array
+    {
+        return [
+            [
+                "category" => []
+            ],
+            [
+                "category" => ["children" => []]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getChildrenIdsReturnValue
+     *
+     * @param $category
+     * @param $expected
+     *
+     * @return void
+     */
+    public function testGetChildrenIdsReturnValue($category, $expected)
+    {
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getChildrenIds($category);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildrenIdsReturnValue(): array
+    {
+        return [
+            [
+                "category" => ["id" => 1],
+                "expected" => [1]
+            ],
+            [
+                "category" => ["id" => 1, "children" => []],
+                "expected" => [1]
+            ],
+            [
+                "category" => ["id" => 1, "children" => [["id" => 2]]],
+                "expected" => [1,2]
+            ]
+        ];
+    }
+
 }
