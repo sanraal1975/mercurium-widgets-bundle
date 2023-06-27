@@ -17,6 +17,12 @@ class CategoryHelper extends AbstractEntityHelper
 
     const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
 
+    const GROUP_ID_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByGroup. group id must be equal or greater than 0";
+
+    const GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByGroup. quantity must be equal or greater than 0";
+
+    const GROUP_QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED = "CategoryHelper::getByGroup. quantity must be equal or less than 100";
+
     /**
      * @var CategoryApiService
      */
@@ -197,8 +203,11 @@ class CategoryHelper extends AbstractEntityHelper
                 continue;
             }
 
+            $category['children'][$key] = $child;
+
             if (!empty($child['children'])) {
-                $category['children'][$key]['children'] = $this->getChildren($child);
+                $child = $this->getChildren($child);
+                $category['children'][$key] = $child;
             }
         }
 
@@ -210,7 +219,7 @@ class CategoryHelper extends AbstractEntityHelper
      *
      * @return array
      */
-    public function getChildrenIds(array $category): array
+    public function getCategoryIdAndChildrenIds(array $category): array
     {
         if (empty($category)) {
             return [];
@@ -226,9 +235,46 @@ class CategoryHelper extends AbstractEntityHelper
 
         $categoriesIds[] = $category['id'];
         foreach ($category['children'] as $child) {
-            $categoriesIds = array_merge($categoriesIds, $this->getChildrenIds($child));
+            $categoriesIds = array_merge($categoriesIds, $this->getCategoryIdAndChildrenIds($child));
         }
 
         return $categoriesIds;
+    }
+
+    /**
+     * @param Client $apiClient
+     * @param int $groupId
+     * @return array
+     * @throws Exception
+     */
+    public function getByGroup(int $groupId, int $quantity = 100): array
+    {
+        if (empty($groupId)) {
+            return [];
+        }
+
+        if ($quantity === 0) {
+            return [];
+        }
+
+        if ($groupId < 1) {
+            throw new Exception(self::GROUP_ID_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        }
+
+        if ($quantity < 0) {
+            throw new Exception(self::GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        }
+
+        if ($quantity > 100) {
+            throw new Exception(self::GROUP_QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED);
+        }
+
+        $parameters = [
+            "groups" => $groupId,
+            "order" => "title asc",
+            "limit" => $quantity
+        ];
+
+        return $this->getBy($parameters);
     }
 }

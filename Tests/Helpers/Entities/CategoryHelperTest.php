@@ -507,21 +507,21 @@ class CategoryHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testGetChildrenIdsThrowArgumentCountErrorException()
+    public function testGetCategoryIdAndChildrenIdsThrowArgumentCountErrorException()
     {
         $this->expectException(ArgumentCountError::class);
 
         $helper = new CategoryHelper($this->testHelper->getApi());
-        $result = $helper->getChildrenIds();
+        $result = $helper->getCategoryIdAndChildrenIds();
     }
 
     /**
-     * @dataProvider getChildrenIdsThrowsTypeErrorException
+     * @dataProvider getCategoryIdAndChildrenIdsThrowsTypeErrorException
      *
      * @return void
      * @throws Exception
      */
-    public function testGetChildrenIdsThrowsTypeErrorException($parameters)
+    public function testGetCategoryIdAndChildrenIdsThrowsTypeErrorException($parameters)
     {
         $this->expectException(TypeError::class);
 
@@ -532,7 +532,7 @@ class CategoryHelperTest extends TestCase
     /**
      * @return array
      */
-    public function getChildrenIdsThrowsTypeErrorException(): array
+    public function getCategoryIdAndChildrenIdsThrowsTypeErrorException(): array
     {
         return [
             [
@@ -545,17 +545,17 @@ class CategoryHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getChildrenIdsReturnEmpty
+     * @dataProvider getCategoryIdAndChildrenIdsReturnEmpty
      *
      * @param $category
      *
      * @return void
      * @throws Exception
      */
-    public function testGetChildrenIdsReturnEmpty($category)
+    public function testGetCategoryIdAndChildrenIdsReturnEmpty($category)
     {
         $helper = new CategoryHelper($this->testHelper->getApi());
-        $result = $helper->getChildrenIds($category);
+        $result = $helper->getCategoryIdAndChildrenIds($category);
 
         $this->assertEquals([], $result);
     }
@@ -563,7 +563,7 @@ class CategoryHelperTest extends TestCase
     /**
      * @return array
      */
-    public function getChildrenIdsReturnEmpty(): array
+    public function getCategoryIdAndChildrenIdsReturnEmpty(): array
     {
         return [
             [
@@ -576,17 +576,17 @@ class CategoryHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getChildrenIdsReturnValue
+     * @dataProvider getCategoryIdAndChildrenIdsReturnValue
      *
      * @param $category
      * @param $expected
      *
      * @return void
      */
-    public function testGetChildrenIdsReturnValue($category, $expected)
+    public function testGetCategoryIdAndChildrenIdsReturnValue($category, $expected)
     {
         $helper = new CategoryHelper($this->testHelper->getApi());
-        $result = $helper->getChildrenIds($category);
+        $result = $helper->getCategoryIdAndChildrenIds($category);
 
         $this->assertEquals($expected, $result);
     }
@@ -594,7 +594,7 @@ class CategoryHelperTest extends TestCase
     /**
      * @return array
      */
-    public function getChildrenIdsReturnValue(): array
+    public function getCategoryIdAndChildrenIdsReturnValue(): array
     {
         return [
             [
