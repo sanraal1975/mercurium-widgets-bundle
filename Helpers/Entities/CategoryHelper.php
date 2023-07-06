@@ -22,7 +22,7 @@ class CategoryHelper extends AbstractEntityHelper
 
     const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
 
-    const GROUP_ID_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByGroup. group id must be equal or greater than 0";
+    const GROUP_ID_MUST_BE_GREATER_THAN_ZERO = "CategoryHelper::getByGroup. group id must be greater than 0";
 
     const GET_BY_GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByGroup. quantity must be equal or greater than 0";
 
@@ -264,7 +264,7 @@ class CategoryHelper extends AbstractEntityHelper
         }
 
         if ($groupId < 1) {
-            throw new Exception(self::GROUP_ID_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+            throw new Exception(self::GROUP_ID_MUST_BE_GREATER_THAN_ZERO);
         }
 
         if ($quantity < 0) {

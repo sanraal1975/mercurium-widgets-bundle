@@ -695,7 +695,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetByGroupThrowsExceptionMessageGroupIdGreaterThanZero()
     {
-        $this->expectExceptionMessage(CategoryHelper::GROUP_ID_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(CategoryHelper::GROUP_ID_MUST_BE_GREATER_THAN_ZERO);
 
         $helper = new CategoryHelper($this->testHelper->getApi());
         $groupId = $this->testHelper->getNegativeValue();
