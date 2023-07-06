@@ -656,6 +656,40 @@ class CategoryHelperTest extends TestCase
     }
 
     /**
+     * @dataProvider getByGroupReturnsEmpty
+     *
+     * @param $groupId
+     * @param $quantity
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByGroupReturnsEmpty($groupId, $quantity)
+    {
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getByGroup($groupId, $quantity);
+
+        $this->assertEquals([], $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getByGroupReturnsEmpty(): array
+    {
+        return [
+            [
+                "groupId" => 0,
+                "quantity" => $this->testHelper->getPositiveValue()
+            ],
+            [
+                "groupId" => $this->testHelper->getPositiveValue(),
+                "quantity" => 0
+            ]
+        ];
+    }
+
+    /**
      * @return void
      * @throws Exception
      */
@@ -680,6 +714,25 @@ class CategoryHelperTest extends TestCase
         $helper = new CategoryHelper($this->testHelper->getApi());
         $groupId = $this->testHelper->getPositiveValue();
         $quantity = $this->testHelper->getNegativeValue();
+
+        $result = $helper->getByGroup($groupId, $quantity);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByGroupThrowsExceptionMessageQuantityLessOrEqualOneHundred()
+    {
+        $this->expectExceptionMessage(CategoryHelper::QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $groupId = $this->testHelper->getPositiveValue();
+        $quantity = $this->testHelper->getPositiveValue();
+
+        if ($quantity < 100) {
+            $quantity = $quantity + 100;
+        }
 
         $result = $helper->getByGroup($groupId, $quantity);
     }

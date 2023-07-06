@@ -268,11 +268,11 @@ class CategoryHelper extends AbstractEntityHelper
         }
 
         if ($quantity < 0) {
-            throw new Exception(self::GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+            throw new Exception(self::GET_BY_GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
         }
 
         if ($quantity > 100) {
-            throw new Exception(self::GROUP_QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED);
+            throw new Exception(self::QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED);
         }
 
         $parameters = [
