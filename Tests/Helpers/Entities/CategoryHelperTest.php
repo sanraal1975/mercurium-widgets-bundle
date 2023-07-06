@@ -607,9 +607,80 @@ class CategoryHelperTest extends TestCase
             ],
             [
                 "category" => ["id" => 1, "children" => [["id" => 2]]],
-                "expected" => [1,2]
+                "expected" => [1, 2]
             ]
         ];
     }
 
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByGroupThrowArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getByGroup();
+    }
+
+    /**
+     * @dataProvider getByGroupThrowsTypeErrorException
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByGroupThrowsTypeErrorException($groupId, $quantity)
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $result = $helper->getByGroup($groupId, $quantity);
+    }
+
+    /**
+     * @return array
+     */
+    public function getByGroupThrowsTypeErrorException(): array
+    {
+        return [
+            [
+                "groupId" => null,
+                "quantity" => null
+            ],
+            [
+                "groupId" => 1,
+                "quantity" => null
+            ],
+        ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByGroupThrowsExceptionMessageGroupIdGreaterThanZero()
+    {
+        $this->expectExceptionMessage(CategoryHelper::GROUP_ID_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $groupId = $this->testHelper->getNegativeValue();
+
+        $result = $helper->getByGroup($groupId);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByGroupThrowsExceptionMessageQuantityGreaterThanZero()
+    {
+        $this->expectExceptionMessage(CategoryHelper::GET_BY_GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+
+        $helper = new CategoryHelper($this->testHelper->getApi());
+        $groupId = $this->testHelper->getPositiveValue();
+        $quantity = $this->testHelper->getNegativeValue();
+
+        $result = $helper->getByGroup($groupId, $quantity);
+    }
 }

@@ -11,6 +11,12 @@ use Comitium5\ApiClientBundle\Client\Client;
  */
 class TestHelper
 {
+    const API_ENDPOINT = "https://csmercurium.wearebab.com/api/v2/";
+    const API_TOKEN = "YjY1NmQ4NjQ2MmYxOTk4MGJjZjc3YzQ1NWI4MGI3NDViNTJiMjQ2M2JhOWJiZDQ0OTRiMDA2ZTM3NjMwMWY2ZQ";
+    const API_SITE = "mercurium";
+    const API_SUBSITE = "mercurium";
+    const API_LOCALE = "ca";
+
     const IMAGE_FIELD_KEY = "image";
     const VIDEO_FIELD_KEY = "video";
     const AUTHOR_FIELD_KEY = "author";
@@ -20,7 +26,9 @@ class TestHelper
      */
     public function getApi(): Client
     {
-        return new Client("https://foo.bar", "fake_token");
+        $client = new Client(self::API_ENDPOINT, self::API_TOKEN);
+
+        return $client->buildClient(self::API_SITE, self::API_SUBSITE, self::API_LOCALE);
     }
 
     /**

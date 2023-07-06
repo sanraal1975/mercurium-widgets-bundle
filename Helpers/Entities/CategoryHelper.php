@@ -11,6 +11,11 @@ use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 
+/**
+ * Class CategoryHelper
+ *
+ * @package Comitium5\MercuriumWidgetsBundle\Helpers\Entities
+ */
 class CategoryHelper extends AbstractEntityHelper
 {
     const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "CategoryHelper::get. entityId must be greater than 0";
@@ -19,9 +24,9 @@ class CategoryHelper extends AbstractEntityHelper
 
     const GROUP_ID_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByGroup. group id must be equal or greater than 0";
 
-    const GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByGroup. quantity must be equal or greater than 0";
+    const GET_BY_GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "CategoryHelper::getByGroup. quantity must be equal or greater than 0";
 
-    const GROUP_QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED = "CategoryHelper::getByGroup. quantity must be equal or less than 100";
+    const QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED = "CategoryHelper::getByGroup. quantity must be equal or less than 100";
 
     /**
      * @var CategoryApiService
@@ -242,8 +247,9 @@ class CategoryHelper extends AbstractEntityHelper
     }
 
     /**
-     * @param Client $apiClient
      * @param int $groupId
+     * @param int $quantity
+     *
      * @return array
      * @throws Exception
      */
