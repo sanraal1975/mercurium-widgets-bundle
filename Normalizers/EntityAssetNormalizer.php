@@ -52,6 +52,22 @@ class EntityAssetNormalizer
     }
 
     /**
+     * @return Client
+     */
+    public function getApi(): Client
+    {
+        return $this->api;
+    }
+
+    /**
+     * @return string
+     */
+    public function getField(): string
+    {
+        return $this->field;
+    }
+
+    /**
      * @param array $entity
      *
      * @return array
@@ -60,10 +76,6 @@ class EntityAssetNormalizer
     public function normalize(array $entity): array
     {
         if (empty($entity)) {
-            return $entity;
-        }
-
-        if (empty($this->field)) {
             return $entity;
         }
 
