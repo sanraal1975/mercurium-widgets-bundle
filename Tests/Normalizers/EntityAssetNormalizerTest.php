@@ -99,11 +99,11 @@ class EntityAssetNormalizerTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testValidateEmptyField()
+    public function testValidateThrowsExceptionMessageEmptyField()
     {
         $this->expectExceptionMessage(EntityAssetNormalizer::EMPTY_FIELD);
 
-        $nornalizer = new EntityAssetNormalizer($this->testHelper->getApi(), "");
+        new EntityAssetNormalizer($this->testHelper->getApi(), "");
     }
 
     /**

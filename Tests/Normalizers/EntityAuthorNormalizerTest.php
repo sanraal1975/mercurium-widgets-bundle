@@ -83,7 +83,7 @@ class EntityAuthorNormalizerTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testValidateEmptyField()
+    public function testValidateThrowsExceptionMessageEmptyField()
     {
         $this->expectExceptionMessage(EntityAuthorNormalizer::EMPTY_FIELD);
 
