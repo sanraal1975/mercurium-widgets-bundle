@@ -52,22 +52,6 @@ class EntityAuthorNormalizer
     }
 
     /**
-     * @return Client
-     */
-    public function getApi(): Client
-    {
-        return $this->api;
-    }
-
-    /**
-     * @return string
-     */
-    public function getField(): string
-    {
-        return $this->field;
-    }
-
-    /**
      * @param array $entity
      *
      * @return array

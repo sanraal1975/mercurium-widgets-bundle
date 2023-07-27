@@ -2,7 +2,6 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
-use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Exception;
 
@@ -32,16 +31,16 @@ class EntityCategoriesNormalizer
     private $helper;
 
     /**
-     * @param Client $api
+     * @param CategoryHelper $helper
      * @param string $field
      * @param int $quantity
      * @throws Exception
      */
-    public function __construct(Client $api, string $field = "categories", int $quantity = PHP_INT_MAX)
+    public function __construct(CategoryHelper $helper, string $field = "categories", int $quantity = PHP_INT_MAX)
     {
         $this->field = $field;
         $this->quantity = $quantity;
-        $this->helper = new CategoryHelper($api);
+        $this->helper = $helper;
 
         $this->validate();
     }
@@ -59,22 +58,6 @@ class EntityCategoriesNormalizer
         if ($this->quantity < 0) {
             throw new Exception(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getField(): string
-    {
-        return $this->field;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQuantity(): int
-    {
-        return $this->quantity;
     }
 
     /**
@@ -116,6 +99,7 @@ class EntityCategoriesNormalizer
         }
 
         $entity[$this->field] = $normalizedCategories;
+
         return $entity;
     }
 }

@@ -21,6 +21,8 @@ class TestHelper
     const VIDEO_FIELD_KEY = "video";
     const AUTHOR_FIELD_KEY = "author";
 
+    const ENTITY_ID_TO_RETURN_EMPTY = 123456789;
+
     /**
      * @return Client
      */
