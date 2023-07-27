@@ -16,7 +16,7 @@
     },
     "require": {
         "php": ">=7.2",
-        "comitium5/api-client-bundle": "^7.0"
+        "comitium5/api-client-bundle": "^7.1.9"
     },
     "require-dev": {
         "phpunit/phpunit": "@stable"
