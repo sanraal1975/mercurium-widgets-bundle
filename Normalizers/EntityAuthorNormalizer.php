@@ -2,7 +2,6 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
-use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Exception;
 
@@ -18,9 +17,9 @@ class EntityAuthorNormalizer
     const EMPTY_FIELD = "EntityAuthorNormalizer::validate. field can not be empty.";
 
     /**
-     * @var Client
+     * @var AuthorHelper
      */
-    private $api;
+    private $helper;
 
     /**
      * @var string
@@ -28,14 +27,14 @@ class EntityAuthorNormalizer
     private $field;
 
     /**
-     * @param Client $api
+     * @param AuthorHelper $helper
      * @param string $field
      * @throws Exception
      */
-    public function __construct(Client $api, string $field = "author")
+    public function __construct(AuthorHelper $helper, string $field = "author")
     {
-        $this->api = $api;
         $this->field = $field;
+        $this->helper = $helper;
 
         $this->validate();
     }
@@ -73,9 +72,7 @@ class EntityAuthorNormalizer
             throw new Exception(self::NON_NUMERIC_AUTHOR_ID . " in field " . $this->field);
         }
 
-        $helper = new AuthorHelper($this->api);
-
-        $entity[$this->field] = $helper->get((int)$authorId);
+        $entity[$this->field] = $this->helper->get((int)$authorId);
 
         return $entity;
     }

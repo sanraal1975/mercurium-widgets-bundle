@@ -262,5 +262,4 @@ class EntityCategoriesNormalizerTest extends TestCase
             ]
         ];
     }
-
 }

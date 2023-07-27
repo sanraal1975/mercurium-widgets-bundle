@@ -7,6 +7,7 @@ use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAuthorNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\AuthorHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -55,11 +56,11 @@ class EntityAuthorNormalizerTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testConstructThrowsTypeErrorException($api, $field)
+    public function testConstructThrowsTypeErrorException($helper, $field)
     {
         $this->expectException(TypeError::class);
 
-        $helper = new EntityAuthorNormalizer($api, $field);
+        $helper = new EntityAuthorNormalizer($helper, $field);
     }
 
     /**
@@ -69,11 +70,11 @@ class EntityAuthorNormalizerTest extends TestCase
     {
         return [
             [
-                "api" => null,
+                "helper" => null,
                 "field" => null
             ],
             [
-                "api" => $this->testHelper->getApi(),
+                "helper" => new AuthorHelper($this->testHelper->getApi()),
                 "field" => null
             ],
         ];
@@ -87,7 +88,8 @@ class EntityAuthorNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(EntityAuthorNormalizer::EMPTY_FIELD);
 
-        new EntityAuthorNormalizer($this->testHelper->getApi(), "");
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        new EntityAuthorNormalizer($helper, "");
     }
 
     /**
@@ -98,7 +100,8 @@ class EntityAuthorNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $normalizer = new EntityAuthorNormalizer($this->testHelper->getApi());
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $normalizer = new EntityAuthorNormalizer($helper);
         $normalizer->normalize();
     }
 
@@ -112,7 +115,8 @@ class EntityAuthorNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $normalizer = new EntityAuthorNormalizer($this->testHelper->getApi());
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $normalizer = new EntityAuthorNormalizer($helper);
 
         $normalizer->normalize($entity);
     }
@@ -142,7 +146,8 @@ class EntityAuthorNormalizerTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $normalizer = new EntityAuthorNormalizer($api);
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $normalizer = new EntityAuthorNormalizer($helper);
         $result = $normalizer->normalize($entity);
 
         $this->assertEquals($entity, $result);
@@ -182,7 +187,8 @@ class EntityAuthorNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(EntityAuthorNormalizer::NON_NUMERIC_AUTHOR_ID);
 
-        $normalizer = new EntityAuthorNormalizer($this->testHelper->getApi());
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $normalizer = new EntityAuthorNormalizer($helper);
         $normalizer->normalize($entity);
     }
 
@@ -220,7 +226,41 @@ class EntityAuthorNormalizerTest extends TestCase
 
         $entity = ["author" => ["id" => $this->testHelper->getZeroOrNegativeValue()]];
 
-        $normalizer = new EntityAuthorNormalizer($this->testHelper->getApi());
+        $helper = new AuthorHelper($this->testHelper->getApi());
+        $normalizer = new EntityAuthorNormalizer($helper);
         $normalizer->normalize($entity);
     }
+
+    /**
+     * @dataProvider normalizeReturnsEntityCategoriesNormalized
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testNormalizeReturnsEntityAuthorNormalized($entity, $expected)
+    {
+        $helper = new AuthorHelperMock($this->testHelper->getApi());
+        $normalizer = new EntityAuthorNormalizer($helper);
+
+        $result = $normalizer->normalize($entity);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function normalizeReturnsEntityCategoriesNormalized(): array
+    {
+        return [
+            [
+                "entity" => ["id" => 1, "author" => ["id" => 1]],
+                "expected" => ["id" => 1, "author" => ["id" => 1]],
+            ],
+            [
+                "entity" => ["id" => 1, "author" => ["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]],
+                "expected" => ["id" => 1, "author" => []],
+            ],
+        ];
+    }
+
 }
