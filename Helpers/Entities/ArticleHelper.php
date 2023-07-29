@@ -166,7 +166,7 @@ class ArticleHelper extends AbstractEntityHelper
             ]
         );
 
-        return ApiResultsHelper::extractResults($results);
+        return ApiResultsHelper::extractOne($results);
     }
 
     /**

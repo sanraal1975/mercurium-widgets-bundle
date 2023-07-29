@@ -18,9 +18,9 @@ class EntityAssetNormalizer
     const EMPTY_FIELD = "EntityAssetNormalizer::validate. field can not be empty.";
 
     /**
-     * @var Client
+     * @var AssetHelper
      */
-    private $api;
+    private $helper;
 
     /**
      * @var string
@@ -28,13 +28,13 @@ class EntityAssetNormalizer
     private $field;
 
     /**
-     * @param Client $api
+     * @param AssetHelper $helper
      * @param string $field
      * @throws Exception
      */
-    public function __construct(Client $api, string $field)
+    public function __construct(AssetHelper $helper, string $field)
     {
-        $this->api = $api;
+        $this->helper = $helper;
         $this->field = $field;
 
         $this->validate();
@@ -67,15 +67,13 @@ class EntityAssetNormalizer
             return $entity;
         }
 
-        $assetId = $entity[$this->field]['id'] ?? $entity[$this->field];
+        $assetId = empty($entity[$this->field]['id']) ? $entity[$this->field] : $entity[$this->field]['id'];
 
         if (!is_numeric($assetId)) {
             throw new Exception(self::NON_NUMERIC_ASSET_ID . " in field " . $this->field);
         }
 
-        $helper = new AssetHelper($this->api);
-
-        $entity[$this->field] = $helper->get((int)$assetId);
+        $entity[$this->field] = $this->helper->get((int)$assetId);
 
         return $entity;
     }

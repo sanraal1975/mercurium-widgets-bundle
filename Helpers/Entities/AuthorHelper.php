@@ -27,6 +27,9 @@ class AuthorHelper extends AbstractEntityHelper
      */
     private $service;
 
+    /**
+     * @param Client $api
+     */
     public function __construct(Client $api)
     {
         $factory = new ApiServiceFactory($api);
@@ -161,6 +164,6 @@ class AuthorHelper extends AbstractEntityHelper
             ]
         );
 
-        return ApiResultsHelper::extractResults($results);
+        return ApiResultsHelper::extractOne($results);
     }
 }

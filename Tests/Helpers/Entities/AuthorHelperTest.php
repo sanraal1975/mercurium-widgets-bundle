@@ -6,6 +6,7 @@ use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\AuthorHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -219,6 +220,52 @@ class AuthorHelperTest extends TestCase
     }
 
     /**
+     * @dataProvider getByIdsReturnEntities
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsReturnEntities($entitiesIds, $expected)
+    {
+        $helper = new AuthorHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getByIds($entitiesIds);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     *
+     * @return array[]
+     */
+    public function getByIdsReturnEntities(): array
+    {
+        return [
+            [
+                "entitiesIds" => "1",
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ]
+        ];
+    }
+
+    /**
      * @return void
      * @throws Exception
      */
@@ -350,6 +397,111 @@ class AuthorHelperTest extends TestCase
     }
 
     /**
+     * @dataProvider getByIdsAndQuantityReturnEntities
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityReturnEntities($entitiesIds, $quantity, $expected)
+    {
+        $helper = new AuthorHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     *
+     * @return array[]
+     */
+    public function getByIdsAndQuantityReturnEntities(): array
+    {
+        return [
+            [
+                "entitiesIds" => "1",
+                "quantity" => PHP_INT_MAX,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
+                "quantity" => PHP_INT_MAX,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
+                "quantity" => PHP_INT_MAX,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1,2",
+                "quantity" => PHP_INT_MAX,
+                "expected" => [
+                    [
+                        "id" => 1,
+                        "searchable" => true
+                    ],
+                    [
+                        "id" => 2,
+                        "searchable" => true
+                    ]
+                ]
+            ],
+            [
+                "entitiesIds" => "1,2,3",
+                "quantity" => 2,
+                "expected" => [
+                    [
+                        "id" => 1,
+                        "searchable" => true
+                    ],
+                    [
+                        "id" => 2,
+                        "searchable" => true
+                    ]
+                ]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY . ",3",
+                "quantity" => 2,
+                "expected" => [
+                    [
+                        "id" => 1,
+                        "searchable" => true
+                    ],
+                    [
+                        "id" => 3,
+                        "searchable" => true
+                    ]
+                ]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE . ",3",
+                "quantity" => 2,
+                "expected" => [
+                    [
+                        "id" => 1,
+                        "searchable" => true
+                    ],
+                    [
+                        "id" => 3,
+                        "searchable" => true
+                    ]
+                ]
+            ],
+        ];
+    }
+
+    /**
      * @return void
      * @throws Exception
      */
@@ -388,5 +540,20 @@ class AuthorHelperTest extends TestCase
                 "parameters" => null
             ],
         ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetLastPublishedReturnsEntity()
+    {
+        $helper = new AuthorHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getLastPublished();
+
+        $expected = ["id" => 1];
+
+        $this->assertEquals($expected, $result);
     }
 }

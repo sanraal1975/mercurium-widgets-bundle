@@ -166,6 +166,6 @@ class AssetHelper extends AbstractEntityHelper
             ]
         );
 
-        return ApiResultsHelper::extractResults($results);
+        return ApiResultsHelper::extractOne($results);
     }
 }

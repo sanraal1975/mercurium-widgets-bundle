@@ -22,10 +22,29 @@ class AuthorHelperMock extends AuthorHelper
         switch ($entityId) {
             case TestHelper::ENTITY_ID_TO_RETURN_EMPTY:
                 return [];
+            case TestHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE:
+                return [
+                    "id" => $entityId,
+                ];
         }
 
         return [
-            "id" => $entityId
+            "id" => $entityId,
+            "searchable" => true
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getBy(array $parameters): array
+    {
+        return [
+            "results" => [
+                [
+                    "id" => 1
+                ]
+            ]
         ];
     }
 }

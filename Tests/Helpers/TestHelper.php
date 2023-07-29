@@ -22,6 +22,8 @@ class TestHelper
     const AUTHOR_FIELD_KEY = "author";
 
     const ENTITY_ID_TO_RETURN_EMPTY = 123456789;
+    const ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE = 1234567890;
+    const ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN = 12345678901;
 
     /**
      * @return Client

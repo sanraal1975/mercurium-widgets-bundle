@@ -232,7 +232,7 @@ class EntityAuthorNormalizerTest extends TestCase
     }
 
     /**
-     * @dataProvider normalizeReturnsEntityCategoriesNormalized
+     * @dataProvider normalizeReturnsEntityAuthorNormalized
      *
      * @return void
      * @throws Exception
@@ -249,12 +249,12 @@ class EntityAuthorNormalizerTest extends TestCase
     /**
      * @return array[]
      */
-    public function normalizeReturnsEntityCategoriesNormalized(): array
+    public function normalizeReturnsEntityAuthorNormalized(): array
     {
         return [
             [
                 "entity" => ["id" => 1, "author" => ["id" => 1]],
-                "expected" => ["id" => 1, "author" => ["id" => 1]],
+                "expected" => ["id" => 1, "author" => ["id" => 1, "searchable" => true]],
             ],
             [
                 "entity" => ["id" => 1, "author" => ["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]],
@@ -262,5 +262,4 @@ class EntityAuthorNormalizerTest extends TestCase
             ],
         ];
     }
-
 }

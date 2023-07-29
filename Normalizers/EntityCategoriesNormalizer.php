@@ -83,7 +83,7 @@ class EntityCategoriesNormalizer
 
         $normalizedCategories = [];
         foreach ($entity[$this->field] as $category) {
-            $categoryId = $category['id'] ?? $category ?? 0;
+            $categoryId = empty($category['id']) ? $category : $category['id'];
             $categoryId = (int)$categoryId;
 
             $categoryFromApi = $this->helper->get($categoryId);

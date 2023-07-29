@@ -6,6 +6,7 @@ use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\CategoryHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -219,6 +220,53 @@ class CategoryHelperTest extends TestCase
     }
 
     /**
+     * @dataProvider getByIdsReturnEntities
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsReturnEntities($entitiesIds, $expected)
+    {
+        $helper = new CategoryHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getByIds($entitiesIds);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     *
+     * @return array[]
+     */
+    public function getByIdsReturnEntities(): array
+    {
+        return [
+            [
+                "entitiesIds" => "1",
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ]
+        ];
+    }
+
+
+    /**
      * @return void
      * @throws Exception
      */
@@ -301,6 +349,112 @@ class CategoryHelperTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider getByIdsAndQuantityReturnEntities
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByIdsAndQuantityReturnEntities($entitiesIds, $quantity, $expected)
+    {
+        $helper = new CategoryHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     *
+     * @return array[]
+     */
+    public function getByIdsAndQuantityReturnEntities(): array
+    {
+        return [
+            [
+                "entitiesIds" => "1",
+                "quantity" => PHP_INT_MAX,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
+                "quantity" => PHP_INT_MAX,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
+                "quantity" => PHP_INT_MAX,
+                "expected" => [[
+                    "id" => 1,
+                    "searchable" => true
+                ]]
+            ],
+            [
+                "entitiesIds" => "1,2",
+                "quantity" => PHP_INT_MAX,
+                "expected" => [
+                    [
+                        "id" => 1,
+                        "searchable" => true
+                    ],
+                    [
+                        "id" => 2,
+                        "searchable" => true
+                    ]
+                ]
+            ],
+            [
+                "entitiesIds" => "1,2,3",
+                "quantity" => 2,
+                "expected" => [
+                    [
+                        "id" => 1,
+                        "searchable" => true
+                    ],
+                    [
+                        "id" => 2,
+                        "searchable" => true
+                    ]
+                ]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY . ",3",
+                "quantity" => 2,
+                "expected" => [
+                    [
+                        "id" => 1,
+                        "searchable" => true
+                    ],
+                    [
+                        "id" => 3,
+                        "searchable" => true
+                    ]
+                ]
+            ],
+            [
+                "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE . ",3",
+                "quantity" => 2,
+                "expected" => [
+                    [
+                        "id" => 1,
+                        "searchable" => true
+                    ],
+                    [
+                        "id" => 3,
+                        "searchable" => true
+                    ]
+                ]
+            ],
+        ];
+    }
+
 
     /**
      * @return void
@@ -394,12 +548,27 @@ class CategoryHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
+    public function testGetLastPublishedReturnsEntity()
+    {
+        $helper = new CategoryHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getLastPublished();
+
+        $expected = ["id" => 1];
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
     public function testGetChildrenThrowArgumentCountErrorException()
     {
         $this->expectException(ArgumentCountError::class);
 
         $helper = new CategoryHelper($this->testHelper->getApi());
-        $result = $helper->getChildren();
+        $helper->getChildren();
     }
 
     /**
@@ -413,7 +582,7 @@ class CategoryHelperTest extends TestCase
         $this->expectException(TypeError::class);
 
         $helper = new CategoryHelper($this->testHelper->getApi());
-        $result = $helper->getBy($parameters);
+        $helper->getBy($parameters);
     }
 
     /**
@@ -501,6 +670,98 @@ class CategoryHelperTest extends TestCase
                 "expected" => ["children" => []]
             ],
         ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenRemovesEmptyChild()
+    {
+        $helper = new CategoryHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getChildren(
+            [
+                "children" => [
+                    [
+                        "id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY
+                    ]
+                ]
+            ]
+        );
+
+        $expected = ["children" => []];
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenRemovesNotSearchableChild()
+    {
+        $helper = new CategoryHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getChildren(
+            [
+                "children" => [
+                    [
+                        "id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE
+                    ]
+                ]
+            ]
+        );
+
+        $expected = ["children" => []];
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenReturnsCategoryChildren()
+    {
+        $helper = new CategoryHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getChildren(
+            [
+                "children" => [
+                    [
+                        "id" => 1
+                    ]
+                ]
+            ]
+        );
+
+        $expected = ["children" => [["id" => 1, "searchable" => true]]];
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetChildrenReturnsCategoryChildrenAndSubCategory()
+    {
+        $helper = new CategoryHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getChildren(
+            [
+                "children" => [
+                    [
+                        "id" => $this->testHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN
+                    ]
+                ]
+            ]
+        );
+
+        $expected = ["children" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN, "searchable" => true, "children" => [["id" => 1, "searchable" => true]]]]];
+
+        $this->assertEquals($expected, $result);
     }
 
     /**

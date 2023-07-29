@@ -33,6 +33,9 @@ class CategoryHelper extends AbstractEntityHelper
      */
     private $service;
 
+    /**
+     * @param Client $api
+     */
     public function __construct(Client $api)
     {
         $factory = new ApiServiceFactory($api);
@@ -166,7 +169,7 @@ class CategoryHelper extends AbstractEntityHelper
             ]
         );
 
-        return ApiResultsHelper::extractResults($results);
+        return ApiResultsHelper::extractOne($results);
     }
 
     /**

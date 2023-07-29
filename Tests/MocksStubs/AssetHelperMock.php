@@ -2,15 +2,15 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs;
 
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
+use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 
 /**
- * Class CategoryHelperMock
+ * Class AssetHelperMock
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs
  */
-class CategoryHelperMock extends CategoryHelper
+class AssetHelperMock extends AssetHelper
 {
     /**
      * @param int $entityId
@@ -25,16 +25,6 @@ class CategoryHelperMock extends CategoryHelper
             case TestHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE:
                 return [
                     "id" => $entityId,
-                ];
-            case TestHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN:
-                return [
-                    "id" => $entityId,
-                    "searchable" => true,
-                    "children" => [
-                        [
-                            "id" => 1
-                        ]
-                    ],
                 ];
         }
 

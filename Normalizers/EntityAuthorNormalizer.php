@@ -66,7 +66,7 @@ class EntityAuthorNormalizer
             return $entity;
         }
 
-        $authorId = $entity[$this->field]['id'] ?? $entity[$this->field];
+        $authorId = empty($entity[$this->field]['id']) ? $entity[$this->field] : $entity[$this->field]['id'];
 
         if (!is_numeric($authorId)) {
             throw new Exception(self::NON_NUMERIC_AUTHOR_ID . " in field " . $this->field);

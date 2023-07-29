@@ -4,6 +4,8 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ImageHelperMock;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropsValueObject;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
 use Exception;
@@ -17,6 +19,37 @@ use TypeError;
  */
 class ImageHelperTest extends TestCase
 {
+    /**
+     * @var TestHelper
+     */
+    private $testHelper;
+
+    /**
+     * @param $name
+     * @param array $data
+     * @param $dataName
+     */
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        $this->testHelper = new TestHelper();
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetLast()
+    {
+        $helper = new ImageHelperMock($this->testHelper->getApi());
+
+        $result = $helper->getLast();
+        $expected = ["id" => 1, "searchable" => true];
+
+        $this->assertEquals($expected, $result);
+    }
+
     /**
      * @dataProvider hasCropReturnFalse
      *

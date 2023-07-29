@@ -237,7 +237,7 @@ class EntityCategoriesNormalizerTest extends TestCase
         return [
             [
                 "entity" => ["id" => 1, "categories" => [["id" => 1]]],
-                "expected" => ["id" => 1, "categories" => [["id" => 1]]],
+                "expected" => ["id" => 1, "categories" => [["id" => 1, "searchable" => true]]],
                 "quantity" => 1
             ],
             [
@@ -246,18 +246,18 @@ class EntityCategoriesNormalizerTest extends TestCase
                 "quantity" => 1
             ],
             [
-                "entity" => ["id" => 1, "categories" => [["id"=>$this->testHelper::ENTITY_ID_TO_RETURN_EMPTY],["id" => 1]]],
-                "expected" => ["id" => 1, "categories" => [["id" => 1]]],
+                "entity" => ["id" => 1, "categories" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], ["id" => 1]]],
+                "expected" => ["id" => 1, "categories" => [["id" => 1, "searchable" => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => ["id" => 1, "categories" => [["id"=>$this->testHelper::ENTITY_ID_TO_RETURN_EMPTY],["id" => 1],["id" => 2]]],
-                "expected" => ["id" => 1, "categories" => [["id" => 1]]],
+                "entity" => ["id" => 1, "categories" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], ["id" => 1], ["id" => 2]]],
+                "expected" => ["id" => 1, "categories" => [["id" => 1, "searchable" => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => ["id" => 1, "categories" => [["id"=>$this->testHelper::ENTITY_ID_TO_RETURN_EMPTY],["id" => 1],["id" => 2]]],
-                "expected" => ["id" => 1, "categories" => [["id" => 1],["id" => 2]]],
+                "entity" => ["id" => 1, "categories" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], ["id" => 1], ["id" => 2]]],
+                "expected" => ["id" => 1, "categories" => [["id" => 1, "searchable" => true], ["id" => 2, "searchable" => true]]],
                 "quantity" => 2
             ]
         ];
