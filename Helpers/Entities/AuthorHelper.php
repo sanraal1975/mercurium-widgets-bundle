@@ -2,12 +2,10 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
-use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
-use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 
@@ -28,12 +26,11 @@ class AuthorHelper extends AbstractEntityHelper
     private $service;
 
     /**
-     * @param Client $api
+     * @param AuthorApiService $service
      */
-    public function __construct(Client $api)
+    public function __construct(AuthorApiService $service)
     {
-        $factory = new ApiServiceFactory($api);
-        $this->service = $factory->createAuthorApiService();
+        $this->service = $service;
     }
 
     /**
