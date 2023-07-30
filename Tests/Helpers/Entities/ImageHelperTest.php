@@ -3,6 +3,8 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
+use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
+use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ImageHelperMock;
@@ -25,6 +27,11 @@ class ImageHelperTest extends TestCase
     private $testHelper;
 
     /**
+     * @var AssetApiService
+     */
+    private $service;
+
+    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -33,6 +40,9 @@ class ImageHelperTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->testHelper = new TestHelper();
+
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $this->service = $factory->createAssetApiService();
     }
 
     /**
@@ -42,7 +52,7 @@ class ImageHelperTest extends TestCase
      */
     public function testGetLast()
     {
-        $helper = new ImageHelperMock($this->testHelper->getApi());
+        $helper = new ImageHelperMock($this->service);
 
         $result = $helper->getLast();
         $expected = ["id" => 1, "searchable" => true];
@@ -57,9 +67,7 @@ class ImageHelperTest extends TestCase
      */
     public function testHasCropReturnFalse(array $image, CropsValueObject $crops)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new ImageHelper($api);
+        $helper = new ImageHelper($this->service);
         $result = $helper->hasCrop($image, $crops);
 
         $this->assertFalse($result);
@@ -114,9 +122,7 @@ class ImageHelperTest extends TestCase
      */
     public function testHasCropReturnTrue(array $image, CropsValueObject $crop)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new ImageHelper($api);
+        $helper = new ImageHelper($this->service);
         $result = $helper->hasCrop($image, $crop);
 
         $this->assertTrue($result);
@@ -156,11 +162,9 @@ class ImageHelperTest extends TestCase
      */
     public function testHasCropWrongTypeImageParameter()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new ImageHelper($api);
+        $helper = new ImageHelper($this->service);
         $helper->hasCrop(null, new CropsValueObject(["100|100"]));
     }
 
@@ -170,11 +174,9 @@ class ImageHelperTest extends TestCase
      */
     public function testHasCropWrongTypeCropParameter()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new ImageHelper($api);
+        $helper = new ImageHelper($this->service);
         $helper->hasCrop([], null);
     }
 
@@ -184,11 +186,9 @@ class ImageHelperTest extends TestCase
      */
     public function testSetCropWrongTypeImageParameter()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new ImageHelper($api);
+        $helper = new ImageHelper($this->service);
         $helper->hasCrop(null, new CropsValueObject(["100|100"]));
     }
 
@@ -198,11 +198,9 @@ class ImageHelperTest extends TestCase
      */
     public function testSetCropWrongTypeCropParameter()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
         $this->expectException(TypeError::class);
 
-        $helper = new ImageHelper($api);
+        $helper = new ImageHelper($this->service);
         $helper->hasCrop([], null);
     }
 
@@ -214,9 +212,7 @@ class ImageHelperTest extends TestCase
      */
     public function testSetCropCropNotFound(array $image, CropValueObject $crop, array $expected)
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new ImageHelper($api);
+        $helper = new ImageHelper($this->service);
         $result = $helper->setCrop($image, $crop);
 
         $this->assertEquals($expected, $result);
@@ -280,9 +276,7 @@ class ImageHelperTest extends TestCase
      */
     public function testSetCropCropFound()
     {
-        $api = new Client("https://foo.bar", "fake_token");
-
-        $helper = new ImageHelper($api);
+        $helper = new ImageHelper($this->service);
 
         $image = [
             "id" => 1,

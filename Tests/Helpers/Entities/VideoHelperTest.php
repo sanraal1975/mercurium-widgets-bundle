@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
+use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\VideoHelperMock;
 use Exception;
@@ -37,7 +38,10 @@ class VideoHelperTest  extends TestCase
      */
     public function testGetLast()
     {
-        $helper = new VideoHelperMock($this->testHelper->getApi());
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $service = $factory->createAssetApiService();
+
+        $helper = new VideoHelperMock($service);
 
         $result = $helper->getLast();
         $expected = ["id" => 1, "searchable" => true];

@@ -30,12 +30,11 @@ class AssetHelper extends AbstractEntityHelper
     private $service;
 
     /**
-     * @param Client $api
+     * @param AssetApiService $service
      */
-    public function __construct(Client $api)
+    public function __construct(AssetApiService $service)
     {
-        $factory = new ApiServiceFactory($api);
-        $this->service = $factory->createAssetApiService();
+        $this->service = $service;
     }
 
     /**

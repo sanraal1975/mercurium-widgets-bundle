@@ -4,8 +4,10 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
+use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\CategoryApiServiceMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\CategoryHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +26,11 @@ class CategoryHelperTest extends TestCase
     private $testHelper;
 
     /**
+     * @var CategoryApiService
+     */
+    private $service;
+
+    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -32,6 +39,9 @@ class CategoryHelperTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->testHelper = new TestHelper();
+
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $this->service = $factory->createCategoryApiService();
     }
 
     /**
@@ -75,7 +85,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetService()
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $service = $helper->getService();
 
         $this->assertInstanceOf(CategoryApiService::class, $service);
@@ -89,7 +99,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->get();
     }
 
@@ -103,7 +113,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->get($parameter);
     }
 
@@ -130,7 +140,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->get($this->testHelper->getZeroOrNegativeValue());
     }
 
@@ -142,7 +152,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIds();
     }
 
@@ -154,7 +164,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIds(null);
     }
 
@@ -168,7 +178,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIds($parameter);
     }
 
@@ -198,7 +208,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetByIdsReturnEmpty()
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIds("");
 
         $this->assertEquals([], $result);
@@ -227,7 +237,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetByIdsReturnEntities($entitiesIds, $expected)
     {
-        $helper = new CategoryHelperMock($this->testHelper->getApi());
+        $helper = new CategoryHelperMock($this->service);
 
         $result = $helper->getByIds($entitiesIds);
 
@@ -274,7 +284,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIdsAndQuantity();
     }
 
@@ -291,7 +301,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
     }
 
@@ -327,7 +337,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEmpty($entitiesIds, $quantity)
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
         $this->assertEquals([], $result);
@@ -358,7 +368,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEntities($entitiesIds, $quantity, $expected)
     {
-        $helper = new CategoryHelperMock($this->testHelper->getApi());
+        $helper = new CategoryHelperMock($this->service);
 
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
@@ -455,6 +465,36 @@ class CategoryHelperTest extends TestCase
         ];
     }
 
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetBy()
+    {
+        $service = new CategoryApiServiceMock($this->testHelper->getApi());
+        $helper = new CategoryHelper($service);
+
+        $result = $helper->getBy(
+            [
+                "limit" => 1
+            ]
+        );
+
+        $expected = [
+            "total" => 1,
+            "limit" => 1,
+            "pages" => 1,
+            "page" => 1,
+            "results" => [
+                [
+                    "id" => 1,
+                    "searchable" => 1
+                ]
+            ]
+        ];
+
+        $this->assertEquals($expected, $result);
+    }
 
     /**
      * @return void
@@ -464,7 +504,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIdsAndQuantity($this->testHelper->getPositiveValueAsString(), $this->testHelper->getZeroOrNegativeValue());
     }
 
@@ -478,7 +518,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
@@ -511,7 +551,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getBy();
     }
 
@@ -525,7 +565,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getBy($parameters);
     }
 
@@ -550,7 +590,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetLastPublishedReturnsEntity()
     {
-        $helper = new CategoryHelperMock($this->testHelper->getApi());
+        $helper = new CategoryHelperMock($this->service);
 
         $result = $helper->getLastPublished();
 
@@ -567,7 +607,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $helper->getChildren();
     }
 
@@ -581,7 +621,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $helper->getBy($parameters);
     }
 
@@ -610,7 +650,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetChildrenReturnEntity($category)
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getChildren($category);
 
         $this->assertEquals($category, $result);
@@ -645,7 +685,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetChildrenRemovesInvalidChildren($category, $expected)
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getChildren($category);
 
         $this->assertEquals($expected, $result);
@@ -678,7 +718,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetChildrenRemovesEmptyChild()
     {
-        $helper = new CategoryHelperMock($this->testHelper->getApi());
+        $helper = new CategoryHelperMock($this->service);
 
         $result = $helper->getChildren(
             [
@@ -701,7 +741,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetChildrenRemovesNotSearchableChild()
     {
-        $helper = new CategoryHelperMock($this->testHelper->getApi());
+        $helper = new CategoryHelperMock($this->service);
 
         $result = $helper->getChildren(
             [
@@ -724,7 +764,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetChildrenReturnsCategoryChildren()
     {
-        $helper = new CategoryHelperMock($this->testHelper->getApi());
+        $helper = new CategoryHelperMock($this->service);
 
         $result = $helper->getChildren(
             [
@@ -747,7 +787,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetChildrenReturnsCategoryChildrenAndSubCategory()
     {
-        $helper = new CategoryHelperMock($this->testHelper->getApi());
+        $helper = new CategoryHelperMock($this->service);
 
         $result = $helper->getChildren(
             [
@@ -772,7 +812,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getCategoryIdAndChildrenIds();
     }
 
@@ -786,7 +826,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getBy($parameters);
     }
 
@@ -815,7 +855,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetCategoryIdAndChildrenIdsReturnEmpty($category)
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getCategoryIdAndChildrenIds($category);
 
         $this->assertEquals([], $result);
@@ -846,7 +886,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetCategoryIdAndChildrenIdsReturnValue($category, $expected)
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getCategoryIdAndChildrenIds($category);
 
         $this->assertEquals($expected, $result);
@@ -881,7 +921,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByGroup();
     }
 
@@ -895,7 +935,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByGroup($groupId, $quantity);
     }
 
@@ -927,7 +967,7 @@ class CategoryHelperTest extends TestCase
      */
     public function testGetByGroupReturnsEmpty($groupId, $quantity)
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $result = $helper->getByGroup($groupId, $quantity);
 
         $this->assertEquals([], $result);
@@ -958,7 +998,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::GROUP_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $groupId = $this->testHelper->getNegativeValue();
 
         $result = $helper->getByGroup($groupId);
@@ -972,7 +1012,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::GET_BY_GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $groupId = $this->testHelper->getPositiveValue();
         $quantity = $this->testHelper->getNegativeValue();
 
@@ -987,7 +1027,7 @@ class CategoryHelperTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $groupId = $this->testHelper->getPositiveValue();
         $quantity = $this->testHelper->getPositiveValue();
 
@@ -996,5 +1036,33 @@ class CategoryHelperTest extends TestCase
         }
 
         $result = $helper->getByGroup($groupId, $quantity);
+    }
+
+    /**
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetByGroupReturnsEntities()
+    {
+        $service = new CategoryApiServiceMock($this->testHelper->getApi());
+        $helper = new CategoryHelper($service);
+
+        $result = $helper->getByGroup(1, 1);
+
+        $expected = [
+            "total" => 1,
+            "limit" => 1,
+            "pages" => 1,
+            "page" => 1,
+            "results" => [
+                [
+                    "id" => 1,
+                    "searchable" => 1
+                ]
+            ]
+        ];
+
+        $this->assertEquals($expected, $result);
     }
 }

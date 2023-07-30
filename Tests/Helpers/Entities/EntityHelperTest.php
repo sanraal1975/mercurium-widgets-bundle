@@ -53,6 +53,10 @@ class EntityHelperTest extends TestCase
             [
                 "article" => ['categories' => [0 => ["id" => 2]]],
                 "categoryId" => 0
+            ],
+            [
+                "article" => ['categories' => [0 => ["id" => 2]]],
+                "categoryId" => 3
             ]
         ];
     }
@@ -345,7 +349,10 @@ class EntityHelperTest extends TestCase
                 "data" => 'Hello <script src="https://www.facebook.com/plugins/post.php?"></script>facebook',
                 "result" => 'Hello <script loading="lazy" src="https://www.facebook.com/plugins/post.php?"></script>facebook'
             ],
-
+            [
+                "data" => '',
+                "result" => ''
+            ],
         ];
     }
 

@@ -3,6 +3,8 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 
 use ArgumentCountError;
+use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
+use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityCategoriesNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -24,6 +26,11 @@ class EntityCategoriesNormalizerTest extends TestCase
     private $testHelper;
 
     /**
+     * @var CategoryApiService
+     */
+    private $service;
+
+    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -32,6 +39,9 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->testHelper = new TestHelper();
+
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $this->service = $factory->createCategoryApiService();
     }
 
     /**
@@ -74,12 +84,12 @@ class EntityCategoriesNormalizerTest extends TestCase
                 "quantity" => null
             ],
             [
-                "helper" => new CategoryHelper($this->testHelper->getApi()),
+                "helper" => new CategoryHelper($this->service),
                 "field" => null,
                 "quantity" => null
             ],
             [
-                "helper" => new CategoryHelper($this->testHelper->getApi()),
+                "helper" => new CategoryHelper($this->service),
                 "field" => "categories",
                 "quantity" => null
             ],
@@ -94,7 +104,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(EntityCategoriesNormalizer::EMPTY_FIELD);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
 
         new EntityCategoriesNormalizer($helper, "");
     }
@@ -107,7 +117,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(EntityCategoriesNormalizer::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $quantity = $this->testHelper->getZeroOrNegativeValue();
 
         new EntityCategoriesNormalizer($helper, "categories", $quantity);
@@ -121,7 +131,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $normalizer = new EntityCategoriesNormalizer($helper);
         $normalizer->normalize();
     }
@@ -134,7 +144,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $normalizer = new EntityCategoriesNormalizer($helper);
         $normalizer->normalize(null);
     }
@@ -145,7 +155,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEmpty()
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $normalizer = new EntityCategoriesNormalizer($helper);
         $result = $normalizer->normalize([]);
 
@@ -160,7 +170,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsInputEntity($entity, $expected)
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $normalizer = new EntityCategoriesNormalizer($helper);
         $result = $normalizer->normalize($entity);
 
@@ -190,7 +200,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityWithFieldEmptied()
     {
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $normalizer = new EntityCategoriesNormalizer($helper, "categories", 0);
         $result = $normalizer->normalize(["id" => 1, "categories" => [["id" => 2]]]);
 
@@ -207,7 +217,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->testHelper->getApi());
+        $helper = new CategoryHelper($this->service);
         $normalizer = new EntityCategoriesNormalizer($helper, "categories", 1);
         $categoryId = $this->testHelper->getZeroOrNegativeValue();
 
@@ -222,7 +232,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityCategoriesNormalized($entity, $expected, $quantity)
     {
-        $helper = new CategoryHelperMock($this->testHelper->getApi());
+        $helper = new CategoryHelperMock($this->service);
         $normalizer = new EntityCategoriesNormalizer($helper, "categories", $quantity);
 
         $result = $normalizer->normalize($entity);

@@ -538,22 +538,6 @@ class ArticleHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testGetLastPublishedReturnsEntity()
-    {
-        $helper = new ArticleHelperMock($this->service);
-
-        $result = $helper->getLastPublished();
-
-        $expected = ["id" => 1];
-
-        $this->assertEquals($expected, $result);
-    }
-
-    /**
-     *
-     * @return void
-     * @throws Exception
-     */
     public function testGetBy()
     {
         $service = new ArticleApiServiceMock($this->testHelper->getApi());
@@ -577,6 +561,21 @@ class ArticleHelperTest extends TestCase
                 ]
             ]
         ];
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetLastPublishedReturnsEntity()
+    {
+        $helper = new ArticleHelperMock($this->service);
+
+        $result = $helper->getLastPublished();
+
+        $expected = ["id" => 1];
 
         $this->assertEquals($expected, $result);
     }

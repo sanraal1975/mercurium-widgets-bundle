@@ -34,12 +34,11 @@ class CategoryHelper extends AbstractEntityHelper
     private $service;
 
     /**
-     * @param Client $api
+     * @param CategoryApiService $service
      */
-    public function __construct(Client $api)
+    public function __construct(CategoryApiService $service)
     {
-        $factory = new ApiServiceFactory($api);
-        $this->service = $factory->createCategoryApiService();
+        $this->service = $service;
     }
 
     /**
