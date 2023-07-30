@@ -7,6 +7,7 @@ use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
+use Comitium5\ApiClientBundle\Client\Services\TagApiService;
 
 /**
  * Class ApiServiceFactory
@@ -57,5 +58,13 @@ class ApiServiceFactory
     public function createCategoryApiService(): CategoryApiService
     {
         return new CategoryApiService($this->api);
+    }
+
+    /**
+     * @return TagApiService
+     */
+    public function createTagApiService(): TagApiService
+    {
+        return new TagApiService($this->api);
     }
 }

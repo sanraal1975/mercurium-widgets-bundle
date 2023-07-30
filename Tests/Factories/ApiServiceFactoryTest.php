@@ -7,6 +7,7 @@ use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
+use Comitium5\ApiClientBundle\Client\Services\TagApiService;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use PHPUnit\Framework\TestCase;
@@ -79,5 +80,17 @@ class ApiServiceFactoryTest extends TestCase
         $service = $factory->createCategoryApiService();
 
         $this->assertInstanceOf(CategoryApiService::class, $service);
+    }
+    
+    /**
+     * @return void
+     */
+    public function testCreateTagApiService()
+    {
+        $factory = new ApiServiceFactory($this->testHelper->getApi());
+
+        $service = $factory->createTagApiService();
+
+        $this->assertInstanceOf(TagApiService::class, $service);
     }
 }

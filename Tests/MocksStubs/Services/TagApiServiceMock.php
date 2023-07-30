@@ -2,18 +2,18 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services;
 
-use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
+use Comitium5\ApiClientBundle\Client\Services\TagApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
 
 /**
- * Class CategoryApiServiceMock
+ * Class TagApiServiceMock
  *
- * @package Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs
+ * @package Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services
  */
-class CategoryApiServiceMock extends CategoryApiService
+class TagApiServiceMock extends TagApiService
 {
     /**
      * @param IdentifiedValue $identifiedValue
@@ -60,4 +60,5 @@ class CategoryApiServiceMock extends CategoryApiService
             ]
         ];
     }
+
 }
