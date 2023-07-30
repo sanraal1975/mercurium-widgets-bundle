@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
+use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Exception;
 
@@ -10,7 +11,7 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Normalizers
  */
-class EntityTagsNormalizer
+class EntityTagsNormalizer implements AbstractEntityNormalizerInterface
 {
     const EMPTY_FIELD = "EntityTagsNormalizer. field can not be empty";
     const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "EntityTagsNormalizer. quantity must be equal or greater than 0";

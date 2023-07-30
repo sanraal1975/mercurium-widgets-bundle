@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
+use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Exception;
 
@@ -10,7 +11,7 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Normalizers
  */
-class EntityAuthorNormalizer
+class EntityAuthorNormalizer implements AbstractEntityNormalizerInterface
 {
     const NON_NUMERIC_AUTHOR_ID = "EntityAuthorNormalizer::normalize. non numeric author id.";
 
