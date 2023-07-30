@@ -135,7 +135,8 @@ class AssetHelper extends AbstractEntityHelper
             }
         }
 
-        return $entities;    }
+        return $entities;
+    }
 
     /**
      * @param array $parameters

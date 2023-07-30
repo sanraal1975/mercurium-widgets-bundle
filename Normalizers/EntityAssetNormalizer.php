@@ -2,7 +2,6 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
-use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Exception;
 

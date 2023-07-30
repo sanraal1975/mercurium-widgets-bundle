@@ -17,10 +17,11 @@ class ApiResultsHelper
      * @return array
      */
     public static function extractOne(
-        array $apiResponse,
-        int $position = 0,
+        array  $apiResponse,
+        int    $position = 0,
         string $key = "results"
-    ): array {
+    ): array
+    {
         return $apiResponse[$key][$position] ?? [];
     }
 
@@ -31,9 +32,10 @@ class ApiResultsHelper
      * @return array
      */
     public static function extractResults(
-        array $apiResponse,
+        array  $apiResponse,
         string $key = "results"
-    ): array {
+    ): array
+    {
         return !empty($apiResponse[$key]) ? $apiResponse[$key] : [];
     }
 }
