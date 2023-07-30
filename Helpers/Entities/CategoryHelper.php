@@ -2,12 +2,11 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
-use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
-use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
+use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 

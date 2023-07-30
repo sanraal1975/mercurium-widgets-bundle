@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\VideoHelperMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\VideoHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 

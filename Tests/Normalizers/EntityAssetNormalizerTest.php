@@ -8,7 +8,7 @@ use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\AssetApiServiceMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services\AssetApiServiceMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;

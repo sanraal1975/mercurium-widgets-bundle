@@ -1,6 +1,6 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Interfaces;
+namespace Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces;
 
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 

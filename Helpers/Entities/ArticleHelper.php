@@ -6,6 +6,7 @@ use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
+use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 

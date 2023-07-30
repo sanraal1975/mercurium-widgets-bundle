@@ -9,7 +9,7 @@ use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAuthorNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\AuthorHelperMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\AuthorHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;

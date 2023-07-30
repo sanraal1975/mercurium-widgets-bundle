@@ -1,6 +1,6 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs;
+namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers;
 
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;

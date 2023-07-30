@@ -1,9 +1,9 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
+namespace Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers;
 
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
-use Comitium5\MercuriumWidgetsBundle\Interfaces\AbstractEntityInterface;
+use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityInterface;
 
 /**
  * Class AbstractEntityHelper

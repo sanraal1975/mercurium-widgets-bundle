@@ -1,19 +1,19 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs;
+namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services;
 
-use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
+use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
 
 /**
- * Class AssetApiServiceMock
+ * Class CategoryApiServiceMock
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs
  */
-class AssetApiServiceMock extends AssetApiService
+class CategoryApiServiceMock extends CategoryApiService
 {
     /**
      * @param IdentifiedValue $identifiedValue
@@ -60,4 +60,5 @@ class AssetApiServiceMock extends AssetApiService
             ]
         ];
     }
+
 }

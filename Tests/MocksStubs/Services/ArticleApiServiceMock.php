@@ -1,6 +1,6 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs;
+namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services;
 
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;

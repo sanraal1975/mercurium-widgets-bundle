@@ -8,7 +8,7 @@ use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityCategoriesNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\CategoryHelperMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\CategoryHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
