@@ -25,6 +25,7 @@
             <directory>./</directory>
             <exclude>
                 <directory>./Abstracts</directory>
+                <directory>./Constants</directory>
                 <directory>./Interfaces</directory>
                 <directory>./Tests</directory>
                 <directory>./vendor</directory>
