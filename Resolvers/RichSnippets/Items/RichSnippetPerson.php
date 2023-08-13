@@ -72,8 +72,11 @@ class RichSnippetPerson
             $schema['contactPoint'] = [
                 '@type' => RichSnippetsConstants::TYPE_CONTACT_POINT,
                 'contactType' => implode(",", $entity['tipologies']),
-                "url" => $entity['permalink'],
             ];
+            if (!empty($entity['permalink'])) {
+                $schema['contactPoint']["url"] = $entity['permalink'];
+            }
+
             if (!empty($entity['email'])) {
                 $schema['contactPoint']['email'] = $entity['email'];
             }

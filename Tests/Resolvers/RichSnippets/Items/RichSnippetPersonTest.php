@@ -30,10 +30,10 @@ class RichSnippetPersonTest extends TestCase
         parent::__construct($name, $data, $dataName);
 
         $this->richSnippetPublisherValueObject = new RichSnippetPublisherValueObject(
-            "Foo",
-            "www.foo.bar",
+            'Foo',
+            'www.foo.bar',
             [],
-            "facebook",
+            'facebook',
             []
         );
     }
@@ -64,17 +64,17 @@ class RichSnippetPersonTest extends TestCase
     {
         return [
             [
-                "entity" => [],
-                "expected" => []
+                'entity' => [],
+                'expected' => []
             ],
             [
-                "entity" => [
-                    "url" => "www.foo.bar"
+                'entity' => [
+                    'url' => 'www.foo.bar'
                 ],
-                "expected" => [
-                    "@type" => RichSnippetsConstants::TYPE_PERSON,
-                    "url" => "",
-                    "affiliation" => [
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'affiliation' => [
                         '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
                         'name' => 'Foo',
                         'url' => 'www.foo.bar',
@@ -84,14 +84,14 @@ class RichSnippetPersonTest extends TestCase
                 ]
             ],
             [
-                "entity" => [
-                    "fullName" => "Foo Bar"
+                'entity' => [
+                    'fullName' => 'Foo Bar'
                 ],
-                "expected" => [
-                    "@type" => RichSnippetsConstants::TYPE_PERSON,
-                    "url" => "",
-                    "name" => "Foo Bar",
-                    "affiliation" => [
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'name' => 'Foo Bar',
+                    'affiliation' => [
                         '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
                         'name' => 'Foo',
                         'url' => 'www.foo.bar',
@@ -101,14 +101,14 @@ class RichSnippetPersonTest extends TestCase
                 ]
             ],
             [
-                "entity" => [
-                    "name" => "Foo Bar",
+                'entity' => [
+                    'name' => 'Foo Bar',
                 ],
-                "expected" => [
-                    "@type" => RichSnippetsConstants::TYPE_PERSON,
-                    "url" => "",
-                    "givenName" => "Foo Bar",
-                    "affiliation" => [
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'givenName' => 'Foo Bar',
+                    'affiliation' => [
                         '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
                         'name' => 'Foo',
                         'url' => 'www.foo.bar',
@@ -118,14 +118,14 @@ class RichSnippetPersonTest extends TestCase
                 ]
             ],
             [
-                "entity" => [
-                    "surname" => "Foo Bar",
+                'entity' => [
+                    'surname' => 'Foo Bar',
                 ],
-                "expected" => [
-                    "@type" => RichSnippetsConstants::TYPE_PERSON,
-                    "url" => "",
-                    "familyName" => "Foo Bar",
-                    "affiliation" => [
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'familyName' => 'Foo Bar',
+                    'affiliation' => [
                         '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
                         'name' => 'Foo',
                         'url' => 'www.foo.bar',
@@ -135,20 +135,145 @@ class RichSnippetPersonTest extends TestCase
                 ]
             ],
             [
-                "entity" => [
-                    "profession" => "Foo Bar",
+                'entity' => [
+                    'profession' => 'Foo Bar',
                 ],
-                "expected" => [
-                    "@type" => RichSnippetsConstants::TYPE_PERSON,
-                    "url" => "",
-                    "jobTitle" => "Foo Bar",
-                    "affiliation" => [
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'jobTitle' => 'Foo Bar',
+                    'affiliation' => [
                         '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
                         'name' => 'Foo',
                         'url' => 'www.foo.bar',
                         'logo' => [],
                         'sameAs' => []
                     ]
+                ]
+            ],
+            [
+                'entity' => [
+                    'tipologies' => ['Foo Bar'],
+                ],
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'affiliation' => [
+                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        'name' => 'Foo',
+                        'url' => 'www.foo.bar',
+                        'logo' => [],
+                        'sameAs' => []
+                    ],
+                    'contactPoint' => [
+                        '@type' => RichSnippetsConstants::TYPE_CONTACT_POINT,
+                        'contactType' => 'Foo Bar'
+                    ]
+                ]
+            ],
+            [
+                'entity' => [
+                    'permalink' => 'www.foo.bar',
+                    'tipologies' => ['Foo Bar'],
+                ],
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => 'www.foo.bar',
+                    'affiliation' => [
+                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        'name' => 'Foo',
+                        'url' => 'www.foo.bar',
+                        'logo' => [],
+                        'sameAs' => []
+                    ],
+                    'contactPoint' => [
+                        '@type' => RichSnippetsConstants::TYPE_CONTACT_POINT,
+                        'contactType' => 'Foo Bar',
+                        'url' => 'www.foo.bar',
+                    ]
+                ]
+            ],
+            [
+                'entity' => [
+                    'permalink' => 'www.foo.bar',
+                    'email' => 'foo@bar.com',
+                    'tipologies' => ['Foo Bar'],
+                ],
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => 'www.foo.bar',
+                    'email' => 'foo@bar.com',
+                    'affiliation' => [
+                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        'name' => 'Foo',
+                        'url' => 'www.foo.bar',
+                        'logo' => [],
+                        'sameAs' => []
+                    ],
+                    'contactPoint' => [
+                        '@type' => RichSnippetsConstants::TYPE_CONTACT_POINT,
+                        'contactType' => 'Foo Bar',
+                        'url' => 'www.foo.bar',
+                        'email' => 'foo@bar.com',
+                    ]
+                ]
+            ],
+            [
+                'entity' => [
+                    'biography' => 'lorem ipsum',
+                ],
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'description' => 'lorem ipsum',
+                    'affiliation' => [
+                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        'name' => 'Foo',
+                        'url' => 'www.foo.bar',
+                        'logo' => [],
+                        'sameAs' => []
+                    ],
+                ]
+            ],
+            [
+                'entity' => [
+                    'socialNetworks' => [["url" => "www.foo.bar"]],
+                ],
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'sameAs' => ["www.foo.bar"],
+                    'affiliation' => [
+                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        'name' => 'Foo',
+                        'url' => 'www.foo.bar',
+                        'logo' => [],
+                        'sameAs' => []
+                    ],
+                ]
+            ],
+            [
+                'entity' => [
+                    'asset' => [
+                        'url' => "www.foo.bar"
+                    ],
+                ],
+                'expected' => [
+                    '@type' => RichSnippetsConstants::TYPE_PERSON,
+                    'url' => '',
+                    'image' => [
+                        '@type' => RichSnippetsConstants::TYPE_IMAGE,
+                        'url' => 'www.foo.bar',
+                        'width' => 0,
+                        'height' => 0,
+                    ],
+                    'affiliation' => [
+                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        'name' => 'Foo',
+                        'url' => 'www.foo.bar',
+                        'logo' => [],
+                        'sameAs' => []
+                    ],
                 ]
             ],
         ];
