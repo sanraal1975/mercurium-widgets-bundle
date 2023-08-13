@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Resolvers\RichSnippets\Items;
 
 use Comitium5\MercuriumWidgetsBundle\Constants\RichSnippetsConstants;
+use Comitium5\MercuriumWidgetsBundle\Factories\RichSnippetsFactory;
 use Comitium5\MercuriumWidgetsBundle\Resolvers\RichSnippets\Items\RichSnippetPerson;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\RichSnippetPublisherValueObject;
 use Exception;
@@ -29,7 +30,8 @@ class RichSnippetPersonTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->richSnippetPublisherValueObject = new RichSnippetPublisherValueObject(
+        $factory = new RichSnippetsFactory();
+        $this->richSnippetPublisherValueObject = $factory->createRichSnippetPublisherValueObject(
             'Foo',
             'www.foo.bar',
             [],
@@ -261,18 +263,18 @@ class RichSnippetPersonTest extends TestCase
                 'expected' => [
                     '@type' => RichSnippetsConstants::TYPE_PERSON,
                     'url' => '',
-                    'image' => [
-                        '@type' => RichSnippetsConstants::TYPE_IMAGE,
-                        'url' => 'www.foo.bar',
-                        'width' => 0,
-                        'height' => 0,
-                    ],
                     'affiliation' => [
                         '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
                         'name' => 'Foo',
                         'url' => 'www.foo.bar',
                         'logo' => [],
                         'sameAs' => []
+                    ],
+                    'image' => [
+                        '@type' => RichSnippetsConstants::TYPE_IMAGE,
+                        'url' => 'www.foo.bar',
+                        'width' => 0,
+                        'height' => 0,
                     ],
                 ]
             ],

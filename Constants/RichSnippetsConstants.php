@@ -14,4 +14,5 @@ class RichSnippetsConstants
     const TYPE_NEWS_MEDIA_ORGANIZATION = "NewsMediaOrganization";
     const TYPE_CONTACT_POINT = "ContactPoint";
     const TYPE_ORGANIZATION = "Organization";
+    const CONTEXT = "https://www.schema.org";
 }
