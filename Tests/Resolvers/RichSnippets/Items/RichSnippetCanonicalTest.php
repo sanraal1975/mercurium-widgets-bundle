@@ -21,8 +21,8 @@ class RichSnippetCanonicalTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new RichSnippetCanonical();
-        $result = $helper->getCanonical();
+        $richSnippetCanonical = new RichSnippetCanonical();
+        $result = $richSnippetCanonical->getCanonical();
     }
 
     /**
@@ -32,8 +32,8 @@ class RichSnippetCanonicalTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new RichSnippetCanonical();
-        $result = $helper->getCanonical("hello world");
+        $richSnippetCanonical = new RichSnippetCanonical();
+        $result = $richSnippetCanonical->getCanonical("hello world");
     }
 
     /**
@@ -46,8 +46,8 @@ class RichSnippetCanonicalTest extends TestCase
      */
     public function testGetCanonicalReturnsEmpty($entity, $expected)
     {
-        $helper = new RichSnippetCanonical();
-        $result = $helper->getCanonical($entity);
+        $richSnippetCanonical = new RichSnippetCanonical();
+        $result = $richSnippetCanonical->getCanonical($entity);
 
         $this->assertEquals($expected, $result);
     }
@@ -80,8 +80,8 @@ class RichSnippetCanonicalTest extends TestCase
      */
     public function testGetCanonicalReturnsValue($entity, $expected)
     {
-        $helper = new RichSnippetCanonical();
-        $result = $helper->getCanonical($entity);
+        $richSnippetCanonical = new RichSnippetCanonical();
+        $result = $richSnippetCanonical->getCanonical($entity);
         $this->assertEquals($expected, $result);
     }
 

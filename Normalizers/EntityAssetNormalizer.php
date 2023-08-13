@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
+use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Exception;
@@ -28,13 +29,13 @@ class EntityAssetNormalizer implements AbstractEntityNormalizerInterface
     private $field;
 
     /**
-     * @param AssetHelper $helper
+     * @param Client $api
      * @param string $field
      * @throws Exception
      */
-    public function __construct(AssetHelper $helper, string $field)
+    public function __construct(Client $api, string $field)
     {
-        $this->helper = $helper;
+        $this->helper = new AssetHelper($api);
         $this->field = $field;
 
         $this->validate();

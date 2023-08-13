@@ -13,7 +13,7 @@ use TypeError;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\Resolvers\RichSnippets\Items
  */
-class RichSnippetsFreeAuthorTest extends TestCase
+class RichSnippetFreeAuthorTest extends TestCase
 {
     /**
      * @return void
@@ -22,8 +22,8 @@ class RichSnippetsFreeAuthorTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new RichSnippetFreeAuthor();
-        $result = $helper->GetSchema();
+        $richSnippetFreeAuthor = new RichSnippetFreeAuthor();
+        $result = $richSnippetFreeAuthor->GetSchema();
     }
 
     /**
@@ -33,8 +33,8 @@ class RichSnippetsFreeAuthorTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new RichSnippetFreeAuthor();
-        $result = $helper->GetSchema(null);
+        $richSnippetFreeAuthor = new RichSnippetFreeAuthor();
+        $result = $richSnippetFreeAuthor->GetSchema(null);
     }
 
     /**
@@ -47,8 +47,8 @@ class RichSnippetsFreeAuthorTest extends TestCase
      */
     public function testGetSchemaReturnsEmpty($authorNames, $expected)
     {
-        $helper = new RichSnippetFreeAuthor();
-        $result = $helper->getSchema($authorNames);
+        $richSnippetFreeAuthor = new RichSnippetFreeAuthor();
+        $result = $richSnippetFreeAuthor->getSchema($authorNames);
 
         $this->assertEquals($expected, $result);
     }
@@ -77,8 +77,8 @@ class RichSnippetsFreeAuthorTest extends TestCase
      */
     public function testGetSchemaReturnsValue($authorNames, $expected)
     {
-        $helper = new RichSnippetFreeAuthor();
-        $result = $helper->getSchema($authorNames);
+        $richSnippetFreeAuthor = new RichSnippetFreeAuthor();
+        $result = $richSnippetFreeAuthor->getSchema($authorNames);
         $this->assertEquals($expected, $result);
     }
 

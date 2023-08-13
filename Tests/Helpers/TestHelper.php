@@ -2,7 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers;
 
-use Comitium5\ApiClientBundle\Client\Client;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 
 /**
  * Class TestHelper
@@ -26,11 +26,11 @@ class TestHelper
     const ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN = 12345678901;
 
     /**
-     * @return Client
+     * @return ClientMock
      */
-    public function getApi(): Client
+    public function getApi(): ClientMock
     {
-        $client = new Client(self::API_ENDPOINT, self::API_TOKEN);
+        $client = new ClientMock(self::API_ENDPOINT, self::API_TOKEN);
 
         return $client->buildClient(self::API_SITE, self::API_SUBSITE, self::API_LOCALE);
     }

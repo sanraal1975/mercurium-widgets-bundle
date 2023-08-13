@@ -5,11 +5,9 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
-use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\AssetHelperMock;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services\AssetApiServiceMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -22,14 +20,14 @@ use TypeError;
 class AssetHelperTest extends TestCase
 {
     /**
+     * @var ClientMock
+     */
+    private $api;
+
+    /**
      * @var TestHelper
      */
     private $testHelper;
-
-    /**
-     * @var AssetApiService
-     */
-    private $service;
 
     /**
      * @param $name
@@ -39,10 +37,10 @@ class AssetHelperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->testHelper = new TestHelper();
 
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
-        $this->service = $factory->createAssetApiService();
+        $testHelper = new TestHelper();
+        $this->testHelper = $testHelper;
+        $this->api = $testHelper->getApi();
     }
 
     /**
@@ -88,7 +86,7 @@ class AssetHelperTest extends TestCase
      */
     public function testGetService()
     {
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
 
         $service = $helper->getService();
 
@@ -103,7 +101,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->get();
     }
 
@@ -117,7 +115,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->get($parameter);
     }
 
@@ -144,7 +142,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $helper->get($this->testHelper->getZeroOrNegativeValue());
     }
 
@@ -156,7 +154,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->getByIds();
     }
 
@@ -168,7 +166,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $helper->getByIds(null);
     }
 
@@ -184,7 +182,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->getByIds($parameter);
     }
 
@@ -216,7 +214,7 @@ class AssetHelperTest extends TestCase
     {
         $api = new Client("https://foo.bar", "fake_token");
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->getByIds($ids);
 
         $this->assertEquals([], $result);
@@ -245,7 +243,7 @@ class AssetHelperTest extends TestCase
      */
     public function testGetByIdsReturnEntities($entitiesIds, $expected)
     {
-        $helper = new AssetHelperMock($this->service);
+        $helper = new AssetHelper($this->api);
 
         $result = $helper->getByIds($entitiesIds);
 
@@ -291,7 +289,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->getByIdsAndQuantity();
     }
 
@@ -308,7 +306,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
     }
 
@@ -343,7 +341,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
@@ -378,7 +376,7 @@ class AssetHelperTest extends TestCase
     {
         $this->expectExceptionMessage(AssetHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
@@ -415,7 +413,7 @@ class AssetHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnsEmpty(string $ids, int $quantity)
     {
-        $helper = new AssetHelper($this->service);
+        $helper = new AssetHelper($this->api);
         $result = $helper->getByIdsAndQuantity($ids, $quantity);
 
         $this->assertEquals([], $result);
@@ -459,7 +457,7 @@ class AssetHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEntities($entitiesIds, $quantity, $expected)
     {
-        $helper = new AssetHelperMock($this->service);
+        $helper = new AssetHelper($this->api);
 
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
@@ -562,8 +560,7 @@ class AssetHelperTest extends TestCase
      */
     public function testGetBy()
     {
-        $service = new AssetApiServiceMock($this->testHelper->getApi());
-        $helper = new AssetHelper($service);
+        $helper = new AssetHelper($this->api);
 
         $result = $helper->getBy(
             [
@@ -593,11 +590,14 @@ class AssetHelperTest extends TestCase
      */
     public function testGetLastPublishedReturnsEntity()
     {
-        $helper = new AssetHelperMock($this->service);
+        $helper = new AssetHelper($this->api);
 
         $result = $helper->getLastPublished();
 
-        $expected = ["id" => 1];
+        $expected = [
+            "id" => 1,
+            "searchable" => true
+        ];
 
         $this->assertEquals($expected, $result);
     }

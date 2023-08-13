@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
+use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Exception;
@@ -32,16 +33,16 @@ class EntityCategoriesNormalizer implements AbstractEntityNormalizerInterface
     private $helper;
 
     /**
-     * @param CategoryHelper $helper
+     * @param Client $api
      * @param string $field
      * @param int $quantity
      * @throws Exception
      */
-    public function __construct(CategoryHelper $helper, string $field = "categories", int $quantity = PHP_INT_MAX)
+    public function __construct(Client $api, string $field = "categories", int $quantity = PHP_INT_MAX)
     {
         $this->field = $field;
         $this->quantity = $quantity;
-        $this->helper = $helper;
+        $this->helper = new CategoryHelper($api);
 
         $this->validate();
     }

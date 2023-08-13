@@ -2,11 +2,13 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
+use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
+use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 
@@ -29,11 +31,12 @@ class ArticleHelper extends AbstractEntityHelper
     private $service;
 
     /**
-     * @param ArticleApiService $service
+     * @param Client $api
      */
-    public function __construct(ArticleApiService $service)
+    public function __construct(Client $api)
     {
-        $this->service = $service;
+        $factory = new ApiServiceFactory($api);
+        $this->service = $factory->createArticleApiService();
     }
 
     /**
@@ -56,7 +59,9 @@ class ArticleHelper extends AbstractEntityHelper
             throw new Exception(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
         }
 
-        return $this->service->find(new IdentifiedValue($entityId));
+        $results = $this->service->find(new IdentifiedValue($entityId));
+
+        return ApiResultsHelper::extractOne($results);
     }
 
     /**

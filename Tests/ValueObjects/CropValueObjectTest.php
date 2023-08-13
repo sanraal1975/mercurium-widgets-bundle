@@ -2,18 +2,33 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\ValueObjects;
 
+use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
+/**
+ * Class CropValueObjectTest
+ *
+ * @package Comitium5\MercuriumWidgetsBundle\Tests\ValueObjects
+ */
 class CropValueObjectTest extends TestCase
 {
     /**
      * @return void
+     */
+    public function testConstructThrowsArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        new CropValueObject();
+    }
+    /**
+     * @return void
      * @throws Exception
      */
-    public function testConstructWrongTypeStringParameter()
+    public function testConstructThrowsTypeErrorException()
     {
         $this->expectException(TypeError::class);
 
@@ -24,7 +39,7 @@ class CropValueObjectTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testValidateEmptyCropException()
+    public function testValidateThrowsExceptionMessageEmptyCrop()
     {
         $this->expectExceptionMessage(CropValueObject::EMPTY_CROP);
 
@@ -32,69 +47,66 @@ class CropValueObjectTest extends TestCase
     }
 
     /**
+     * @dataProvider validateThrowsExceptionMessageWrongCrop
+     *
      * @return void
      * @throws Exception
      */
-    public function testValidateWrongCropExceptionCropWithoutPipeline()
+    public function testValidateThrowsExceptionMessageWrongCrop($crop)
     {
         $this->expectExceptionMessage(CropValueObject::WRONG_CROP);
 
-        new CropValueObject("250");
+        new CropValueObject($crop);
     }
 
     /**
-     * @return void
-     * @throws Exception
+     *
+     * @return array[]
      */
-    public function testValidateWrongCropExceptionCropWithOneValueAndPipeline()
+    public function validateThrowsExceptionMessageWrongCrop(): array
     {
-        $this->expectExceptionMessage(CropValueObject::WRONG_CROP);
-
-        new CropValueObject("250|");
+        return [
+            [
+                "crop" => "250"
+            ],
+            [
+                "crop" => "250|"
+            ],
+            [
+                "crop" => "|250"
+            ]
+        ];
     }
 
     /**
+     * @dataProvider validateThrowsExceptionMessageNonNumericCrop
+     *
      * @return void
      * @throws Exception
      */
-    public function testValidateWrongCropExceptionCropWithPipelineAndOneValue()
-    {
-        $this->expectExceptionMessage(CropValueObject::WRONG_CROP);
-
-        new CropValueObject("|250");
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testValidateNonNumericCropExceptionCropWithWrongFirstValue()
-    {
-        $this->expectExceptionMessage(CropValueObject::NON_NUMERIC_CROP);
-
-        new CropValueObject("a|250");
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testValidateNonNumericCropExceptionCropWithWrongSecondValue()
+    public function testValidateThrowsExceptionMessageNonNumericCrop($crop)
     {
         $this->expectExceptionMessage(CropValueObject::NON_NUMERIC_CROP);
 
-        new CropValueObject("250|a");
+        new CropValueObject($crop);
     }
 
     /**
-     * @return void
-     * @throws Exception
+     * @return array[]
      */
-    public function testValidateNonNumericCropExceptionCropWithWrongValues()
+    public function validateThrowsExceptionMessageNonNumericCrop()
     {
-        $this->expectExceptionMessage(CropValueObject::NON_NUMERIC_CROP);
-
-        new CropValueObject("a|a");
+        return [
+            [
+                "crop" => "a|250"
+            ],
+            [
+                "crop" => "250|a"
+            ],
+            [
+                "crop" => "a|a"
+            ],
+        ];
     }
 
     /**
@@ -115,6 +127,9 @@ class CropValueObjectTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * @return array[]
+     */
     public function validateCropReturnCrop(): array
     {
         return [

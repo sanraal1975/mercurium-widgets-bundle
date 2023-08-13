@@ -6,7 +6,7 @@ use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\ImageHelperMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropsValueObject;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
 use Exception;
@@ -26,9 +26,9 @@ class ImageHelperTest extends TestCase
     private $testHelper;
 
     /**
-     * @var AssetApiService
+     * @var ClientMock
      */
-    private $service;
+    private $api;
 
     /**
      * @param $name
@@ -38,10 +38,10 @@ class ImageHelperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
+
         $this->testHelper = new TestHelper();
 
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
-        $this->service = $factory->createAssetApiService();
+        $this->api = $this->testHelper->getApi();
     }
 
     /**
@@ -51,7 +51,7 @@ class ImageHelperTest extends TestCase
      */
     public function testGetLast()
     {
-        $helper = new ImageHelperMock($this->service);
+        $helper = new ImageHelper($this->api);
 
         $result = $helper->getLast();
         $expected = ["id" => 1, "searchable" => true];
@@ -66,7 +66,7 @@ class ImageHelperTest extends TestCase
      */
     public function testHasCropReturnFalse(array $image, CropsValueObject $crops)
     {
-        $helper = new ImageHelper($this->service);
+        $helper = new ImageHelper($this->api);
         $result = $helper->hasCrop($image, $crops);
 
         $this->assertFalse($result);
@@ -121,7 +121,7 @@ class ImageHelperTest extends TestCase
      */
     public function testHasCropReturnTrue(array $image, CropsValueObject $crop)
     {
-        $helper = new ImageHelper($this->service);
+        $helper = new ImageHelper($this->api);
         $result = $helper->hasCrop($image, $crop);
 
         $this->assertTrue($result);
@@ -163,7 +163,7 @@ class ImageHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new ImageHelper($this->service);
+        $helper = new ImageHelper($this->api);
         $helper->hasCrop(null, new CropsValueObject(["100|100"]));
     }
 
@@ -175,7 +175,7 @@ class ImageHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new ImageHelper($this->service);
+        $helper = new ImageHelper($this->api);
         $helper->hasCrop([], null);
     }
 
@@ -187,7 +187,7 @@ class ImageHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new ImageHelper($this->service);
+        $helper = new ImageHelper($this->api);
         $helper->hasCrop(null, new CropsValueObject(["100|100"]));
     }
 
@@ -199,7 +199,7 @@ class ImageHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new ImageHelper($this->service);
+        $helper = new ImageHelper($this->api);
         $helper->hasCrop([], null);
     }
 
@@ -211,7 +211,7 @@ class ImageHelperTest extends TestCase
      */
     public function testSetCropCropNotFound(array $image, CropValueObject $crop, array $expected)
     {
-        $helper = new ImageHelper($this->service);
+        $helper = new ImageHelper($this->api);
         $result = $helper->setCrop($image, $crop);
 
         $this->assertEquals($expected, $result);
@@ -275,7 +275,7 @@ class ImageHelperTest extends TestCase
      */
     public function testSetCropCropFound()
     {
-        $helper = new ImageHelper($this->service);
+        $helper = new ImageHelper($this->api);
 
         $image = [
             "id" => 1,

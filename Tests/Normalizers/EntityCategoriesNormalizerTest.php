@@ -8,7 +8,7 @@ use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityCategoriesNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\CategoryHelperMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -31,6 +31,11 @@ class EntityCategoriesNormalizerTest extends TestCase
     private $service;
 
     /**
+     * @var ClientMock
+     */
+    private $api;
+
+    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -42,6 +47,8 @@ class EntityCategoriesNormalizerTest extends TestCase
 
         $factory = new ApiServiceFactory($this->testHelper->getApi());
         $this->service = $factory->createCategoryApiService();
+
+        $this->api = $this->testHelper->getApi();
     }
 
     /**
@@ -58,18 +65,18 @@ class EntityCategoriesNormalizerTest extends TestCase
     /**
      * @dataProvider constructThrowsTypeErrorException
      *
-     * @param $helper
+     * @param $api
      * @param $field
      * @param $quantity
      *
      * @return void
      * @throws Exception
      */
-    public function testConstructThrowsTypeErrorException($helper, $field, $quantity)
+    public function testConstructThrowsTypeErrorException($api, $field, $quantity)
     {
         $this->expectException(TypeError::class);
 
-        new EntityCategoriesNormalizer($helper, $field, $quantity);
+        new EntityCategoriesNormalizer($api, $field, $quantity);
     }
 
     /**
@@ -79,17 +86,17 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         return [
             [
-                "helper" => null,
+                "api" => null,
                 "field" => null,
                 "quantity" => null
             ],
             [
-                "helper" => new CategoryHelper($this->service),
+                "api" => $this->api,
                 "field" => null,
                 "quantity" => null
             ],
             [
-                "helper" => new CategoryHelper($this->service),
+                "api" => $this->api,
                 "field" => "categories",
                 "quantity" => null
             ],
@@ -104,9 +111,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(EntityCategoriesNormalizer::EMPTY_FIELD);
 
-        $helper = new CategoryHelper($this->service);
-
-        new EntityCategoriesNormalizer($helper, "");
+        new EntityCategoriesNormalizer($this->api, "");
     }
 
     /**
@@ -117,10 +122,9 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(EntityCategoriesNormalizer::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->service);
         $quantity = $this->testHelper->getZeroOrNegativeValue();
 
-        new EntityCategoriesNormalizer($helper, "categories", $quantity);
+        new EntityCategoriesNormalizer($this->api, "categories", $quantity);
     }
 
     /**
@@ -131,8 +135,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new CategoryHelper($this->service);
-        $normalizer = new EntityCategoriesNormalizer($helper);
+        $normalizer = new EntityCategoriesNormalizer($this->api);
         $normalizer->normalize();
     }
 
@@ -144,8 +147,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new CategoryHelper($this->service);
-        $normalizer = new EntityCategoriesNormalizer($helper);
+        $normalizer = new EntityCategoriesNormalizer($this->api);
         $normalizer->normalize(null);
     }
 
@@ -155,8 +157,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEmpty()
     {
-        $helper = new CategoryHelper($this->service);
-        $normalizer = new EntityCategoriesNormalizer($helper);
+        $normalizer = new EntityCategoriesNormalizer($this->api);
         $result = $normalizer->normalize([]);
 
         $this->assertEmpty($result);
@@ -170,8 +171,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsInputEntity($entity, $expected)
     {
-        $helper = new CategoryHelper($this->service);
-        $normalizer = new EntityCategoriesNormalizer($helper);
+        $normalizer = new EntityCategoriesNormalizer($this->api);
         $result = $normalizer->normalize($entity);
 
         $this->assertEquals($expected, $result);
@@ -200,8 +200,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityWithFieldEmptied()
     {
-        $helper = new CategoryHelper($this->service);
-        $normalizer = new EntityCategoriesNormalizer($helper, "categories", 0);
+        $normalizer = new EntityCategoriesNormalizer($this->api, "categories", 0);
         $result = $normalizer->normalize(["id" => 1, "categories" => [["id" => 2]]]);
 
         $expected = ["id" => 1, "categories" => []];
@@ -217,8 +216,7 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new CategoryHelper($this->service);
-        $normalizer = new EntityCategoriesNormalizer($helper, "categories", 1);
+        $normalizer = new EntityCategoriesNormalizer($this->api, "categories", 1);
         $categoryId = $this->testHelper->getZeroOrNegativeValue();
 
         $normalizer->normalize(["id" => 1, "categories" => [["id" => $categoryId]]]);
@@ -232,8 +230,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityCategoriesNormalized($entity, $expected, $quantity)
     {
-        $helper = new CategoryHelperMock($this->service);
-        $normalizer = new EntityCategoriesNormalizer($helper, "categories", $quantity);
+        $normalizer = new EntityCategoriesNormalizer($this->api, "categories", $quantity);
 
         $result = $normalizer->normalize($entity);
         $this->assertEquals($expected, $result);

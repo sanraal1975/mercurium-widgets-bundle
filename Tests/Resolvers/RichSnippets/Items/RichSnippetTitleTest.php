@@ -21,8 +21,8 @@ class RichSnippetTitleTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new RichSnippetTitle();
-        $result = $helper->getTitle();
+        $richSnippetTitle = new RichSnippetTitle();
+        $result = $richSnippetTitle->getTitle();
     }
 
     /**
@@ -32,8 +32,8 @@ class RichSnippetTitleTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new RichSnippetTitle();
-        $result = $helper->getTitle("hello world");
+        $richSnippetTitle = new RichSnippetTitle();
+        $result = $richSnippetTitle->getTitle("hello world");
     }
 
     /**
@@ -46,8 +46,8 @@ class RichSnippetTitleTest extends TestCase
      */
     public function testGetTitleReturnsEmpty($entity, $expected)
     {
-        $helper = new RichSnippetTitle();
-        $result = $helper->getTitle($entity);
+        $richSnippetTitle = new RichSnippetTitle();
+        $result = $richSnippetTitle->getTitle($entity);
 
         $this->assertEquals($expected, $result);
     }
@@ -74,11 +74,11 @@ class RichSnippetTitleTest extends TestCase
      */
     public function testGetTitleReturnsTitle()
     {
-        $helper = new RichSnippetTitle();
+        $richSnippetTitle = new RichSnippetTitle();
         $title = "dummy title";
         $expected = $title;
         $entity = ["title" => $title];
-        $result = $helper->getTitle($entity);
+        $result = $richSnippetTitle->getTitle($entity);
         $this->assertEquals($expected, $result);
     }
 
@@ -87,11 +87,11 @@ class RichSnippetTitleTest extends TestCase
      */
     public function testGetTitleReturnsTitleCut()
     {
-        $helper = new RichSnippetTitle();
+        $richSnippetTitle = new RichSnippetTitle();
         $title = "this is a long dummy title";
         $expected = "this is...";
         $entity = ["title" => $title];
-        $result = $helper->getTitle($entity, $helper::DEFAULT_FIELD_NAME, 10);
+        $result = $richSnippetTitle->getTitle($entity, $richSnippetTitle::DEFAULT_FIELD_NAME, 10);
         $this->assertEquals($expected, $result);
     }
 
@@ -100,11 +100,11 @@ class RichSnippetTitleTest extends TestCase
      */
     public function testGetTitleReturnsTitleCutWithCustomEnd()
     {
-        $helper = new RichSnippetTitle();
+        $richSnippetTitle = new RichSnippetTitle();
         $title = "this is a long dummy title";
         $expected = "this is....";
         $entity = ["title" => $title];
-        $result = $helper->getTitle($entity, $helper::DEFAULT_FIELD_NAME, 11,"....");
+        $result = $richSnippetTitle->getTitle($entity, $richSnippetTitle::DEFAULT_FIELD_NAME, 11,"....");
         $this->assertEquals($expected, $result);
     }
 }

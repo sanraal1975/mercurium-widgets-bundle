@@ -7,8 +7,7 @@ use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\AuthorHelperMock;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services\AuthorApiServiceMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -29,6 +28,11 @@ class AuthorHelperTest extends TestCase
      * @var AuthorApiService
      */
     private $service;
+    
+    /**
+     * @var ClientMock
+     */
+    private $api;
 
     /**
      * @param $name
@@ -42,6 +46,8 @@ class AuthorHelperTest extends TestCase
 
         $factory = new ApiServiceFactory($this->testHelper->getApi());
         $this->service = $factory->createAuthorApiService();
+        
+        $this->api =$this->testHelper->getApi();
     }
     
     /**
@@ -85,7 +91,7 @@ class AuthorHelperTest extends TestCase
      */
     public function testGetService()
     {
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $service = $helper->getService();
 
         $this->assertInstanceOf(AuthorApiService::class, $service);
@@ -99,7 +105,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->get();
     }
 
@@ -113,7 +119,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->get($parameter);
     }
 
@@ -140,7 +146,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->get($this->testHelper->getZeroOrNegativeValue());
     }
 
@@ -152,7 +158,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIds();
     }
 
@@ -164,7 +170,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIds(null);
     }
 
@@ -178,7 +184,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIds($parameter);
     }
 
@@ -208,7 +214,7 @@ class AuthorHelperTest extends TestCase
      */
     public function testGetByIdsReturnEmpty()
     {
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIds("");
 
         $this->assertEquals([], $result);
@@ -237,7 +243,7 @@ class AuthorHelperTest extends TestCase
      */
     public function testGetByIdsReturnEntities($entitiesIds, $expected)
     {
-        $helper = new AuthorHelperMock($this->service);
+        $helper = new AuthorHelper($this->api);
 
         $result = $helper->getByIds($entitiesIds);
 
@@ -283,7 +289,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIdsAndQuantity();
     }
 
@@ -300,7 +306,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
     }
 
@@ -336,7 +342,7 @@ class AuthorHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEmpty($entitiesIds, $quantity)
     {
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
         $this->assertEquals([], $result);
@@ -367,7 +373,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectExceptionMessage(AuthorHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIdsAndQuantity($this->testHelper->getPositiveValueAsString(), $this->testHelper->getZeroOrNegativeValue());
     }
 
@@ -381,7 +387,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectExceptionMessage(AuthorHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
@@ -414,7 +420,7 @@ class AuthorHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEntities($entitiesIds, $quantity, $expected)
     {
-        $helper = new AuthorHelperMock($this->service);
+        $helper = new AuthorHelper($this->api);
 
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
@@ -519,7 +525,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getBy();
     }
 
@@ -533,7 +539,7 @@ class AuthorHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new AuthorHelper($this->service);
+        $helper = new AuthorHelper($this->api);
         $result = $helper->getBy($parameters);
     }
 
@@ -558,8 +564,7 @@ class AuthorHelperTest extends TestCase
      */
     public function testGetBy()
     {
-        $service = new AuthorApiServiceMock($this->testHelper->getApi());
-        $helper = new AuthorHelper($service);
+        $helper = new AuthorHelper($this->api);
 
         $result = $helper->getBy(
             [
@@ -588,11 +593,14 @@ class AuthorHelperTest extends TestCase
      */
     public function testGetLastPublishedReturnsEntity()
     {
-        $helper = new AuthorHelperMock($this->service);
+        $helper = new AuthorHelper($this->api);
 
         $result = $helper->getLastPublished();
 
-        $expected = ["id" => 1];
+        $expected = [
+            "id" => 1,
+            "searchable" => true
+        ];
 
         $this->assertEquals($expected, $result);
     }

@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
+use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Exception;
@@ -28,14 +29,14 @@ class EntityAuthorNormalizer implements AbstractEntityNormalizerInterface
     private $field;
 
     /**
-     * @param AuthorHelper $helper
+     * @param Client $api
      * @param string $field
      * @throws Exception
      */
-    public function __construct(AuthorHelper $helper, string $field = "author")
+    public function __construct(Client $api, string $field = "author")
     {
         $this->field = $field;
-        $this->helper = $helper;
+        $this->helper = new AuthorHelper($api);
 
         $this->validate();
     }
