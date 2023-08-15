@@ -40,23 +40,23 @@ class RichSnippetImage
         }
 
         $image = [];
-        $image['@type'] = RichSnippetsConstants::TYPE_IMAGE;
-        $image['url'] = empty($entity['url']) ? "" : $entity['url'];
-        $image['width'] = empty($entity['metadata']['width']) ? 0 : $entity['metadata']['width'];
-        $image['height'] = empty($entity['metadata']['height']) ? 0 : $entity['metadata']['height'];
-        if (!empty($entity['mimeType'])) {
-            $image['encodingFormat'] = $entity['mimeType'];
+        $image["@type"] = RichSnippetsConstants::TYPE_IMAGE;
+        $image["url"] = empty($entity["url"]) ? "" : $entity["url"];
+        $image["width"] = empty($entity["metadata"]["width"]) ? 0 : $entity["metadata"]["width"];
+        $image["height"] = empty($entity["metadata"]["height"]) ? 0 : $entity["metadata"]["height"];
+        if (!empty($entity["mimeType"])) {
+            $image["encodingFormat"] = $entity["mimeType"];
         }
-        if (!empty($entity['title'])) {
-            $image['name'] = $entity['title'];
+        if (!empty($entity["title"])) {
+            $image["name"] = $entity["title"];
         }
-        if (!empty($entity['description'])) {
+        if (!empty($entity["description"])) {
             $helper = new UtilsHelper();
-            $image['description'] = $helper->cleanHtmlText($entity['description']);
+            $image["description"] = $helper->cleanHtmlText($entity["description"]);
         }
-        if (!empty($entity['author']['permalink'])) {
+        if (!empty($entity["author"]["permalink"])) {
             $richSnippetPerson = new RichSnippetPerson($this->valueObject);
-            $image['author'] = $richSnippetPerson->getSchema($entity['author']);
+            $image["author"] = $richSnippetPerson->getSchema($entity["author"]);
         }
 
         return $image;

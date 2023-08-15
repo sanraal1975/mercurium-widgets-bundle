@@ -8,6 +8,7 @@ use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityTagsNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\TagHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -29,19 +30,26 @@ class EntityTagsNormalizerTest extends TestCase
      * @var TagApiService
      */
     private $service;
+    
+    /**
+     * @var ClientMock
+     */
+    private $api;
 
     /**
      * @param $name
      * @param array $data
      * @param $dataName
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = "")
     {
         parent::__construct($name, $data, $dataName);
         $this->testHelper = new TestHelper();
 
         $factory = new ApiServiceFactory($this->testHelper->getApi());
         $this->service = $factory->createTagApiService();
+
+        $this->api = $this->testHelper->getApi();
     }
 
     /**
@@ -69,7 +77,7 @@ class EntityTagsNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        new EntityTagsNormalizer($helper, $field, $quantity);
+        new EntityTagsNormalizer($this->api, $field, $quantity);
     }
 
     /**
@@ -84,12 +92,12 @@ class EntityTagsNormalizerTest extends TestCase
                 "quantity" => null
             ],
             [
-                "helper" => new TagHelper($this->service),
+                "helper" => new TagHelper($this->api),
                 "field" => null,
                 "quantity" => null
             ],
             [
-                "helper" => new TagHelper($this->service),
+                "helper" => new TagHelper($this->api),
                 "field" => "tags",
                 "quantity" => null
             ],
@@ -104,9 +112,7 @@ class EntityTagsNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(EntityTagsNormalizer::EMPTY_FIELD);
 
-        $helper = new TagHelper($this->service);
-
-        new EntityTagsNormalizer($helper, "");
+        new EntityTagsNormalizer($this->api, "");
     }
 
     /**
@@ -117,10 +123,9 @@ class EntityTagsNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(EntityTagsNormalizer::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new TagHelper($this->service);
         $quantity = $this->testHelper->getZeroOrNegativeValue();
 
-        new EntityTagsNormalizer($helper, "tags", $quantity);
+        new EntityTagsNormalizer($this->api, "tags", $quantity);
     }
 
     /**
@@ -131,8 +136,7 @@ class EntityTagsNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new TagHelper($this->service);
-        $normalizer = new EntityTagsNormalizer($helper);
+        $normalizer = new EntityTagsNormalizer($this->api);
         $normalizer->normalize();
     }
 
@@ -144,8 +148,7 @@ class EntityTagsNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new TagHelper($this->service);
-        $normalizer = new EntityTagsNormalizer($helper);
+        $normalizer = new EntityTagsNormalizer($this->api);
         $normalizer->normalize(null);
     }
 
@@ -155,8 +158,7 @@ class EntityTagsNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEmpty()
     {
-        $helper = new TagHelper($this->service);
-        $normalizer = new EntityTagsNormalizer($helper);
+        $normalizer = new EntityTagsNormalizer($this->api);
         $result = $normalizer->normalize([]);
 
         $this->assertEmpty($result);
@@ -170,8 +172,7 @@ class EntityTagsNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsInputEntity($entity, $expected)
     {
-        $helper = new TagHelper($this->service);
-        $normalizer = new EntityTagsNormalizer($helper);
+        $normalizer = new EntityTagsNormalizer($this->api);
         $result = $normalizer->normalize($entity);
 
         $this->assertEquals($expected, $result);
@@ -200,8 +201,7 @@ class EntityTagsNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityWithFieldEmptied()
     {
-        $helper = new TagHelper($this->service);
-        $normalizer = new EntityTagsNormalizer($helper, "tags", 0);
+        $normalizer = new EntityTagsNormalizer($this->api, "tags", 0);
         $result = $normalizer->normalize(["id" => 1, "tags" => [["id" => 2]]]);
 
         $expected = ["id" => 1, "tags" => []];
@@ -217,8 +217,7 @@ class EntityTagsNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(TagHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new TagHelper($this->service);
-        $normalizer = new EntityTagsNormalizer($helper, "tags", 1);
+        $normalizer = new EntityTagsNormalizer($this->api, "tags", 1);
         $categoryId = $this->testHelper->getZeroOrNegativeValue();
 
         $normalizer->normalize(["id" => 1, "tags" => [["id" => $categoryId]]]);
@@ -232,8 +231,7 @@ class EntityTagsNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityTagsNormalized($entity, $expected, $quantity)
     {
-        $helper = new TagHelperMock($this->service);
-        $normalizer = new EntityTagsNormalizer($helper, "tags", $quantity);
+        $normalizer = new EntityTagsNormalizer($this->api, "tags", $quantity);
 
         $result = $normalizer->normalize($entity);
         $this->assertEquals($expected, $result);

@@ -24,7 +24,7 @@ class VideoHelperTest  extends TestCase
      * @param array $data
      * @param $dataName
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = "")
     {
         parent::__construct($name, $data, $dataName);
         $this->testHelper = new TestHelper();

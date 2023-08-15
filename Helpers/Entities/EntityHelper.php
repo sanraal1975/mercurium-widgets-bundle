@@ -17,7 +17,7 @@ class EntityHelper
      */
     public function hasCategory(array $entity, int $categoryId): bool
     {
-        if (empty($entity['categories'])) {
+        if (empty($entity["categories"])) {
             return false;
         }
 
@@ -25,8 +25,8 @@ class EntityHelper
             return false;
         }
 
-        foreach ($entity['categories'] as $category) {
-            if ($category['id'] == $categoryId) {
+        foreach ($entity["categories"] as $category) {
+            if ($category["id"] == $categoryId) {
                 return true;
             }
         }
@@ -69,8 +69,8 @@ class EntityHelper
 
         $fieldStripped = trim(
             preg_replace(
-                '/\s+/',
-                ' ',
+                "/\s+/",
+                " ",
                 html_entity_decode(strip_tags($field))
             )
         );
@@ -89,9 +89,9 @@ class EntityHelper
             return "";
         }
 
-        $field = preg_replace('/(<script.+?src="https:\/\/platform\.twitter.*?".*?><\/script>)/', '', $field);
-        $field = preg_replace('/(<script.+?src="\/\/www\.instagram\.com\/embed.*?".*?><\/script>)/', '', $field);
-        $field = preg_replace('/(<script.+?src="https:\/\/www.tiktok.com\/embed.*?".*?><\/script>)/', '', $field);
+        $field = preg_replace('/(<script.+?src="https:\/\/platform\.twitter.*?".*?><\/script>)/', "", $field);
+        $field = preg_replace('/(<script.+?src="\/\/www\.instagram\.com\/embed.*?".*?><\/script>)/', "", $field);
+        $field = preg_replace('/(<script.+?src="https:\/\/www.tiktok.com\/embed.*?".*?><\/script>)/', "", $field);
         $field = str_replace(' src="https://www.facebook.com/plugins/post.php?', ' loading="lazy" src="https://www.facebook.com/plugins/post.php?', $field);
 
         return self::replaceYoutubeCode($field);

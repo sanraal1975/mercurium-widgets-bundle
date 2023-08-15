@@ -28,7 +28,7 @@ class RichSnippetImageTest extends TestCase
      * @param array $data
      * @param $dataName
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = "")
     {
         parent::__construct($name, $data, $dataName);
 
@@ -252,15 +252,15 @@ class RichSnippetImageTest extends TestCase
                     "name" => "title",
                     "description" => "description",
                     "author" => [
-                        '@type' => RichSnippetsConstants::TYPE_PERSON,
+                        "@type" => RichSnippetsConstants::TYPE_PERSON,
                         "name" => "Foo Bar",
                         "url" => "www.foo.bar",
                         "affiliation" => [
-                            '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                            'name' => '',
-                            'url' => '',
-                            'logo' => [],
-                            'sameAs' => []
+                            "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                            "name" => "",
+                            "url" => "",
+                            "logo" => [],
+                            "sameAs" => []
                         ]
                     ],
                 ]

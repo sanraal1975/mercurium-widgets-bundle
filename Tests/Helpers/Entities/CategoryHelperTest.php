@@ -4,7 +4,6 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
-use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -25,11 +24,6 @@ class CategoryHelperTest extends TestCase
     private $testHelper;
 
     /**
-     * @var CategoryApiService
-     */
-    private $service;
-
-    /**
      * @var ClientMock
      */
     private $api;
@@ -39,13 +33,10 @@ class CategoryHelperTest extends TestCase
      * @param array $data
      * @param $dataName
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = "")
     {
         parent::__construct($name, $data, $dataName);
         $this->testHelper = new TestHelper();
-
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
-        $this->service = $factory->createCategoryApiService();
 
         $this->api = $this->testHelper->getApi();
     }

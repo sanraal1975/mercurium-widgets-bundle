@@ -68,7 +68,7 @@ class EntityAssetNormalizer implements AbstractEntityNormalizerInterface
             return $entity;
         }
 
-        $assetId = empty($entity[$this->field]['id']) ? $entity[$this->field] : $entity[$this->field]['id'];
+        $assetId = empty($entity[$this->field]["id"]) ? $entity[$this->field] : $entity[$this->field]["id"];
 
         if (!is_numeric($assetId)) {
             throw new Exception(self::NON_NUMERIC_ASSET_ID . " in field " . $this->field);

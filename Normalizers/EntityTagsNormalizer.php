@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
+use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Exception;
@@ -32,16 +33,16 @@ class EntityTagsNormalizer implements AbstractEntityNormalizerInterface
     private $helper;
 
     /**
-     * @param TagHelper $helper
+     * @param Client $api
      * @param string $field
      * @param int $quantity
      * @throws Exception
      */
-    public function __construct(TagHelper $helper, string $field = "tags", int $quantity = PHP_INT_MAX)
+    public function __construct(Client $api, string $field = "tags", int $quantity = PHP_INT_MAX)
     {
         $this->field = $field;
         $this->quantity = $quantity;
-        $this->helper = $helper;
+        $this->helper = new TagHelper($api);
 
         $this->validate();
     }
@@ -84,7 +85,7 @@ class EntityTagsNormalizer implements AbstractEntityNormalizerInterface
 
         $normalizedTags = [];
         foreach ($entity[$this->field] as $tag) {
-            $tagId = empty($tag['id']) ? $tag : $tag['id'];
+            $tagId = empty($tag["id"]) ? $tag : $tag["id"];
             $tagId = (int)$tagId;
 
             $tagFromApi = $this->helper->get($tagId);

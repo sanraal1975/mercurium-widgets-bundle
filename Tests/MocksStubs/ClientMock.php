@@ -2,7 +2,6 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs;
 
-use Comitium5\ApiClientBundle\ApiClient\ResourcesTypes;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 
@@ -16,14 +15,6 @@ class ClientMock extends Client
      */
     public function find($resourceType, $id): array
     {
-//        if ($resourceType == ResourcesTypes::AUTHOR) {
-//            echo PHP_EOL;
-//            var_dump(__METHOD__);
-//            echo PHP_EOL;
-//            var_dump($id);
-//            echo PHP_EOL;
-//        }
-
         switch ($id) {
             case TestHelper::ENTITY_ID_TO_RETURN_EMPTY:
                 return [
@@ -60,12 +51,6 @@ class ClientMock extends Client
                     ]
                 ];
         }
-
-//        if ($resourceType == ResourcesTypes::AUTHOR) {
-//            echo PHP_EOL;
-//            var_dump("final return");
-//            echo PHP_EOL;
-//        }
 
         return [
             "statusCode" => 200,

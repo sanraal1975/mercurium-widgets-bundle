@@ -39,64 +39,64 @@ class RichSnippetPublisherTest extends TestCase
         return [
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    '',
+                    "",
+                    "",
                     [],
-                    '',
+                    "",
                     []
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => '',
+                    "name" => "",
+                    "url" => "",
                     "logo" => [],
                     "sameAs" => [],
                 ]
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    'Foo Bar',
-                    '',
+                    "Foo Bar",
+                    "",
                     [],
-                    '',
+                    "",
                     []
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => 'Foo Bar',
-                    "url" => '',
+                    "name" => "Foo Bar",
+                    "url" => "",
                     "logo" => [],
                     "sameAs" => [],
                 ]
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    'www.foo.bar',
+                    "",
+                    "www.foo.bar",
                     [],
-                    '',
+                    "",
                     []
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => 'www.foo.bar',
+                    "name" => "",
+                    "url" => "www.foo.bar",
                     "logo" => [],
                     "sameAs" => [],
                 ]
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    '',
+                    "",
+                    "",
                     ["url" => "www.foo.bar"],
-                    '',
+                    "",
                     []
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => '',
+                    "name" => "",
+                    "url" => "",
                     "logo" => [
                         "@type" => RichSnippetsConstants::TYPE_IMAGE,
                         "url" => "www.foo.bar",
@@ -108,74 +108,74 @@ class RichSnippetPublisherTest extends TestCase
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    '',
+                    "",
+                    "",
                     [],
-                    '',
+                    "",
                     []
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => '',
+                    "name" => "",
+                    "url" => "",
                     "logo" => [],
                     "sameAs" => [],
                 ]
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    '',
+                    "",
+                    "",
                     [],
-                    'facebook',
+                    "facebook",
                     []
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => '',
+                    "name" => "",
+                    "url" => "",
                     "logo" => [],
                     "sameAs" => [],
                 ]
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    '',
+                    "",
+                    "",
                     [],
-                    'twitter',
+                    "twitter",
                     ["facebook" => ["url" => "www.facebook.com"]]
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => '',
+                    "name" => "",
+                    "url" => "",
                     "logo" => [],
                     "sameAs" => [],
                 ]
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    '',
+                    "",
+                    "",
                     [],
-                    'facebook',
+                    "facebook",
                     ["facebook" => ["url" => "www.facebook.com"]]
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => '',
+                    "name" => "",
+                    "url" => "",
                     "logo" => [],
                     "sameAs" => ["www.facebook.com"],
                 ]
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    '',
+                    "",
+                    "",
                     [],
-                    'facebook,twitter',
+                    "facebook,twitter",
                     [
                         "facebook" => ["url" => "www.facebook.com"],
                         "twitter" => ["url" => "www.twitter.com"],
@@ -183,18 +183,18 @@ class RichSnippetPublisherTest extends TestCase
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => '',
+                    "name" => "",
+                    "url" => "",
                     "logo" => [],
                     "sameAs" => ["www.facebook.com", "www.twitter.com"],
                 ]
             ],
             [
                 "valueObject" => $factory->createRichSnippetPublisherValueObject(
-                    '',
-                    '',
+                    "",
+                    "",
                     [],
-                    'facebook,twitter,linkedin',
+                    "facebook,twitter,linkedin",
                     [
                         "facebook" => ["url" => "www.facebook.com"],
                         "twitter" => ["url" => "www.twitter.com"],
@@ -202,8 +202,8 @@ class RichSnippetPublisherTest extends TestCase
                 ),
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_ORGANIZATION,
-                    "name" => '',
-                    "url" => '',
+                    "name" => "",
+                    "url" => "",
                     "logo" => [],
                     "sameAs" => ["www.facebook.com", "www.twitter.com"],
                 ]

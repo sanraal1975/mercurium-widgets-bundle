@@ -105,8 +105,8 @@ class ApiResultsHelperTest extends TestCase
      */
     public function extractOneEmptyResults(): array
     {
-        // position = -1 won't be used in the test
-        // key = "" won't be used in the test
+        // position = -1 won"t be used in the test
+        // key = "" won"t be used in the test
 
         /*
          * 0 -> empty data
@@ -151,8 +151,8 @@ class ApiResultsHelperTest extends TestCase
      */
     public function extractOneResultsFound(): array
     {
-        // position = -1 won't be used in the test
-        // key = "" won't be used in the test
+        // position = -1 won"t be used in the test
+        // key = "" won"t be used in the test
 
         /*
          * 0 -> data with default key and content
@@ -185,7 +185,7 @@ class ApiResultsHelperTest extends TestCase
      */
     public function extractResultsEmptyResults(): array
     {
-        // key = "" won't be used in the test
+        // key = "" won"t be used in the test
 
         return [
             [
@@ -213,7 +213,7 @@ class ApiResultsHelperTest extends TestCase
      */
     public function extractResultsResultsFound(): array
     {
-        // key = "" won't be used in the test
+        // key = "" won"t be used in the test
 
         return [
             [

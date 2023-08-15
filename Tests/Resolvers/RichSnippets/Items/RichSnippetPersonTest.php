@@ -26,16 +26,16 @@ class RichSnippetPersonTest extends TestCase
      * @param array $data
      * @param $dataName
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = "")
     {
         parent::__construct($name, $data, $dataName);
 
         $factory = new RichSnippetsFactory();
         $this->richSnippetPublisherValueObject = $factory->createRichSnippetPublisherValueObject(
-            'Foo',
-            'www.foo.bar',
+            "Foo",
+            "www.foo.bar",
             [],
-            'facebook',
+            "facebook",
             []
         );
     }
@@ -66,215 +66,215 @@ class RichSnippetPersonTest extends TestCase
     {
         return [
             [
-                'entity' => [],
-                'expected' => []
+                "entity" => [],
+                "expected" => []
             ],
             [
-                'entity' => [
-                    'url' => 'www.foo.bar'
+                "entity" => [
+                    "url" => "www.foo.bar"
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ]
                 ]
             ],
             [
-                'entity' => [
-                    'fullName' => 'Foo Bar'
+                "entity" => [
+                    "fullName" => "Foo Bar"
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'name' => 'Foo Bar',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "name" => "Foo Bar",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ]
                 ]
             ],
             [
-                'entity' => [
-                    'name' => 'Foo Bar',
+                "entity" => [
+                    "name" => "Foo Bar",
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'givenName' => 'Foo Bar',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "givenName" => "Foo Bar",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ]
                 ]
             ],
             [
-                'entity' => [
-                    'surname' => 'Foo Bar',
+                "entity" => [
+                    "surname" => "Foo Bar",
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'familyName' => 'Foo Bar',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "familyName" => "Foo Bar",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ]
                 ]
             ],
             [
-                'entity' => [
-                    'profession' => 'Foo Bar',
+                "entity" => [
+                    "profession" => "Foo Bar",
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'jobTitle' => 'Foo Bar',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "jobTitle" => "Foo Bar",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ]
                 ]
             ],
             [
-                'entity' => [
-                    'tipologies' => ['Foo Bar'],
+                "entity" => [
+                    "tipologies" => ["Foo Bar"],
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ],
-                    'contactPoint' => [
-                        '@type' => RichSnippetsConstants::TYPE_CONTACT_POINT,
-                        'contactType' => 'Foo Bar'
+                    "contactPoint" => [
+                        "@type" => RichSnippetsConstants::TYPE_CONTACT_POINT,
+                        "contactType" => "Foo Bar"
                     ]
                 ]
             ],
             [
-                'entity' => [
-                    'permalink' => 'www.foo.bar',
-                    'tipologies' => ['Foo Bar'],
+                "entity" => [
+                    "permalink" => "www.foo.bar",
+                    "tipologies" => ["Foo Bar"],
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => 'www.foo.bar',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "www.foo.bar",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ],
-                    'contactPoint' => [
-                        '@type' => RichSnippetsConstants::TYPE_CONTACT_POINT,
-                        'contactType' => 'Foo Bar',
-                        'url' => 'www.foo.bar',
+                    "contactPoint" => [
+                        "@type" => RichSnippetsConstants::TYPE_CONTACT_POINT,
+                        "contactType" => "Foo Bar",
+                        "url" => "www.foo.bar",
                     ]
                 ]
             ],
             [
-                'entity' => [
-                    'permalink' => 'www.foo.bar',
-                    'email' => 'foo@bar.com',
-                    'tipologies' => ['Foo Bar'],
+                "entity" => [
+                    "permalink" => "www.foo.bar",
+                    "email" => "foo@bar.com",
+                    "tipologies" => ["Foo Bar"],
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => 'www.foo.bar',
-                    'email' => 'foo@bar.com',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "www.foo.bar",
+                    "email" => "foo@bar.com",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ],
-                    'contactPoint' => [
-                        '@type' => RichSnippetsConstants::TYPE_CONTACT_POINT,
-                        'contactType' => 'Foo Bar',
-                        'url' => 'www.foo.bar',
-                        'email' => 'foo@bar.com',
+                    "contactPoint" => [
+                        "@type" => RichSnippetsConstants::TYPE_CONTACT_POINT,
+                        "contactType" => "Foo Bar",
+                        "url" => "www.foo.bar",
+                        "email" => "foo@bar.com",
                     ]
                 ]
             ],
             [
-                'entity' => [
-                    'biography' => 'lorem ipsum',
+                "entity" => [
+                    "biography" => "lorem ipsum",
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'description' => 'lorem ipsum',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
-                    ],
-                ]
-            ],
-            [
-                'entity' => [
-                    'socialNetworks' => [["url" => "www.foo.bar"]],
-                ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'sameAs' => ["www.foo.bar"],
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "description" => "lorem ipsum",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ],
                 ]
             ],
             [
-                'entity' => [
-                    'asset' => [
-                        'url' => "www.foo.bar"
+                "entity" => [
+                    "socialNetworks" => [["url" => "www.foo.bar"]],
+                ],
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "sameAs" => ["www.foo.bar"],
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
+                    ],
+                ]
+            ],
+            [
+                "entity" => [
+                    "asset" => [
+                        "url" => "www.foo.bar"
                     ],
                 ],
-                'expected' => [
-                    '@type' => RichSnippetsConstants::TYPE_PERSON,
-                    'url' => '',
-                    'affiliation' => [
-                        '@type' => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
-                        'name' => 'Foo',
-                        'url' => 'www.foo.bar',
-                        'logo' => [],
-                        'sameAs' => []
+                "expected" => [
+                    "@type" => RichSnippetsConstants::TYPE_PERSON,
+                    "url" => "",
+                    "affiliation" => [
+                        "@type" => RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION,
+                        "name" => "Foo",
+                        "url" => "www.foo.bar",
+                        "logo" => [],
+                        "sameAs" => []
                     ],
-                    'image' => [
-                        '@type' => RichSnippetsConstants::TYPE_IMAGE,
-                        'url' => 'www.foo.bar',
-                        'width' => 0,
-                        'height' => 0,
+                    "image" => [
+                        "@type" => RichSnippetsConstants::TYPE_IMAGE,
+                        "url" => "www.foo.bar",
+                        "width" => 0,
+                        "height" => 0,
                     ],
                 ]
             ],

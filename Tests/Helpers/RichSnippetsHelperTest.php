@@ -57,7 +57,7 @@ class RichSnippetsHelperTest extends TestCase
 
         $result = $helper->wrap($data);
 
-        $expected = '<script type="application/ld+json">' . json_encode($data, JSON_UNESCAPED_SLASHES) . '</script>';
+        $expected = '<script type="application/ld+json">' . json_encode($data, JSON_UNESCAPED_SLASHES) . "</script>";
 
         $this->assertEquals($expected, $result);
     }

@@ -85,7 +85,7 @@ class EntityCategoriesNormalizer implements AbstractEntityNormalizerInterface
 
         $normalizedCategories = [];
         foreach ($entity[$this->field] as $category) {
-            $categoryId = empty($category['id']) ? $category : $category['id'];
+            $categoryId = empty($category["id"]) ? $category : $category["id"];
             $categoryId = (int)$categoryId;
 
             $categoryFromApi = $this->helper->get($categoryId);

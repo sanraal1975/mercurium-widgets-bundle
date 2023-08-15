@@ -43,69 +43,69 @@ class RichSnippetPerson
         $richSnippetPublisher = new RichSnippetPublisher($this->valueObject);
 
         $schema = [
-            '@type' => RichSnippetsConstants::TYPE_PERSON,
+            "@type" => RichSnippetsConstants::TYPE_PERSON,
             "url" => $richSnippetCanonical->getCanonical($entity),
         ];
 
-        if (!empty($entity['fullName'])) {
-            $schema["name"] = $entity['fullName'];
+        if (!empty($entity["fullName"])) {
+            $schema["name"] = $entity["fullName"];
         }
 
-        if (!empty($entity['name'])) {
-            $schema['givenName'] = $entity["name"];
+        if (!empty($entity["name"])) {
+            $schema["givenName"] = $entity["name"];
         }
 
-        if (!empty($entity['surname'])) {
-            $schema['familyName'] = $entity['surname'];
+        if (!empty($entity["surname"])) {
+            $schema["familyName"] = $entity["surname"];
         }
 
-        if (!empty($entity['profession'])) {
-            $schema['jobTitle'] = $entity['profession'];
+        if (!empty($entity["profession"])) {
+            $schema["jobTitle"] = $entity["profession"];
         }
 
         $organization = $richSnippetPublisher->getSchema();
-        $organization['@type'] = RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION;
+        $organization["@type"] = RichSnippetsConstants::TYPE_NEWS_MEDIA_ORGANIZATION;
 
-        $schema['affiliation'] = $organization;
+        $schema["affiliation"] = $organization;
 
-        if (!empty($entity['tipologies'])) {
-            $schema['contactPoint'] = [
-                '@type' => RichSnippetsConstants::TYPE_CONTACT_POINT,
-                'contactType' => implode(",", $entity['tipologies']),
+        if (!empty($entity["tipologies"])) {
+            $schema["contactPoint"] = [
+                "@type" => RichSnippetsConstants::TYPE_CONTACT_POINT,
+                "contactType" => implode(",", $entity["tipologies"]),
             ];
-            if (!empty($entity['permalink'])) {
-                $schema['contactPoint']["url"] = $entity['permalink'];
+            if (!empty($entity["permalink"])) {
+                $schema["contactPoint"]["url"] = $entity["permalink"];
             }
 
-            if (!empty($entity['email'])) {
-                $schema['contactPoint']['email'] = $entity['email'];
+            if (!empty($entity["email"])) {
+                $schema["contactPoint"]["email"] = $entity["email"];
             }
         }
 
-        if (!empty($entity['email'])) {
-            $schema['email'] = $entity['email'];
+        if (!empty($entity["email"])) {
+            $schema["email"] = $entity["email"];
         }
 
-        if (!empty($entity['biography'])) {
+        if (!empty($entity["biography"])) {
             $utilsHelper = new UtilsHelper();
-            $schema['description'] = $utilsHelper->cleanHtmlText($entity['biography']);
+            $schema["description"] = $utilsHelper->cleanHtmlText($entity["biography"]);
         }
 
-        if (!empty($entity['socialNetworks'])) {
+        if (!empty($entity["socialNetworks"])) {
             $sameAs = [];
-            foreach ($entity['socialNetworks'] as $socialNetwork) {
-                if (!empty($socialNetwork['url'])) {
-                    $sameAs[] = $socialNetwork['url'];
+            foreach ($entity["socialNetworks"] as $socialNetwork) {
+                if (!empty($socialNetwork["url"])) {
+                    $sameAs[] = $socialNetwork["url"];
                 }
             }
             if (!empty($sameAs)) {
-                $schema['sameAs'] = array_values($sameAs);
+                $schema["sameAs"] = array_values($sameAs);
             }
         }
 
-        if (!empty($entity['asset']['url'])) {
+        if (!empty($entity["asset"]["url"])) {
             $richSnippetImage = new RichSnippetImage($this->valueObject);
-            $schema['image'] = $richSnippetImage->getSchema($entity['asset']);
+            $schema["image"] = $richSnippetImage->getSchema($entity["asset"]);
         }
 
         return $schema;

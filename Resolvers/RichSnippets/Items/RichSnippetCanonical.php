@@ -20,12 +20,12 @@ class RichSnippetCanonical
             return "";
         }
 
-        if (!empty($entity['metadata']['canonical'])) {
-            return $entity['metadata']['canonical'];
+        if (!empty($entity["metadata"]["canonical"])) {
+            return $entity["metadata"]["canonical"];
         }
 
-        if (!empty($entity['permalink'])) {
-            return $entity['permalink'];
+        if (!empty($entity["permalink"])) {
+            return $entity["permalink"];
         }
 
         return "";

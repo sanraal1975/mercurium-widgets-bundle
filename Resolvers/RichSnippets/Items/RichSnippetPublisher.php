@@ -69,7 +69,7 @@ class RichSnippetPublisher
         $socialNetworksNames = explode(",", $socialNetworksNames);
 
         foreach ($socialNetworksNames as $socialNetwork) {
-            $socialNetworkUrl = $socialNetworksDefinitions[$socialNetwork]['url'] ?? "";
+            $socialNetworkUrl = $socialNetworksDefinitions[$socialNetwork]["url"] ?? "";
             if (empty($socialNetworkUrl)) {
                 continue;
             }

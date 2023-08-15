@@ -4,11 +4,9 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\TagApiService;
-use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\TagHelperMock;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services\TagApiServiceMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -26,22 +24,21 @@ class TagHelperTest extends TestCase
     private $testHelper;
 
     /**
-     * @var TagApiService
+     * @var ClientMock
      */
-    private $service;
+    private $api;
 
     /**
      * @param $name
      * @param array $data
      * @param $dataName
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = "")
     {
         parent::__construct($name, $data, $dataName);
         $this->testHelper = new TestHelper();
 
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
-        $this->service = $factory->createTagApiService();
+        $this->api = $this->testHelper->getApi();
     }
 
     /**
@@ -85,7 +82,7 @@ class TagHelperTest extends TestCase
      */
     public function testGetService()
     {
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $service = $helper->getService();
 
         $this->assertInstanceOf(TagApiService::class, $service);
@@ -99,7 +96,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->get();
     }
 
@@ -113,7 +110,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->get($parameter);
     }
 
@@ -140,7 +137,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectExceptionMessage(TagHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->get($this->testHelper->getZeroOrNegativeValue());
     }
 
@@ -152,7 +149,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIds();
     }
 
@@ -164,7 +161,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIds(null);
     }
 
@@ -178,7 +175,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectExceptionMessage(TagHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIds($parameter);
     }
 
@@ -208,7 +205,7 @@ class TagHelperTest extends TestCase
      */
     public function testGetByIdsReturnEmpty()
     {
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIds("");
 
         $this->assertEquals([], $result);
@@ -237,7 +234,7 @@ class TagHelperTest extends TestCase
      */
     public function testGetByIdsReturnEntities($entitiesIds, $expected)
     {
-        $helper = new TagHelperMock($this->service);
+        $helper = new TagHelper($this->api);
 
         $result = $helper->getByIds($entitiesIds);
 
@@ -283,7 +280,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIdsAndQuantity();
     }
 
@@ -300,7 +297,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
     }
 
@@ -336,7 +333,7 @@ class TagHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEmpty($entitiesIds, $quantity)
     {
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
         $this->assertEquals([], $result);
@@ -367,7 +364,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectExceptionMessage(TagHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIdsAndQuantity($this->testHelper->getPositiveValueAsString(), $this->testHelper->getZeroOrNegativeValue());
     }
 
@@ -381,7 +378,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectExceptionMessage(TagHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
@@ -414,7 +411,7 @@ class TagHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEntities($entitiesIds, $quantity, $expected)
     {
-        $helper = new TagHelperMock($this->service);
+        $helper = new TagHelper($this->api);
 
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
@@ -519,7 +516,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getBy();
     }
 
@@ -533,7 +530,7 @@ class TagHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new TagHelper($this->service);
+        $helper = new TagHelper($this->api);
         $result = $helper->getBy($parameters);
     }
 
@@ -558,8 +555,7 @@ class TagHelperTest extends TestCase
      */
     public function testGetBy()
     {
-        $service = new TagApiServiceMock($this->testHelper->getApi());
-        $helper = new TagHelper($service);
+        $helper = new TagHelper($this->api);
 
         $result = $helper->getBy(
             [
@@ -588,13 +584,15 @@ class TagHelperTest extends TestCase
      */
     public function testGetLastPublishedReturnsEntity()
     {
-        $helper = new TagHelperMock($this->service);
+        $helper = new TagHelper($this->api);
 
         $result = $helper->getLastPublished();
 
-        $expected = ["id" => 1];
+        $expected = [
+            "id" => 1,
+            "searchable" => true
+        ];
 
         $this->assertEquals($expected, $result);
     }
-
 }

@@ -82,7 +82,7 @@ class AuthorHelper extends AbstractEntityHelper
                 continue;
             }
 
-            if (empty($entity['searchable'])) {
+            if (empty($entity["searchable"])) {
                 continue;
             }
 
@@ -123,7 +123,7 @@ class AuthorHelper extends AbstractEntityHelper
                 continue;
             }
 
-            if (empty($entity['searchable'])) {
+            if (empty($entity["searchable"])) {
                 continue;
             }
 

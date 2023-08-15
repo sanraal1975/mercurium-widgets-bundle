@@ -87,7 +87,7 @@ class ArticleHelper extends AbstractEntityHelper
                 continue;
             }
 
-            if (empty($entity['searchable'])) {
+            if (empty($entity["searchable"])) {
                 continue;
             }
 
@@ -128,7 +128,7 @@ class ArticleHelper extends AbstractEntityHelper
                 continue;
             }
 
-            if (empty($entity['searchable'])) {
+            if (empty($entity["searchable"])) {
                 continue;
             }
 
@@ -202,6 +202,6 @@ class ArticleHelper extends AbstractEntityHelper
      */
     public function hasSubscriptions(array $article): bool
     {
-        return !empty($article['subscriptions']);
+        return !empty($article["subscriptions"]);
     }
 }
