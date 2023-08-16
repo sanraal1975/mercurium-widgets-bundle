@@ -9,7 +9,6 @@ use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityTagsNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
-use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Helpers\TagHelperMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
