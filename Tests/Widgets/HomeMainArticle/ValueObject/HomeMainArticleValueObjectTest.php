@@ -3,9 +3,12 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\HomeMainArticle\ValueObject;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
 use Comitium5\MercuriumWidgetsBundle\Widgets\HomeMainArticle\ValueObject\HomeMainArticleValueObject;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
@@ -22,6 +25,11 @@ class HomeMainArticleValueObjectTest extends TestCase
     private $api;
 
     /**
+     * @var TestHelper
+     */
+    private $testHelper;
+
+    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -31,6 +39,7 @@ class HomeMainArticleValueObjectTest extends TestCase
         parent::__construct($name, $data, $dataName);
 
         $testHelper = new TestHelper();
+        $this->testHelper = $testHelper;
         $this->api = $testHelper->getApi();
     }
 
@@ -49,11 +58,11 @@ class HomeMainArticleValueObjectTest extends TestCase
      *
      * @return void
      */
-    public function testConstructThrowsTypeErrorException($api, $articlesIds)
+    public function testConstructThrowsTypeErrorException($api, $articlesIds, $normalizer)
     {
         $this->expectException(TypeError::class);
 
-        $valueObject = new HomeMainArticleValueObject($api, $articlesIds);
+        $valueObject = new HomeMainArticleValueObject($api, $articlesIds, $normalizer);
     }
 
     /**
@@ -65,22 +74,37 @@ class HomeMainArticleValueObjectTest extends TestCase
             [
                 "api" => null,
                 "articlesIds" => null,
+                "normalizer" => null
             ],
             [
                 "api" => $this->api,
                 "articlesIds" => null,
+                "normalizer" => null
+            ],
+            [
+                "api" => $this->api,
+                "articlesIds" => $this->testHelper->getPositiveValueAsString(),
+                "normalizer" => null
             ],
         ];
     }
 
     /**
      * @return void
+     * @throws Exception
      */
     public function testConstruct()
     {
-        $valueObject = new HomeMainArticleValueObject($this->api, "");
+        $normalizer = new EntityNormalizer([new NormalizerMock()]);
 
-        $this->assertEquals($this->api,$valueObject->getApi());
-        $this->assertEquals("",$valueObject->getArticlesIds());
+        $valueObject = new HomeMainArticleValueObject(
+            $this->api,
+            "",
+            $normalizer
+        );
+
+        $this->assertEquals($this->api, $valueObject->getApi());
+        $this->assertEquals("", $valueObject->getArticlesIds());
+        $this->assertEquals($normalizer, $valueObject->getNormalizer());
     }
 }

@@ -4,8 +4,10 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\HomeMainArticle\Helper;
 
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
 use Comitium5\MercuriumWidgetsBundle\Widgets\HomeMainArticle\Helper\HomeMainArticleHelper;
 use Comitium5\MercuriumWidgetsBundle\Widgets\HomeMainArticle\ValueObject\HomeMainArticleValueObject;
 use Exception;
@@ -79,7 +81,8 @@ class HomeMainArticleHelperTest extends TestCase
         $articles = $helper->getArticles(
             new HomeMainArticleValueObject(
                 $this->api,
-                $this->testHelper->getZeroOrNegativeValueAsString()
+                $this->testHelper->getZeroOrNegativeValueAsString(),
+                new EntityNormalizer([new NormalizerMock()])
             )
         );
     }
@@ -100,35 +103,42 @@ class HomeMainArticleHelperTest extends TestCase
 
     /**
      * @return array[]
+     * @throws Exception
      */
     public function getArticlesReturnValue(): array
     {
+        $normalizer = new EntityNormalizer([new NormalizerMock()]);
+
         return [
             [
                 "valueObject" => new HomeMainArticleValueObject(
                     $this->api,
-                    ""
+                    "",
+                    $normalizer
                 ),
                 "expected" => []
             ],
             [
                 "valueObject" => new HomeMainArticleValueObject(
                     $this->api,
-                    $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY
+                    $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
+                    $normalizer
                 ),
                 "expected" => []
             ],
             [
                 "valueObject" => new HomeMainArticleValueObject(
                     $this->api,
-                    $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE
+                    $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
+                    $normalizer
                 ),
                 "expected" => []
             ],
             [
                 "valueObject" => new HomeMainArticleValueObject(
                     $this->api,
-                    "1"
+                    "1",
+                    $normalizer
                 ),
                 "expected" => [
                     [
@@ -140,7 +150,8 @@ class HomeMainArticleHelperTest extends TestCase
             [
                 "valueObject" => new HomeMainArticleValueObject(
                     $this->api,
-                    "1,".$this->testHelper::ENTITY_ID_TO_RETURN_EMPTY
+                    "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
+                    $normalizer
                 ),
                 "expected" => [
                     [
@@ -152,7 +163,8 @@ class HomeMainArticleHelperTest extends TestCase
             [
                 "valueObject" => new HomeMainArticleValueObject(
                     $this->api,
-                    "1,".$this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE
+                    "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
+                    $normalizer
                 ),
                 "expected" => [
                     [
@@ -164,7 +176,8 @@ class HomeMainArticleHelperTest extends TestCase
             [
                 "valueObject" => new HomeMainArticleValueObject(
                     $this->api,
-                    "1,2"
+                    "1,2",
+                    $normalizer
                 ),
                 "expected" => [
                     [

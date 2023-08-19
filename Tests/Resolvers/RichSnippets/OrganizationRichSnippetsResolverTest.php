@@ -20,26 +20,22 @@ class OrganizationRichSnippetsResolverTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testResolveThrowsArgumentCountErrorException()
+    public function testConstructThrowsArgumentCountErrorException()
     {
         $this->expectException(ArgumentCountError::class);
 
         $richSnippet = new OrganizationRichSnippetsResolver();
-
-        $result = $richSnippet->resolve();
     }
 
     /**
      * @return void
      * @throws Exception
      */
-    public function testResolveThrowsTypeErrorException()
+    public function testConstructThrowsTypeErrorException()
     {
         $this->expectException(TypeError::class);
 
-        $richSnippet = new OrganizationRichSnippetsResolver();
-
-        $result = $richSnippet->resolve(null);
+        $richSnippet = new OrganizationRichSnippetsResolver(null);
     }
 
     /**
@@ -53,9 +49,9 @@ class OrganizationRichSnippetsResolverTest extends TestCase
      */
     public function testResolveReturnsValue($valueObject, $expected)
     {
-        $richSnippet = new OrganizationRichSnippetsResolver();
+        $richSnippet = new OrganizationRichSnippetsResolver($valueObject);
 
-        $result = $richSnippet->resolve($valueObject);
+        $result = $richSnippet->resolve();
 
         $this->assertEquals($expected, $result);
     }

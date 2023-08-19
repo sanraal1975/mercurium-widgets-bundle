@@ -16,16 +16,29 @@ use Exception;
 class OrganizationRichSnippetsResolver
 {
     /**
+     * @var RichSnippetPublisherValueObject
+     */
+    private $valueObject;
+
+    /**
      * @param RichSnippetPublisherValueObject $richSnippetPublisherValueObject
      *
+     * @return void
+     */
+    public function __construct(RichSnippetPublisherValueObject $richSnippetPublisherValueObject)
+    {
+        $this->valueObject = $richSnippetPublisherValueObject;
+    }
+
+    /**
      * @return string
      * @throws Exception
      */
-    public function resolve(RichSnippetPublisherValueObject $richSnippetPublisherValueObject): string
+    public function resolve(): string
     {
         $helper = new RichSnippetsHelper();
 
-        $richSnippetPublisher = new RichSnippetPublisher($richSnippetPublisherValueObject);
+        $richSnippetPublisher = new RichSnippetPublisher($this->valueObject);
         $schema = $richSnippetPublisher->getSchema();
         $schema = array_merge(["@context" => RichSnippetsConstants::CONTEXT], $schema);
 

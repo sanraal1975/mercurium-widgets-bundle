@@ -11,6 +11,24 @@ class EntityHelper
 {
     /**
      * @param array $entity
+     *
+     * @return bool
+     */
+    public function isValid(array $entity): bool
+    {
+        if (empty($entity)) {
+            return false;
+        }
+
+        if (empty($entity['searchable'])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param array $entity
      * @param int $categoryId
      *
      * @return bool
