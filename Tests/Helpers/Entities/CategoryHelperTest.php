@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -251,22 +252,22 @@ class CategoryHelperTest extends TestCase
             [
                 "entitiesIds" => "1",
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ]
         ];
@@ -383,24 +384,24 @@ class CategoryHelperTest extends TestCase
                 "entitiesIds" => "1",
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
@@ -408,12 +409,12 @@ class CategoryHelperTest extends TestCase
                 "quantity" => PHP_INT_MAX,
                 "expected" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        "id" => 2,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 2,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -422,12 +423,12 @@ class CategoryHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        "id" => 2,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 2,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -436,12 +437,12 @@ class CategoryHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        "id" => 3,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 3,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -450,12 +451,12 @@ class CategoryHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        "id" => 3,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 3,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -483,8 +484,8 @@ class CategoryHelperTest extends TestCase
             "page" => 1,
             "results" => [
                 [
-                    "id" => 1,
-                    "searchable" => 1
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => 1
                 ]
             ]
         ];
@@ -591,8 +592,8 @@ class CategoryHelperTest extends TestCase
         $result = $helper->getLastPublished();
 
         $expected = [
-            "id" => 1,
-            "searchable" => true
+            BundleConstants::ID_FIELD_KEY => 1,
+            BundleConstants::SEARCHABLE_FIELD_KEY => true
         ];
 
         $this->assertEquals($expected, $result);
@@ -668,7 +669,7 @@ class CategoryHelperTest extends TestCase
                 "category" => ["children" => []]
             ],
             [
-                "category" => ["id" => $this->testHelper->getPositiveValue()]
+                "category" => [BundleConstants::ID_FIELD_KEY => $this->testHelper->getPositiveValue()]
             ],
         ];
     }
@@ -701,7 +702,7 @@ class CategoryHelperTest extends TestCase
                 "expected" => ["children" => []]
             ],
             [
-                "category" => ["children" => [0 => ["id" => ""]]],
+                "category" => ["children" => [0 => [BundleConstants::ID_FIELD_KEY => ""]]],
                 "expected" => ["children" => []]
             ],
             [
@@ -723,7 +724,7 @@ class CategoryHelperTest extends TestCase
             [
                 "children" => [
                     [
-                        "id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY
+                        BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY
                     ]
                 ]
             ]
@@ -746,7 +747,7 @@ class CategoryHelperTest extends TestCase
             [
                 "children" => [
                     [
-                        "id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE
+                        BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE
                     ]
                 ]
             ]
@@ -769,13 +770,13 @@ class CategoryHelperTest extends TestCase
             [
                 "children" => [
                     [
-                        "id" => 1
+                        BundleConstants::ID_FIELD_KEY => 1
                     ]
                 ]
             ]
         );
 
-        $expected = ["children" => [["id" => 1, "searchable" => true]]];
+        $expected = ["children" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]];
 
         $this->assertEquals($expected, $result);
     }
@@ -792,13 +793,13 @@ class CategoryHelperTest extends TestCase
             [
                 "children" => [
                     [
-                        "id" => $this->testHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN
+                        BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN
                     ]
                 ]
             ]
         );
 
-        $expected = ["children" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN, "searchable" => true, "children" => [["id" => 1, "searchable" => true]]]]];
+        $expected = ["children" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN, BundleConstants::SEARCHABLE_FIELD_KEY => true, "children" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]]]];
 
         $this->assertEquals($expected, $result);
     }
@@ -898,15 +899,15 @@ class CategoryHelperTest extends TestCase
     {
         return [
             [
-                "category" => ["id" => 1],
+                "category" => [BundleConstants::ID_FIELD_KEY => 1],
                 "expected" => [1]
             ],
             [
-                "category" => ["id" => 1, "children" => []],
+                "category" => [BundleConstants::ID_FIELD_KEY => 1, "children" => []],
                 "expected" => [1]
             ],
             [
-                "category" => ["id" => 1, "children" => [["id" => 2]]],
+                "category" => [BundleConstants::ID_FIELD_KEY => 1, "children" => [[BundleConstants::ID_FIELD_KEY => 2]]],
                 "expected" => [1, 2]
             ]
         ];
@@ -1055,8 +1056,8 @@ class CategoryHelperTest extends TestCase
             "page" => 1,
             "results" => [
                 [
-                    "id" => 1,
-                    "searchable" => 1
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => 1
                 ]
             ]
         ];

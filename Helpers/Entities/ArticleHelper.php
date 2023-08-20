@@ -8,6 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
@@ -186,7 +187,7 @@ class ArticleHelper extends AbstractEntityHelper
             [
                 "limit" => 1,
                 "sort" => "publishedAt desc",
-                "type" => $typeId
+                BundleConstants::TYPE_FIELD_KEY => $typeId
             ]
         );
 

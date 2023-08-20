@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 
@@ -21,7 +22,7 @@ class VideoHelper extends AssetHelper
         $options = [
             "limit" => 1,
             "sort" => "publishedAt desc",
-            "type" => "video",
+            BundleConstants::TYPE_FIELD_KEY => "video",
         ];
 
         $image = $this->getBy(

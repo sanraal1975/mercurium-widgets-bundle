@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\CategoryHelper;
 use Exception;
 
@@ -85,7 +86,7 @@ class EntityCategoriesNormalizer implements AbstractEntityNormalizerInterface
 
         $normalizedCategories = [];
         foreach ($entity[$this->field] as $category) {
-            $categoryId = empty($category["id"]) ? $category : $category["id"];
+            $categoryId = empty($category[BundleConstants::ID_FIELD_KEY]) ? $category : $category[BundleConstants::ID_FIELD_KEY];
             $categoryId = (int)$categoryId;
 
             $categoryFromApi = $this->helper->get($categoryId);

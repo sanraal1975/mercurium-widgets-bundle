@@ -2,6 +2,8 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+
 /**
  * Class EntityHelper
  *
@@ -20,7 +22,7 @@ class EntityHelper
             return false;
         }
 
-        if (empty($entity['searchable'])) {
+        if (empty($entity[BundleConstants::SEARCHABLE_FIELD_KEY])) {
             return false;
         }
 
@@ -44,7 +46,7 @@ class EntityHelper
         }
 
         foreach ($entity["categories"] as $category) {
-            if ($category["id"] == $categoryId) {
+            if ($category[BundleConstants::ID_FIELD_KEY] == $categoryId) {
                 return true;
             }
         }

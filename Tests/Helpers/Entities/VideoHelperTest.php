@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\VideoHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
@@ -40,7 +41,7 @@ class VideoHelperTest  extends TestCase
         $helper = new VideoHelper($this->testHelper->getApi());
 
         $result = $helper->getLast();
-        $expected = ["id" => 1, "searchable" => true];
+        $expected = [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true];
 
         $this->assertEquals($expected, $result);
     }

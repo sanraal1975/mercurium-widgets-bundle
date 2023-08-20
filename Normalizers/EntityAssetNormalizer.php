@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Exception;
 
@@ -68,7 +69,11 @@ class EntityAssetNormalizer implements AbstractEntityNormalizerInterface
             return $entity;
         }
 
-        $assetId = empty($entity[$this->field]["id"]) ? $entity[$this->field] : $entity[$this->field]["id"];
+        $assetId = $entity[$this->field];
+        if (!empty($entity[$this->field][BundleConstants::ID_FIELD_KEY])) {
+            $assetId = $entity[$this->field][BundleConstants::ID_FIELD_KEY];
+
+        }
 
         if (!is_numeric($assetId)) {
             throw new Exception(self::NON_NUMERIC_ASSET_ID . " in field " . $this->field);

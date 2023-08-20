@@ -8,6 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
@@ -80,18 +81,17 @@ class CategoryHelper extends AbstractEntityHelper
             return [];
         }
 
+        $helper = new EntityHelper();
+
         $entitiesIdsAsArray = explode(",", $entitiesIds);
         $entities = [];
+
         foreach ($entitiesIdsAsArray as $entityId) {
             $entityId = (int)$entityId;
 
             $entity = $this->get($entityId);
 
-            if (empty($entity)) {
-                continue;
-            }
-
-            if (empty($entity["searchable"])) {
+            if (!$helper->isValid($entity)) {
                 continue;
             }
 
@@ -122,17 +122,16 @@ class CategoryHelper extends AbstractEntityHelper
             return [];
         }
 
+        $helper = new EntityHelper();
+
         $entitiesIdsAsArray = explode(",", $entitiesIds);
         $entities = [];
+
         foreach ($entitiesIdsAsArray as $entityId) {
             $entityId = (int)$entityId;
             $entity = $this->get($entityId);
 
-            if (empty($entity)) {
-                continue;
-            }
-
-            if (empty($entity["searchable"])) {
+            if (!$helper->isValid($entity)) {
                 continue;
             }
 
@@ -197,19 +196,19 @@ class CategoryHelper extends AbstractEntityHelper
                 continue;
             }
 
-            if (empty($child["id"])) {
+            if (empty($child[BundleConstants::ID_FIELD_KEY])) {
                 unset ($category["children"][$key]);
                 continue;
             }
 
-            $child = $this->get($child["id"]);
+            $child = $this->get($child[BundleConstants::ID_FIELD_KEY]);
 
             if (empty($child)) {
                 unset($category["children"][$key]);
                 continue;
             }
 
-            if (empty($child["searchable"])) {
+            if (empty($child[BundleConstants::SEARCHABLE_FIELD_KEY])) {
                 unset($category["children"][$key]);
                 continue;
             }
@@ -236,15 +235,15 @@ class CategoryHelper extends AbstractEntityHelper
             return [];
         }
 
-        if (empty($category["id"])) {
+        if (empty($category[BundleConstants::ID_FIELD_KEY])) {
             return [];
         }
 
         if (empty($category["children"])) {
-            return [$category["id"]];
+            return [$category[BundleConstants::ID_FIELD_KEY]];
         }
 
-        $categoriesIds[] = $category["id"];
+        $categoriesIds[] = $category[BundleConstants::ID_FIELD_KEY];
         foreach ($category["children"] as $child) {
             $categoriesIds = array_merge($categoriesIds, $this->getCategoryIdAndChildrenIds($child));
         }

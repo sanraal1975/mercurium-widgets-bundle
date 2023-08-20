@@ -3,8 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 
 use ArgumentCountError;
-use Comitium5\ApiClientBundle\Client\Services\TagApiService;
-use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityTagsNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -26,11 +25,6 @@ class EntityTagsNormalizerTest extends TestCase
     private $testHelper;
 
     /**
-     * @var TagApiService
-     */
-    private $service;
-    
-    /**
      * @var ClientMock
      */
     private $api;
@@ -44,9 +38,6 @@ class EntityTagsNormalizerTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->testHelper = new TestHelper();
-
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
-        $this->service = $factory->createTagApiService();
 
         $this->api = $this->testHelper->getApi();
     }
@@ -184,12 +175,12 @@ class EntityTagsNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => ["id" => 1],
-                "expected" => ["id" => 1],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1],
             ],
             [
-                "entity" => ["id" => 1, "tags" => null],
-                "expected" => ["id" => 1, "tags" => null],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => null],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => null],
             ],
         ];
     }
@@ -201,9 +192,9 @@ class EntityTagsNormalizerTest extends TestCase
     public function testNormalizeReturnsEntityWithFieldEmptied()
     {
         $normalizer = new EntityTagsNormalizer($this->api, "tags", 0);
-        $result = $normalizer->normalize(["id" => 1, "tags" => [["id" => 2]]]);
+        $result = $normalizer->normalize([BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 2]]]);
 
-        $expected = ["id" => 1, "tags" => []];
+        $expected = [BundleConstants::ID_FIELD_KEY => 1, "tags" => []];
 
         $this->assertEquals($expected, $result);
     }
@@ -219,7 +210,7 @@ class EntityTagsNormalizerTest extends TestCase
         $normalizer = new EntityTagsNormalizer($this->api, "tags", 1);
         $categoryId = $this->testHelper->getZeroOrNegativeValue();
 
-        $normalizer->normalize(["id" => 1, "tags" => [["id" => $categoryId]]]);
+        $normalizer->normalize([BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $categoryId]]]);
     }
 
     /**
@@ -243,28 +234,28 @@ class EntityTagsNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => ["id" => 1, "tags" => [["id" => 1]]],
-                "expected" => ["id" => 1, "tags" => [["id" => 1, "searchable" => true]]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => ["id" => 1, "tags" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]]],
-                "expected" => ["id" => 1, "tags" => []],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => []],
                 "quantity" => 1
             ],
             [
-                "entity" => ["id" => 1, "tags" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], ["id" => 1]]],
-                "expected" => ["id" => 1, "tags" => [["id" => 1, "searchable" => true]]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => ["id" => 1, "tags" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], ["id" => 1], ["id" => 2]]],
-                "expected" => ["id" => 1, "tags" => [["id" => 1, "searchable" => true]]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1], [BundleConstants::ID_FIELD_KEY => 2]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => ["id" => 1, "tags" => [["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], ["id" => 1], ["id" => 2]]],
-                "expected" => ["id" => 1, "tags" => [["id" => 1, "searchable" => true], ["id" => 2, "searchable" => true]]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1], [BundleConstants::ID_FIELD_KEY => 2]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true], [BundleConstants::ID_FIELD_KEY => 2, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 2
             ]
         ];

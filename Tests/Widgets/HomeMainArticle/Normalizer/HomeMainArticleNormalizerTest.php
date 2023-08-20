@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\HomeMainArticle\Normalizer;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -19,11 +20,6 @@ use TypeError;
  */
 class HomeMainArticleNormalizerTest extends TestCase
 {
-    /**
-     * @var ClientMock
-     */
-    private $api;
-
     /**
      * @var TestHelper
      */
@@ -46,7 +42,6 @@ class HomeMainArticleNormalizerTest extends TestCase
 
         $testHelper = new TestHelper();
         $this->testHelper = $testHelper;
-        $this->api = $testHelper->getApi();
         $this->valueObject = new HomeMainArticleValueObject(
             $testHelper->getApi(),
             "1",
@@ -129,15 +124,15 @@ class HomeMainArticleNormalizerTest extends TestCase
                 "expected" => []
             ],
             [
-                "entities" => [0 => ["id" => 1, "searchable" => true]],
-                "expected" => [0 => ["id" => 1, "searchable" => true]],
+                "entities" => [0 => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]],
+                "expected" => [0 => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]],
             ],
             [
-                "entities" => [0 => ["id" => 1, "searchable" => false]],
+                "entities" => [0 => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => false]],
                 "expected" => [],
             ],
             [
-                "entities" => [0 => ["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY, "searchable" => true]],
+                "entities" => [0 => [BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY, BundleConstants::SEARCHABLE_FIELD_KEY => true]],
                 "expected" => [],
             ],
         ];

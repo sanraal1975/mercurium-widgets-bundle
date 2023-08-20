@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropsValueObject;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
@@ -23,7 +24,7 @@ class ImageHelper extends AssetHelper
         $options = [
             "limit" => 1,
             "sort" => "publishedAt desc",
-            "type" => "image",
+            BundleConstants::TYPE_FIELD_KEY => "image",
         ];
 
         $image = $this->getBy(

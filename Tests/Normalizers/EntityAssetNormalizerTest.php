@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -192,16 +193,16 @@ class EntityAssetNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => [TestHelper::IMAGE_FIELD_KEY => ["id" => "a"]]
+                "entity" => [TestHelper::IMAGE_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => "a"]]
             ],
             [
-                "entity" => [TestHelper::IMAGE_FIELD_KEY => ["id" => null]]
+                "entity" => [TestHelper::IMAGE_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => null]]
             ],
             [
-                "entity" => [TestHelper::IMAGE_FIELD_KEY => ["id" => []]]
+                "entity" => [TestHelper::IMAGE_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => []]]
             ],
             [
-                "entity" => [TestHelper::IMAGE_FIELD_KEY => "id"]
+                "entity" => [TestHelper::IMAGE_FIELD_KEY => BundleConstants::ID_FIELD_KEY]
             ],
             [
                 "entity" => [TestHelper::IMAGE_FIELD_KEY => ["title"]]
@@ -217,7 +218,7 @@ class EntityAssetNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $entity = [TestHelper::IMAGE_FIELD_KEY => ["id" => $this->testHelper->getZeroOrNegativeValue()]];
+        $entity = [TestHelper::IMAGE_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => $this->testHelper->getZeroOrNegativeValue()]];
 
         $normalizer = new EntityAssetNormalizer($this->api, TestHelper::IMAGE_FIELD_KEY);
         $normalizer->normalize($entity);
@@ -244,12 +245,12 @@ class EntityAssetNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => ["id" => 1, TestHelper::IMAGE_FIELD_KEY => ["id" => 1]],
-                "expected" => ["id" => 1, TestHelper::IMAGE_FIELD_KEY => ["id" => 1, "searchable" => true]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, TestHelper::IMAGE_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => 1]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, TestHelper::IMAGE_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]],
             ],
             [
-                "entity" => ["id" => 1, TestHelper::IMAGE_FIELD_KEY => ["id" => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]],
-                "expected" => ["id" => 1, TestHelper::IMAGE_FIELD_KEY => []],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, TestHelper::IMAGE_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, TestHelper::IMAGE_FIELD_KEY => []],
             ],
         ];
     }

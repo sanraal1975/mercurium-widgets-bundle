@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Resolvers\RichSnippets\Items;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Resolvers\RichSnippets\Items\RichSnippetTitle;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -59,11 +60,11 @@ class RichSnippetTitleTest extends TestCase
     {
         return [
             [
-                "entity" => ["id" => 1],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
                 "expected" => ""
             ],
             [
-                "entity" => ["id" => 1, "title" => " "],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "title" => " "],
                 "expected" => ""
             ],
         ];

@@ -74,18 +74,17 @@ class TagHelper extends AbstractEntityHelper
             return [];
         }
 
+        $helper = new EntityHelper();
+
         $entitiesIdsAsArray = explode(",", $entitiesIds);
         $entities = [];
+
         foreach ($entitiesIdsAsArray as $entityId) {
             $entityId = (int)$entityId;
 
             $entity = $this->get($entityId);
 
-            if (empty($entity)) {
-                continue;
-            }
-
-            if (empty($entity["searchable"])) {
+            if (!$helper->isValid($entity)) {
                 continue;
             }
 
@@ -116,17 +115,16 @@ class TagHelper extends AbstractEntityHelper
             return [];
         }
 
+        $helper = new EntityHelper();
+
         $entitiesIdsAsArray = explode(",", $entitiesIds);
         $entities = [];
+
         foreach ($entitiesIdsAsArray as $entityId) {
             $entityId = (int)$entityId;
             $entity = $this->get($entityId);
 
-            if (empty($entity)) {
-                continue;
-            }
-
-            if (empty($entity["searchable"])) {
+            if (!$helper->isValid($entity)) {
                 continue;
             }
 

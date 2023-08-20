@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs;
 
 use Comitium5\ApiClientBundle\Client\Client;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 
 class ClientMock extends Client
@@ -27,7 +28,7 @@ class ClientMock extends Client
                     "data" => [
                         "results" => [
                             [
-                                "id" => $id,
+                                BundleConstants::ID_FIELD_KEY => $id,
                             ]
                         ]
                     ],
@@ -38,12 +39,12 @@ class ClientMock extends Client
                     "data" => [
                         "results" => [
                             [
-                                "id" => $id,
-                                "searchable" => true,
+                                BundleConstants::ID_FIELD_KEY => $id,
+                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
                                 "children" => [
                                     [
-                                        "id" => 1,
-                                        "searchable" => true,
+                                        BundleConstants::ID_FIELD_KEY => 1,
+                                        BundleConstants::SEARCHABLE_FIELD_KEY => true,
                                     ]
                                 ],
                             ]
@@ -57,8 +58,8 @@ class ClientMock extends Client
             "data" => [
                 "results" => [
                     [
-                        "id" => $id,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => $id,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -82,8 +83,8 @@ class ClientMock extends Client
                 "page" => 1,
                 "results" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],

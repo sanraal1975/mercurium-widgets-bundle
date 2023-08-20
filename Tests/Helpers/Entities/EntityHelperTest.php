@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -47,15 +48,15 @@ class EntityHelperTest extends TestCase
                 "categoryId" => 0
             ],
             [
-                "article" => ["id" => []],
+                "article" => [BundleConstants::ID_FIELD_KEY => []],
                 "categoryId" => 0
             ],
             [
-                "article" => ['categories' => [0 => ["id" => 2]]],
+                "article" => ['categories' => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
                 "categoryId" => 0
             ],
             [
-                "article" => ['categories' => [0 => ["id" => 2]]],
+                "article" => ['categories' => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
                 "categoryId" => 3
             ]
         ];
@@ -87,7 +88,7 @@ class EntityHelperTest extends TestCase
     {
         return [
             [
-                "article" => ['categories' => [0 => ["id" => 2]]],
+                "article" => ['categories' => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
                 "categoryId" => 2
             ]
         ];
@@ -186,23 +187,23 @@ class EntityHelperTest extends TestCase
                 "charactersPerMinute" => 2
             ],
             [
-                "entity" => ["id" => 1],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
                 "field" => "",
                 "charactersPerMinute" => 2
             ],
             [
-                "entity" => ["id" => 1],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
                 "field" => "body",
                 "charactersPerMinute" => 2
             ],
             [
-                "entity" => ["id" => 1],
-                "field" => "id",
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
+                "field" => BundleConstants::ID_FIELD_KEY,
                 "charactersPerMinute" => 0
             ],
             [
-                "entity" => ["id" => 1],
-                "field" => "id",
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
+                "field" => BundleConstants::ID_FIELD_KEY,
                 "charactersPerMinute" => -1
             ],
         ];

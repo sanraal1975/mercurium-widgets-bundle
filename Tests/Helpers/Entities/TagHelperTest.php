@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\TagApiService;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -251,22 +252,22 @@ class TagHelperTest extends TestCase
             [
                 "entitiesIds" => "1",
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ]
         ];
@@ -429,24 +430,24 @@ class TagHelperTest extends TestCase
                 "entitiesIds" => "1",
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    "id" => 1,
-                    "searchable" => true
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
@@ -454,12 +455,12 @@ class TagHelperTest extends TestCase
                 "quantity" => PHP_INT_MAX,
                 "expected" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        "id" => 2,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 2,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -468,12 +469,12 @@ class TagHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        "id" => 2,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 2,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -482,12 +483,12 @@ class TagHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        "id" => 3,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 3,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -496,12 +497,12 @@ class TagHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        "id" => 1,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 1,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        "id" => 3,
-                        "searchable" => true
+                        BundleConstants::ID_FIELD_KEY => 3,
+                        BundleConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -570,8 +571,8 @@ class TagHelperTest extends TestCase
             "page" => 1,
             "results" => [
                 [
-                    "id" => 1,
-                    "searchable" => 1
+                    BundleConstants::ID_FIELD_KEY => 1,
+                    BundleConstants::SEARCHABLE_FIELD_KEY => 1
                 ]
             ]
         ];
@@ -589,8 +590,8 @@ class TagHelperTest extends TestCase
         $result = $helper->getLastPublished();
 
         $expected = [
-            "id" => 1,
-            "searchable" => true
+            BundleConstants::ID_FIELD_KEY => 1,
+            BundleConstants::SEARCHABLE_FIELD_KEY => true
         ];
 
         $this->assertEquals($expected, $result);

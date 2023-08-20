@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -34,7 +35,7 @@ class ApiResultsHelperTest extends TestCase
             }
         }
 
-        $this->assertEquals(["id" => 1], $result);
+        $this->assertEquals([BundleConstants::ID_FIELD_KEY => 1], $result);
     }
 
     /**
@@ -77,7 +78,7 @@ class ApiResultsHelperTest extends TestCase
             $result = ApiResultsHelper::extractResults($data);
         }
 
-        $this->assertEquals([0 => ["id" => 1]], $result);
+        $this->assertEquals([0 => [BundleConstants::ID_FIELD_KEY => 1]], $result);
     }
 
     /**
@@ -133,12 +134,12 @@ class ApiResultsHelperTest extends TestCase
                 "key" => ""
             ],
             [
-                "data" => ["results" => [0 => ["id" => 1]]],
+                "data" => ["results" => [0 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "position" => 1,
                 "key" => ""
             ],
             [
-                "data" => ["response" => [0 => ["id" => 1]]],
+                "data" => ["response" => [0 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "position" => 1,
                 "key" => "response"
             ],
@@ -162,17 +163,17 @@ class ApiResultsHelperTest extends TestCase
 
         return [
             [
-                "data" => ["results" => [0 => ["id" => 1]]],
+                "data" => ["results" => [0 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "position" => -1,
                 "key" => ""
             ],
             [
-                "data" => ["results" => [1 => ["id" => 1]]],
+                "data" => ["results" => [1 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "position" => 1,
                 "key" => ""
             ],
             [
-                "data" => ["response" => [0 => ["id" => 1]]],
+                "data" => ["response" => [0 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "position" => 0,
                 "key" => "response"
             ]
@@ -201,7 +202,7 @@ class ApiResultsHelperTest extends TestCase
                 "key" => ""
             ],
             [
-                "data" => ["results" => [0 => ["id" => 1]]],
+                "data" => ["results" => [0 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "key" => "response"
             ],
         ];
@@ -217,15 +218,15 @@ class ApiResultsHelperTest extends TestCase
 
         return [
             [
-                "data" => ["results" => [0 => ["id" => 1]]],
+                "data" => ["results" => [0 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "key" => ""
             ],
             [
-                "data" => ["results" => [0 => ["id" => 1]]],
+                "data" => ["results" => [0 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "key" => "results"
             ],
             [
-                "data" => ["response" => [0 => ["id" => 1]]],
+                "data" => ["response" => [0 => [BundleConstants::ID_FIELD_KEY => 1]]],
                 "key" => "response"
             ]
         ];
