@@ -8,6 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
@@ -160,7 +161,7 @@ class AssetHelper extends AbstractEntityHelper
     {
         $results = $this->getBy(
             [
-                "limit" => 1,
+                BundleConstants::LIMIT_FIELD_KEY => 1,
                 "sort" => "publishedAt desc",
             ]
         );

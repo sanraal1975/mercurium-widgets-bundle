@@ -37,7 +37,7 @@ class EntityHelper
      */
     public function hasCategory(array $entity, int $categoryId): bool
     {
-        if (empty($entity["categories"])) {
+        if (empty($entity[BundleConstants::CATEGORIES_FIELD_KEY])) {
             return false;
         }
 
@@ -45,7 +45,7 @@ class EntityHelper
             return false;
         }
 
-        foreach ($entity["categories"] as $category) {
+        foreach ($entity[BundleConstants::CATEGORIES_FIELD_KEY] as $category) {
             if ($category[BundleConstants::ID_FIELD_KEY] == $categoryId) {
                 return true;
             }

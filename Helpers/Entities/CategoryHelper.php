@@ -166,7 +166,7 @@ class CategoryHelper extends AbstractEntityHelper
     {
         $results = $this->getBy(
             [
-                "limit" => 1,
+                BundleConstants::LIMIT_FIELD_KEY => 1,
                 "sort" => "publishedAt desc",
             ]
         );
@@ -283,7 +283,7 @@ class CategoryHelper extends AbstractEntityHelper
         $parameters = [
             "groups" => $groupId,
             "order" => "title asc",
-            "limit" => $quantity
+            BundleConstants::LIMIT_FIELD_KEY => $quantity
         ];
 
         return $this->getBy($parameters);

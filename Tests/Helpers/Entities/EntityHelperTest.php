@@ -52,11 +52,11 @@ class EntityHelperTest extends TestCase
                 "categoryId" => 0
             ],
             [
-                "article" => ['categories' => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
+                "article" => [BundleConstants::CATEGORIES_FIELD_KEY => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
                 "categoryId" => 0
             ],
             [
-                "article" => ['categories' => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
+                "article" => [BundleConstants::CATEGORIES_FIELD_KEY => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
                 "categoryId" => 3
             ]
         ];
@@ -88,7 +88,7 @@ class EntityHelperTest extends TestCase
     {
         return [
             [
-                "article" => ['categories' => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
+                "article" => [BundleConstants::CATEGORIES_FIELD_KEY => [0 => [BundleConstants::ID_FIELD_KEY => 2]]],
                 "categoryId" => 2
             ]
         ];

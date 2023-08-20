@@ -88,7 +88,7 @@ class EntityCategoriesNormalizerTest extends TestCase
             ],
             [
                 "api" => $this->api,
-                "field" => "categories",
+                "field" => BundleConstants::CATEGORIES_FIELD_KEY,
                 "quantity" => null
             ],
         ];
@@ -115,7 +115,7 @@ class EntityCategoriesNormalizerTest extends TestCase
 
         $quantity = $this->testHelper->getZeroOrNegativeValue();
 
-        new EntityCategoriesNormalizer($this->api, "categories", $quantity);
+        new EntityCategoriesNormalizer($this->api, BundleConstants::CATEGORIES_FIELD_KEY, $quantity);
     }
 
     /**
@@ -179,8 +179,8 @@ class EntityCategoriesNormalizerTest extends TestCase
                 "expected" => [BundleConstants::ID_FIELD_KEY => 1],
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => null],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => null],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => null],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => null],
             ],
         ];
     }
@@ -191,10 +191,10 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityWithFieldEmptied()
     {
-        $normalizer = new EntityCategoriesNormalizer($this->api, "categories", 0);
-        $result = $normalizer->normalize([BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => 2]]]);
+        $normalizer = new EntityCategoriesNormalizer($this->api, BundleConstants::CATEGORIES_FIELD_KEY, 0);
+        $result = $normalizer->normalize([BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => 2]]]);
 
-        $expected = [BundleConstants::ID_FIELD_KEY => 1, "categories" => []];
+        $expected = [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => []];
 
         $this->assertEquals($expected, $result);
     }
@@ -207,10 +207,10 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(CategoryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $normalizer = new EntityCategoriesNormalizer($this->api, "categories", 1);
+        $normalizer = new EntityCategoriesNormalizer($this->api, BundleConstants::CATEGORIES_FIELD_KEY, 1);
         $categoryId = $this->testHelper->getZeroOrNegativeValue();
 
-        $normalizer->normalize([BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => $categoryId]]]);
+        $normalizer->normalize([BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => $categoryId]]]);
     }
 
     /**
@@ -221,7 +221,7 @@ class EntityCategoriesNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityCategoriesNormalized($entity, $expected, $quantity)
     {
-        $normalizer = new EntityCategoriesNormalizer($this->api, "categories", $quantity);
+        $normalizer = new EntityCategoriesNormalizer($this->api, BundleConstants::CATEGORIES_FIELD_KEY, $quantity);
 
         $result = $normalizer->normalize($entity);
         $this->assertEquals($expected, $result);
@@ -234,28 +234,28 @@ class EntityCategoriesNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => 1]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => []],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => []],
                 "quantity" => 1
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1], [BundleConstants::ID_FIELD_KEY => 2]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1], [BundleConstants::ID_FIELD_KEY => 2]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1], [BundleConstants::ID_FIELD_KEY => 2]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "categories" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true], [BundleConstants::ID_FIELD_KEY => 2, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1], [BundleConstants::ID_FIELD_KEY => 2]]],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::CATEGORIES_FIELD_KEY => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true], [BundleConstants::ID_FIELD_KEY => 2, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 2
             ]
         ];

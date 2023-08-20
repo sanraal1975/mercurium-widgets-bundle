@@ -20,7 +20,7 @@ class VideoHelper extends AssetHelper
     public function getLast(): array
     {
         $options = [
-            "limit" => 1,
+            BundleConstants::LIMIT_FIELD_KEY => 1,
             "sort" => "publishedAt desc",
             BundleConstants::TYPE_FIELD_KEY => "video",
         ];

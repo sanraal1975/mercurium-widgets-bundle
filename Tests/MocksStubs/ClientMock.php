@@ -78,7 +78,7 @@ class ClientMock extends Client
             "statusCode" => 200,
             "data" => [
                 "total" => 1,
-                "limit" => 1,
+                BundleConstants::LIMIT_FIELD_KEY => 1,
                 "pages" => 1,
                 "page" => 1,
                 "results" => [
