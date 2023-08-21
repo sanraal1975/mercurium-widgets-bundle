@@ -685,7 +685,7 @@ class ArticleHelperTest extends TestCase
     public function testHasSubscriptionsReturnsTrue()
     {
         $helper = new ArticleHelper($this->api);
-        $result = $helper->hasSubscriptions(["subscriptions" => [BundleConstants::ID_FIELD_KEY => 1]]);
+        $result = $helper->hasSubscriptions([BundleConstants::SUBSCRIPTIONS_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => 1]]);
 
         $this->assertTrue($result);
     }
@@ -717,7 +717,7 @@ class ArticleHelperTest extends TestCase
                 "article" => [BundleConstants::ID_FIELD_KEY => 1]
             ],
             [
-                "article" => ["subscriptions" => []]
+                "article" => [BundleConstants::SUBSCRIPTIONS_FIELD_KEY => []]
             ]
         ];
     }

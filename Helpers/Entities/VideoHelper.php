@@ -21,7 +21,7 @@ class VideoHelper extends AssetHelper
     {
         $options = [
             BundleConstants::LIMIT_FIELD_KEY => 1,
-            "sort" => "publishedAt desc",
+            BundleConstants::SORT_FIELD_KEY => "publishedAt desc",
             BundleConstants::TYPE_FIELD_KEY => "video",
         ];
 

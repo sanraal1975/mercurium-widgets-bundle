@@ -164,7 +164,7 @@ class ArticleHelper extends AbstractEntityHelper
         $results = $this->getBy(
             [
                 BundleConstants::LIMIT_FIELD_KEY => 1,
-                "sort" => "publishedAt desc",
+                BundleConstants::SORT_FIELD_KEY => "publishedAt desc",
             ]
         );
 
@@ -186,7 +186,7 @@ class ArticleHelper extends AbstractEntityHelper
         $results = $this->getBy(
             [
                 BundleConstants::LIMIT_FIELD_KEY => 1,
-                "sort" => "publishedAt desc",
+                BundleConstants::SORT_FIELD_KEY => "publishedAt desc",
                 BundleConstants::TYPE_FIELD_KEY => $typeId
             ]
         );
@@ -201,6 +201,6 @@ class ArticleHelper extends AbstractEntityHelper
      */
     public function hasSubscriptions(array $article): bool
     {
-        return !empty($article["subscriptions"]);
+        return !empty($article[BundleConstants::SUBSCRIPTIONS_FIELD_KEY]);
     }
 }

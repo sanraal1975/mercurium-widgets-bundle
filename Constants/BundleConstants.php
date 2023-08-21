@@ -15,5 +15,7 @@ class BundleConstants
     const ID_FIELD_KEY = "id";
     const LIMIT_FIELD_KEY = "limit";
     const SEARCHABLE_FIELD_KEY = "searchable";
+    const SORT_FIELD_KEY = "sort";
+    const SUBSCRIPTIONS_FIELD_KEY = "subscriptions";
     const TYPE_FIELD_KEY = "type";
 }

@@ -161,7 +161,7 @@ class TagHelper extends AbstractEntityHelper
         $results = $this->getBy(
             [
                 BundleConstants::LIMIT_FIELD_KEY => 1,
-                "sort" => "publishedAt desc",
+                BundleConstants::SORT_FIELD_KEY => "publishedAt desc",
             ]
         );
 
