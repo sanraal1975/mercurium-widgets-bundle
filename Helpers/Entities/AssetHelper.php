@@ -162,7 +162,7 @@ class AssetHelper extends AbstractEntityHelper
         $results = $this->getBy(
             [
                 BundleConstants::LIMIT_FIELD_KEY => 1,
-                BundleConstants::SORT_FIELD_KEY => "publishedAt desc",
+                BundleConstants::SORT_FIELD_KEY => BundleConstants::PUBLISHED_DESC,
             ]
         );
 
