@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
+use Comitium5\ApiClientBundle\Utils\FieldsUtils;
 use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 
 /**
@@ -86,14 +87,73 @@ class EntityDynamicFieldsNormalizer implements NormalizerInterface
 
         $values = $entity[$field];
 
-//        echo PHP_EOL;
-//        var_dump(__METHOD__." : ".__LINE__);
-//        echo PHP_EOL;
-//        var_dump($entity);
-//        echo PHP_EOL;
-//        var_dump($entityType);
-//        echo PHP_EOL;
+        foreach ($fields as $key => $value) {
+            $fieldName = $this->getFieldName($value);
+            $fieldType = $this->getFieldType($value);
+            $valueType = $this->getFieldValueType($value);
+            if ($fieldType === "loop") {
+                $entity[$key] = FieldsUtils::loopField($fieldName, $values);
+            } else {
+                $entity[$key] = FieldsUtils::fieldValue($fieldName, $values);
+                settype($entity[$key], $valueType);
+            }
+        }
 
         return $entity;
+    }
+
+    /**
+     * @param $field
+     *
+     * @return mixed|string
+     */
+    private function getFieldName($field)
+    {
+        $result = "";
+
+        if (is_string($field)) {
+            $result = $field;
+        } else {
+            if (is_array($field)) {
+                if (!empty($field['field'])) {
+                    $result = $field['field'];
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $field
+     *
+     * @return string
+     */
+    private function getFieldType($field): string
+    {
+        $result = "value";
+
+        if (!empty($field['type'])) {
+            $result = $field['type'];
+        }
+
+        return $result;
+
+    }
+
+    /**
+     * @param $field
+     *
+     * @return string
+     */
+    private function getFieldValueType($field): string
+    {
+        $result = "string";
+
+        if (!empty($field['valueType'])) {
+            $result = $field['valueType'];
+        }
+
+        return $result;
     }
 }
