@@ -22,6 +22,7 @@ class TestHelper
     const AUTHOR_FIELD_KEY = "author";
 
     const ENTITY_ID_TO_RETURN_EMPTY = 123456789;
+    const ARTICLE_ASSET_FIELD_NORMALIZER_ENTITY_ID = 9876543210;
     const ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE = 1234567890;
     const ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN = 12345678901;
 
@@ -99,5 +100,16 @@ class TestHelper
     public function getPositiveValueAndNullValueAsString(): string
     {
         return "1," . null;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return void
+     */
+    public function varDump($value)
+    {
+        echo PHP_EOL;
+        var_dump($value);
     }
 }

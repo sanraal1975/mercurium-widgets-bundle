@@ -18,9 +18,14 @@ class BundleConstants
     const SUBSCRIPTIONS_FIELD_KEY = "subscriptions";
     const TYPE_FIELD_KEY = "type";
 
-    // Sort fields
+    // Sort fields key
     const PUBLISHED_DESC = "publishedAt desc";
 
     // Query fields key
     const LIMIT_FIELD_KEY = "limit";
+
+    // Assets fields keys
+    const IMAGE_FIELD_KEY = "image";
+    const VIDEO_FIELD_KEY = "video";
+    const AUDIO_FIELD_KEY = "audio";
 }
