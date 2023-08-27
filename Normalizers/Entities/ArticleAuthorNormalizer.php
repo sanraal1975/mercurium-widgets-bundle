@@ -72,11 +72,11 @@ class ArticleAuthorNormalizer implements NormalizerInterface
 
         if ($this->normalizeImage) {
             $normalizer = new EntityAssetNormalizer($this->api, BundleConstants::ASSET_FIELD_KEY);
-            $entity['author'] = $normalizer->normalize($entity['author']);
+            $entity[BundleConstants::AUTHOR_FIELD_KEY] = $normalizer->normalize($entity[BundleConstants::AUTHOR_FIELD_KEY]);
         }
 
         if ($this->normalizeSocialNetworks) {
-            $entity['author'] = $this->getSocialNetworks($entity['author']);
+            $entity[BundleConstants::AUTHOR_FIELD_KEY] = $this->getSocialNetworks($entity[BundleConstants::AUTHOR_FIELD_KEY]);
         }
 
         return $entity;

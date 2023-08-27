@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers\Entities;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\ArticleAssetFieldsNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -149,25 +150,25 @@ class ArticleAssetFieldsNormalizerTest extends TestCase
                 "expected" => []
             ],
             [
-                "entity" => ["id" => 1],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
                 "normalizeImage" => true,
                 "normalizeVideo" => false,
                 "normalizeAudio" => false,
-                "expected" => ["id" => 1],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1],
             ],
             [
-                "entity" => ["id" => 1],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
                 "normalizeImage" => false,
                 "normalizeVideo" => true,
                 "normalizeAudio" => false,
-                "expected" => ["id" => 1],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1],
             ],
             [
-                "entity" => ["id" => 1],
+                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
                 "normalizeImage" => false,
                 "normalizeVideo" => false,
                 "normalizeAudio" => true,
-                "expected" => ["id" => 1],
+                "expected" => [BundleConstants::ID_FIELD_KEY => 1],
             ]
         ];
     }
