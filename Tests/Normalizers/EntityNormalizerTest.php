@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 
 use ArgumentCountError;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
 use Exception;
@@ -94,8 +94,8 @@ class EntityNormalizerTest extends TestCase
                 "expected" => []
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1]
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1]
             ],
         ];
     }

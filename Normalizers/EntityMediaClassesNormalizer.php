@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 
 /**
  * Class EntityMediaClassesNormalizer
@@ -27,28 +27,28 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
 
         $categoryId = $this->getCategoryId($entity);
         if (!empty($categoryId)) {
-            $mediaClasses[] = BundleConstants::HAS_CATEGORY . $categoryId;
+            $mediaClasses[] = EntityConstants::HAS_CATEGORY . $categoryId;
         }
 
         $hasImage = $this->hasImage($entity);
         if ($hasImage) {
-            $mediaClasses[] = BundleConstants::HAS_IMAGE;
+            $mediaClasses[] = EntityConstants::HAS_IMAGE;
         } else {
-            $mediaClasses[] = BundleConstants::HAS_NO_IMAGE;
+            $mediaClasses[] = EntityConstants::HAS_NO_IMAGE;
         }
 
         $hasVideo = $this->hasVideo($entity);
         if ($hasVideo) {
-            $mediaClasses[] = BundleConstants::HAS_VIDEO;
+            $mediaClasses[] = EntityConstants::HAS_VIDEO;
         }
 
         $hasAudio = $this->hasAudio($entity);
         if ($hasAudio) {
-            $mediaClasses[] = BundleConstants::HAS_AUDIO;
+            $mediaClasses[] = EntityConstants::HAS_AUDIO;
         }
 
         $mediaClasses = implode(" ", $mediaClasses);
-        $entity[BundleConstants::MEDIA_CLASSES_FIELD_KEY] = $mediaClasses;
+        $entity[EntityConstants::MEDIA_CLASSES_FIELD_KEY] = $mediaClasses;
 
         return $entity;
     }
@@ -60,16 +60,16 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function getCategoryId(array $entity)
     {
-        if (empty($entity[BundleConstants::CATEGORIES_FIELD_KEY])) {
+        if (empty($entity[EntityConstants::CATEGORIES_FIELD_KEY])) {
             return 0;
         }
 
         $categoryId = 0;
 
-        $categories = $entity[BundleConstants::CATEGORIES_FIELD_KEY];
+        $categories = $entity[EntityConstants::CATEGORIES_FIELD_KEY];
         foreach ($categories as $category) {
-            if (!empty($category[BundleConstants::ID_FIELD_KEY])) {
-                $categoryId = $category[BundleConstants::ID_FIELD_KEY];
+            if (!empty($category[EntityConstants::ID_FIELD_KEY])) {
+                $categoryId = $category[EntityConstants::ID_FIELD_KEY];
                 break;
             }
         }
@@ -84,7 +84,7 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function hasImage(array $entity): bool
     {
-        if (empty($entity[BundleConstants::IMAGE_FIELD_KEY])) {
+        if (empty($entity[EntityConstants::IMAGE_FIELD_KEY])) {
             return false;
         }
 
@@ -98,7 +98,7 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function hasVideo(array $entity): bool
     {
-        if (empty($entity[BundleConstants::VIDEO_FIELD_KEY])) {
+        if (empty($entity[EntityConstants::VIDEO_FIELD_KEY])) {
             return false;
         }
 
@@ -112,7 +112,7 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function hasAudio(array $entity): bool
     {
-        if (empty($entity[BundleConstants::AUDIO_FIELD_KEY])) {
+        if (empty($entity[EntityConstants::AUDIO_FIELD_KEY])) {
             return false;
         }
 

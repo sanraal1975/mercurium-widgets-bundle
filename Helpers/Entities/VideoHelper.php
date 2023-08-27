@@ -2,7 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 
@@ -20,9 +20,9 @@ class VideoHelper extends AssetHelper
     public function getLast(): array
     {
         $options = [
-            BundleConstants::LIMIT_FIELD_KEY => 1,
-            BundleConstants::SORT_FIELD_KEY => BundleConstants::PUBLISHED_DESC,
-            BundleConstants::TYPE_FIELD_KEY => "video",
+            EntityConstants::LIMIT_FIELD_KEY => 1,
+            EntityConstants::SORT_FIELD_KEY => EntityConstants::PUBLISHED_DESC,
+            EntityConstants::TYPE_FIELD_KEY => "video",
         ];
 
         $image = $this->getBy(

@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAuthorNormalizer;
 use Exception;
@@ -71,12 +71,12 @@ class ArticleAuthorNormalizer implements NormalizerInterface
         $entity = $normalizer->normalize($entity);
 
         if ($this->normalizeImage) {
-            $normalizer = new EntityAssetNormalizer($this->api, BundleConstants::ASSET_FIELD_KEY);
-            $entity[BundleConstants::AUTHOR_FIELD_KEY] = $normalizer->normalize($entity[BundleConstants::AUTHOR_FIELD_KEY]);
+            $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::ASSET_FIELD_KEY);
+            $entity[EntityConstants::AUTHOR_FIELD_KEY] = $normalizer->normalize($entity[EntityConstants::AUTHOR_FIELD_KEY]);
         }
 
         if ($this->normalizeSocialNetworks) {
-            $entity[BundleConstants::AUTHOR_FIELD_KEY] = $this->getSocialNetworks($entity[BundleConstants::AUTHOR_FIELD_KEY]);
+            $entity[EntityConstants::AUTHOR_FIELD_KEY] = $this->getSocialNetworks($entity[EntityConstants::AUTHOR_FIELD_KEY]);
         }
 
         return $entity;
@@ -89,11 +89,11 @@ class ArticleAuthorNormalizer implements NormalizerInterface
      */
     private function getSocialNetworks(array $entity): array
     {
-        if (empty($entity[BundleConstants::SOCIAL_NETWORKS_FIELD_KEY])) {
+        if (empty($entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY])) {
             return $entity;
         }
 
-        $entitySocialNetworks = $entity[BundleConstants::SOCIAL_NETWORKS_FIELD_KEY];
+        $entitySocialNetworks = $entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY];
         $normalizedSocialNetworks = [];
         $areBannedSocialNetworks = !empty($this->bannedSocialNetworks);
 
@@ -111,7 +111,7 @@ class ArticleAuthorNormalizer implements NormalizerInterface
             $normalizedSocialNetworks[] = $socialNetwork;
         }
 
-        $entity[BundleConstants::SOCIAL_NETWORKS_FIELD_KEY] = $normalizedSocialNetworks;
+        $entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY] = $normalizedSocialNetworks;
         return $entity;
     }
 }

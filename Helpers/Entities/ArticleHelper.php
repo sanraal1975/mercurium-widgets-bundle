@@ -8,7 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
@@ -163,8 +163,8 @@ class ArticleHelper extends AbstractEntityHelper
     {
         $results = $this->getBy(
             [
-                BundleConstants::LIMIT_FIELD_KEY => 1,
-                BundleConstants::SORT_FIELD_KEY => BundleConstants::PUBLISHED_DESC,
+                EntityConstants::LIMIT_FIELD_KEY => 1,
+                EntityConstants::SORT_FIELD_KEY => EntityConstants::PUBLISHED_DESC,
             ]
         );
 
@@ -185,9 +185,9 @@ class ArticleHelper extends AbstractEntityHelper
 
         $results = $this->getBy(
             [
-                BundleConstants::LIMIT_FIELD_KEY => 1,
-                BundleConstants::SORT_FIELD_KEY => BundleConstants::PUBLISHED_DESC,
-                BundleConstants::TYPE_FIELD_KEY => $typeId
+                EntityConstants::LIMIT_FIELD_KEY => 1,
+                EntityConstants::SORT_FIELD_KEY => EntityConstants::PUBLISHED_DESC,
+                EntityConstants::TYPE_FIELD_KEY => $typeId
             ]
         );
 
@@ -201,6 +201,6 @@ class ArticleHelper extends AbstractEntityHelper
      */
     public function hasSubscriptions(array $article): bool
     {
-        return !empty($article[BundleConstants::SUBSCRIPTIONS_FIELD_KEY]);
+        return !empty($article[EntityConstants::SUBSCRIPTIONS_FIELD_KEY]);
     }
 }

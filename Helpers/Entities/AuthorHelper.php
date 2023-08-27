@@ -8,7 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
@@ -158,8 +158,8 @@ class AuthorHelper extends AbstractEntityHelper
     {
         $results = $this->getBy(
             [
-                BundleConstants::LIMIT_FIELD_KEY => 1,
-                BundleConstants::SORT_FIELD_KEY => BundleConstants::PUBLISHED_DESC,
+                EntityConstants::LIMIT_FIELD_KEY => 1,
+                EntityConstants::SORT_FIELD_KEY => EntityConstants::PUBLISHED_DESC,
             ]
         );
 

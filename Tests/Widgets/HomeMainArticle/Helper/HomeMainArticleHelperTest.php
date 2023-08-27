@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\HomeMainArticle\Helper;
 
 use ArgumentCountError;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -143,8 +143,8 @@ class HomeMainArticleHelperTest extends TestCase
                 ),
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -156,8 +156,8 @@ class HomeMainArticleHelperTest extends TestCase
                 ),
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -169,8 +169,8 @@ class HomeMainArticleHelperTest extends TestCase
                 ),
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -182,12 +182,12 @@ class HomeMainArticleHelperTest extends TestCase
                 ),
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 2,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 2,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                 ]
             ],

@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers\Entities;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Tests\TestCase;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityMediaClassesNormalizer;
 use Exception;
 use TypeError;
@@ -69,75 +69,75 @@ class EntityMediaClassesNormalizerTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::ID_FIELD_KEY => 1
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::MEDIA_CLASSES_FIELD_KEY => BundleConstants::HAS_NO_IMAGE
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_NO_IMAGE
                 ]
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::CATEGORIES_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::CATEGORIES_FIELD_KEY => [
                         [
-                            BundleConstants::ID_FIELD_KEY => 1
+                            EntityConstants::ID_FIELD_KEY => 1
                         ]
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::CATEGORIES_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::CATEGORIES_FIELD_KEY => [
                         [
-                            BundleConstants::ID_FIELD_KEY => 1
+                            EntityConstants::ID_FIELD_KEY => 1
                         ]
                     ],
-                    BundleConstants::MEDIA_CLASSES_FIELD_KEY => BundleConstants::HAS_CATEGORY . "1 " . BundleConstants::HAS_NO_IMAGE
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_CATEGORY . "1 " . EntityConstants::HAS_NO_IMAGE
                 ]
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "image" => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                        EntityConstants::ID_FIELD_KEY => 1
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "image" => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
-                    BundleConstants::MEDIA_CLASSES_FIELD_KEY => BundleConstants::HAS_IMAGE
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_IMAGE
                 ]
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "video" => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                        EntityConstants::ID_FIELD_KEY => 1
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "video" => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
-                    BundleConstants::MEDIA_CLASSES_FIELD_KEY => BundleConstants::HAS_NO_IMAGE . " " . BundleConstants::HAS_VIDEO
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_NO_IMAGE . " " . EntityConstants::HAS_VIDEO
                 ]
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "audio" => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                        EntityConstants::ID_FIELD_KEY => 1
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "audio" => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
-                    BundleConstants::MEDIA_CLASSES_FIELD_KEY => BundleConstants::HAS_NO_IMAGE . " " . BundleConstants::HAS_AUDIO
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_NO_IMAGE . " " . EntityConstants::HAS_AUDIO
                 ]
             ],
         ];

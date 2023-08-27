@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
 use Exception;
 
@@ -70,8 +70,8 @@ class EntityAuthorNormalizer implements AbstractEntityNormalizerInterface
         }
 
         $authorId = $entity[$this->field];
-        if (!empty($entity[$this->field][BundleConstants::ID_FIELD_KEY])) {
-            $authorId = $entity[$this->field][BundleConstants::ID_FIELD_KEY];
+        if (!empty($entity[$this->field][EntityConstants::ID_FIELD_KEY])) {
+            $authorId = $entity[$this->field][EntityConstants::ID_FIELD_KEY];
         }
 
         if (!is_numeric($authorId)) {

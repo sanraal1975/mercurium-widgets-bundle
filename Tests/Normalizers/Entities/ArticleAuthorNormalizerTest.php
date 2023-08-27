@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers\Entities;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Tests\TestCase;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\ArticleAuthorNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -153,14 +153,14 @@ class ArticleAuthorNormalizerTest extends TestCase
                 "normalizeSocialNetworks" => false,
                 "bannedSocialNetworks" => [],
                 "entity" => [
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ],
             ],
@@ -169,19 +169,19 @@ class ArticleAuthorNormalizerTest extends TestCase
                 "normalizeSocialNetworks" => false,
                 "bannedSocialNetworks" => [],
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true,
-                        BundleConstants::ASSET_FIELD_KEY => [
-                            BundleConstants::ID_FIELD_KEY => 1,
-                            BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::ASSET_FIELD_KEY => [
+                            EntityConstants::ID_FIELD_KEY => 1,
+                            EntityConstants::SEARCHABLE_FIELD_KEY => true
                         ]
                     ]
                 ]
@@ -191,19 +191,19 @@ class ArticleAuthorNormalizerTest extends TestCase
                 "normalizeSocialNetworks" => true,
                 "bannedSocialNetworks" => [],
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true,
-                        BundleConstants::ASSET_FIELD_KEY => [
-                            BundleConstants::ID_FIELD_KEY => 1,
-                            BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::ASSET_FIELD_KEY => [
+                            EntityConstants::ID_FIELD_KEY => 1,
+                            EntityConstants::SEARCHABLE_FIELD_KEY => true
                         ]
                     ]
                 ],
@@ -213,17 +213,17 @@ class ArticleAuthorNormalizerTest extends TestCase
                 "normalizeSocialNetworks" => true,
                 "bannedSocialNetworks" => [],
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORKS
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORKS
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORKS,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true,
-                        BundleConstants::SOCIAL_NETWORKS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORKS,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::SOCIAL_NETWORKS_FIELD_KEY => [
                             [
                                 "socialNetwork" => "facebook",
                                 "url" => "https://www.foo.bar"
@@ -237,17 +237,17 @@ class ArticleAuthorNormalizerTest extends TestCase
                 "normalizeSocialNetworks" => true,
                 "bannedSocialNetworks" => [],
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true,
-                        BundleConstants::SOCIAL_NETWORKS_FIELD_KEY => []
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::SOCIAL_NETWORKS_FIELD_KEY => []
                     ]
                 ],
             ],
@@ -256,17 +256,17 @@ class ArticleAuthorNormalizerTest extends TestCase
                 "normalizeSocialNetworks" => true,
                 "bannedSocialNetworks" => ["banned_social_network"],
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK
                     ]
                 ],
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::AUTHOR_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true,
-                        BundleConstants::SOCIAL_NETWORKS_FIELD_KEY => []
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::SOCIAL_NETWORKS_FIELD_KEY => []
                     ]
                 ],
             ],

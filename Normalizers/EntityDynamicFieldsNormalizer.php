@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
 use Comitium5\ApiClientBundle\Utils\FieldsUtils;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 
 /**
  * Class EntityDynamicFieldsNormalizer
@@ -27,7 +27,7 @@ class EntityDynamicFieldsNormalizer implements NormalizerInterface
      * @param array $fields
      * @param string $field
      */
-    public function __construct(array $fields, string $field = BundleConstants::FIELDS_FIELD_KEY)
+    public function __construct(array $fields, string $field = EntityConstants::FIELDS_FIELD_KEY)
     {
         $this->fields = $fields;
         $this->field = $field;
@@ -61,8 +61,8 @@ class EntityDynamicFieldsNormalizer implements NormalizerInterface
         }
 
         $entityType = null;
-        if (!empty($entity[BundleConstants::TYPE_FIELD_KEY][BundleConstants::ID_FIELD_KEY])) {
-            $entityType = $entity[BundleConstants::TYPE_FIELD_KEY][BundleConstants::ID_FIELD_KEY];
+        if (!empty($entity[EntityConstants::TYPE_FIELD_KEY][EntityConstants::ID_FIELD_KEY])) {
+            $entityType = $entity[EntityConstants::TYPE_FIELD_KEY][EntityConstants::ID_FIELD_KEY];
         }
 
         $resourceType = null;

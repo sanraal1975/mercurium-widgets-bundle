@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 
 use ArgumentCountError;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityTagsNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -175,12 +175,12 @@ class EntityTagsNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1],
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => null],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => null],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => null],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => null],
             ],
         ];
     }
@@ -192,9 +192,9 @@ class EntityTagsNormalizerTest extends TestCase
     public function testNormalizeReturnsEntityWithFieldEmptied()
     {
         $normalizer = new EntityTagsNormalizer($this->api, "tags", 0);
-        $result = $normalizer->normalize([BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 2]]]);
+        $result = $normalizer->normalize([EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 2]]]);
 
-        $expected = [BundleConstants::ID_FIELD_KEY => 1, "tags" => []];
+        $expected = [EntityConstants::ID_FIELD_KEY => 1, "tags" => []];
 
         $this->assertEquals($expected, $result);
     }
@@ -210,7 +210,7 @@ class EntityTagsNormalizerTest extends TestCase
         $normalizer = new EntityTagsNormalizer($this->api, "tags", 1);
         $categoryId = $this->testHelper->getZeroOrNegativeValue();
 
-        $normalizer->normalize([BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $categoryId]]]);
+        $normalizer->normalize([EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $categoryId]]]);
     }
 
     /**
@@ -234,28 +234,28 @@ class EntityTagsNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => []],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => []],
                 "quantity" => 1
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1], [BundleConstants::ID_FIELD_KEY => 2]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1], [EntityConstants::ID_FIELD_KEY => 2]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [BundleConstants::ID_FIELD_KEY => 1], [BundleConstants::ID_FIELD_KEY => 2]]],
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1, "tags" => [[BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true], [BundleConstants::ID_FIELD_KEY => 2, BundleConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1], [EntityConstants::ID_FIELD_KEY => 2]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true], [EntityConstants::ID_FIELD_KEY => 2, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 2
             ]
         ];

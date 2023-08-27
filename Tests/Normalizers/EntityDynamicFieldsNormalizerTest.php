@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\ApiClient\ResourcesTypes;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityDynamicFieldsNormalizer;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -69,7 +69,7 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
         $this->expectException(ArgumentCountError::class);
 
         $fields = [];
-        $field = BundleConstants::FIELDS_FIELD_KEY;
+        $field = EntityConstants::FIELDS_FIELD_KEY;
 
         $normalizer = new EntityDynamicFieldsNormalizer($fields, $field);
         $normalizer->normalize();
@@ -83,7 +83,7 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
         $this->expectException(TypeError::class);
 
         $fields = [];
-        $field = BundleConstants::FIELDS_FIELD_KEY;
+        $field = EntityConstants::FIELDS_FIELD_KEY;
         $entity = null;
 
         $normalizer = new EntityDynamicFieldsNormalizer($fields, $field);
@@ -113,17 +113,17 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
             [
                 "entity" => [],
                 "fields" => [],
-                "field" => BundleConstants::FIELDS_FIELD_KEY,
+                "field" => EntityConstants::FIELDS_FIELD_KEY,
                 "expected" => []
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
                 "fields" => [],
-                "field" => BundleConstants::FIELDS_FIELD_KEY,
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1]
+                "field" => EntityConstants::FIELDS_FIELD_KEY,
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1]
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
                 "fields" => [
                     ResourcesTypes::ARTICLE => [
                         "0" => [
@@ -132,10 +132,10 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
                     ]
                 ],
                 "field" => "",
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1]
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1]
             ],
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
                 "fields" => [
                     ResourcesTypes::ARTICLE => [
                         "0" => [
@@ -143,13 +143,13 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
                         ]
                     ]
                 ],
-                "field" => BundleConstants::FIELDS_FIELD_KEY,
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1]
+                "field" => EntityConstants::FIELDS_FIELD_KEY,
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1]
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "value" => 1
                         ]
@@ -162,10 +162,10 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
                         ]
                     ]
                 ],
-                "field" => BundleConstants::FIELDS_FIELD_KEY,
+                "field" => EntityConstants::FIELDS_FIELD_KEY,
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "value" => 1
                         ]
@@ -174,70 +174,70 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "value" => 1
                         ]
                     ],
-                    BundleConstants::TYPE_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::TYPE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ]
                 ],
-                BundleConstants::FIELDS_FIELD_KEY => [
+                EntityConstants::FIELDS_FIELD_KEY => [
                     "articles" => [
                         "0" => [
                             "image" => "image_imagen"
                         ]
                     ]
                 ],
-                "field" => BundleConstants::FIELDS_FIELD_KEY,
+                "field" => EntityConstants::FIELDS_FIELD_KEY,
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "value" => 1
                         ]
                     ],
-                    BundleConstants::TYPE_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::TYPE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ]
                 ],
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "values" => [
                                 1
                             ]
                         ]
                     ],
-                    BundleConstants::TYPE_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::TYPE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
                     "resourceType" => ResourcesTypes::ARTICLE
                 ],
-                BundleConstants::FIELDS_FIELD_KEY => [
+                EntityConstants::FIELDS_FIELD_KEY => [
                     "articles" => [
                         "1" => [
                             "image" => "image_imagen"
                         ]
                     ]
                 ],
-                "field" => BundleConstants::FIELDS_FIELD_KEY,
+                "field" => EntityConstants::FIELDS_FIELD_KEY,
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "values" => [
                                 1
                             ]
                         ]
                     ],
-                    BundleConstants::TYPE_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::TYPE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
                     "resourceType" => ResourcesTypes::ARTICLE,
                     "image" => 1
@@ -245,20 +245,20 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "values" => [
                                 1
                             ]
                         ]
                     ],
-                    BundleConstants::TYPE_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::TYPE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
                     "resourceType" => ResourcesTypes::ARTICLE
                 ],
-                BundleConstants::FIELDS_FIELD_KEY => [
+                EntityConstants::FIELDS_FIELD_KEY => [
                     "articles" => [
                         "1" => [
                             'image' => [
@@ -268,18 +268,18 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
                         ]
                     ]
                 ],
-                "field" => BundleConstants::FIELDS_FIELD_KEY,
+                "field" => EntityConstants::FIELDS_FIELD_KEY,
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "values" => [
                                 1
                             ]
                         ]
                     ],
-                    BundleConstants::TYPE_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::TYPE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
                     "resourceType" => ResourcesTypes::ARTICLE,
                     "image" => 1
@@ -287,20 +287,20 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "values" => [
                                 1
                             ]
                         ]
                     ],
-                    BundleConstants::TYPE_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::TYPE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
                     "resourceType" => ResourcesTypes::ARTICLE
                 ],
-                BundleConstants::FIELDS_FIELD_KEY => [
+                EntityConstants::FIELDS_FIELD_KEY => [
                     "articles" => [
                         "1" => [
                             'loopDocuments' => [
@@ -310,18 +310,18 @@ class EntityDynamicFieldsNormalizerTest extends TestCase
                         ]
                     ]
                 ],
-                "field" => BundleConstants::FIELDS_FIELD_KEY,
+                "field" => EntityConstants::FIELDS_FIELD_KEY,
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::FIELDS_FIELD_KEY => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::FIELDS_FIELD_KEY => [
                         "image_imagen" => [
                             "values" => [
                                 1
                             ]
                         ]
                     ],
-                    BundleConstants::TYPE_FIELD_KEY => [
-                        BundleConstants::ID_FIELD_KEY => 1
+                    EntityConstants::TYPE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
                     ],
                     "resourceType" => ResourcesTypes::ARTICLE,
                     "loopDocuments" => []

@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\TagHelper;
 use Exception;
 
@@ -86,7 +86,7 @@ class EntityTagsNormalizer implements AbstractEntityNormalizerInterface
 
         $normalizedTags = [];
         foreach ($entity[$this->field] as $tag) {
-            $tagId = empty($tag[BundleConstants::ID_FIELD_KEY]) ? $tag : $tag[BundleConstants::ID_FIELD_KEY];
+            $tagId = empty($tag[EntityConstants::ID_FIELD_KEY]) ? $tag : $tag[EntityConstants::ID_FIELD_KEY];
             $tagId = (int)$tagId;
 
             $tagFromApi = $this->helper->get($tagId);

@@ -2,7 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -53,7 +53,7 @@ class ImageHelperTest extends TestCase
         $helper = new ImageHelper($this->api);
 
         $result = $helper->getLast();
-        $expected = [BundleConstants::ID_FIELD_KEY => 1, BundleConstants::SEARCHABLE_FIELD_KEY => true];
+        $expected = [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true];
 
         $this->assertEquals($expected, $result);
     }
@@ -91,7 +91,7 @@ class ImageHelperTest extends TestCase
                 "crops" => new CropsValueObject(["100|100"]),
             ],
             [
-                "image" => [BundleConstants::ID_FIELD_KEY => 1],
+                "image" => [EntityConstants::ID_FIELD_KEY => 1],
                 "crops" => new CropsValueObject(["100|100"]),
             ],
             [
@@ -233,13 +233,13 @@ class ImageHelperTest extends TestCase
                 "expected" => []
             ],
             [
-                "image" => [BundleConstants::ID_FIELD_KEY => 1],
+                "image" => [EntityConstants::ID_FIELD_KEY => 1],
                 "crop" => new CropValueObject("100|100"),
-                "expected" => [BundleConstants::ID_FIELD_KEY => 1]
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1]
             ],
             [
                 "image" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "https://www.bar.foo",
                     "metadata" => ["width" => 100, "height" => 100],
                     "children" => [
@@ -251,7 +251,7 @@ class ImageHelperTest extends TestCase
                 ],
                 "crop" => new CropValueObject("100|100"),
                 "expected" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "https://www.bar.foo",
                     "metadata" => ["width" => 100, "height" => 100],
                     "children" => [
@@ -277,7 +277,7 @@ class ImageHelperTest extends TestCase
         $helper = new ImageHelper($this->api);
 
         $image = [
-            BundleConstants::ID_FIELD_KEY => 1,
+            EntityConstants::ID_FIELD_KEY => 1,
             "url" => "https://www.bar.foo",
             "metadata" => ["width" => 100, "height" => 100],
             "children" => [
@@ -291,7 +291,7 @@ class ImageHelperTest extends TestCase
         $crop = new CropValueObject("10|10");
 
         $expected = [
-            BundleConstants::ID_FIELD_KEY => 1,
+            EntityConstants::ID_FIELD_KEY => 1,
             "url" => "https://www.foo.bar",
             "metadata" => ["width" => 10, "height" => 10],
             "children" => [

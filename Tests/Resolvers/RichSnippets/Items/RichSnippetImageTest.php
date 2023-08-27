@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Resolvers\RichSnippets\Items;
 
 use ArgumentCountError;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Constants\RichSnippetsConstants;
 use Comitium5\MercuriumWidgetsBundle\Factories\RichSnippetsFactory;
 use Comitium5\MercuriumWidgetsBundle\Resolvers\RichSnippets\Items\RichSnippetImage;
@@ -95,7 +95,7 @@ class RichSnippetImageTest extends TestCase
     {
         return [
             [
-                "entity" => [BundleConstants::ID_FIELD_KEY => 1],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
                 "expected" => [
                     "@type" => RichSnippetsConstants::TYPE_IMAGE,
                     "url" => "",
@@ -105,7 +105,7 @@ class RichSnippetImageTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "foo.bar"
                 ],
                 "expected" => [
@@ -117,7 +117,7 @@ class RichSnippetImageTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "foo.bar",
                     "metadata" => [
                         "width" => 1
@@ -132,7 +132,7 @@ class RichSnippetImageTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "foo.bar",
                     "metadata" => [
                         "width" => 1,
@@ -148,7 +148,7 @@ class RichSnippetImageTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "foo.bar",
                     "metadata" => [
                         "width" => 1,
@@ -166,7 +166,7 @@ class RichSnippetImageTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "foo.bar",
                     "metadata" => [
                         "width" => 1,
@@ -186,7 +186,7 @@ class RichSnippetImageTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "foo.bar",
                     "metadata" => [
                         "width" => 1,
@@ -208,7 +208,7 @@ class RichSnippetImageTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "foo.bar",
                     "metadata" => [
                         "width" => 1,
@@ -230,7 +230,7 @@ class RichSnippetImageTest extends TestCase
             ],
             [
                 "entity" => [
-                    BundleConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::ID_FIELD_KEY => 1,
                     "url" => "foo.bar",
                     "metadata" => [
                         "width" => 1,

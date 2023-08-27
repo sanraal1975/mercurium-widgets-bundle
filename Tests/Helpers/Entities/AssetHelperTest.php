@@ -5,7 +5,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -261,22 +261,22 @@ class AssetHelperTest extends TestCase
             [
                 "entitiesIds" => "1",
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ]
         ];
@@ -476,24 +476,24 @@ class AssetHelperTest extends TestCase
                 "entitiesIds" => "1",
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
@@ -501,12 +501,12 @@ class AssetHelperTest extends TestCase
                 "quantity" => PHP_INT_MAX,
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 2,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 2,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -515,12 +515,12 @@ class AssetHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 2,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 2,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -529,12 +529,12 @@ class AssetHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 3,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 3,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -543,12 +543,12 @@ class AssetHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 3,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 3,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -565,19 +565,19 @@ class AssetHelperTest extends TestCase
 
         $result = $helper->getBy(
             [
-                BundleConstants::LIMIT_FIELD_KEY => 1
+                EntityConstants::LIMIT_FIELD_KEY => 1
             ]
         );
 
         $expected = [
             "total" => 1,
-            BundleConstants::LIMIT_FIELD_KEY => 1,
+            EntityConstants::LIMIT_FIELD_KEY => 1,
             "pages" => 1,
             "page" => 1,
             "results" => [
                 [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => 1
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => 1
                 ]
             ]
         ];
@@ -596,8 +596,8 @@ class AssetHelperTest extends TestCase
         $result = $helper->getLastPublished();
 
         $expected = [
-            BundleConstants::ID_FIELD_KEY => 1,
-            BundleConstants::SEARCHABLE_FIELD_KEY => true
+            EntityConstants::ID_FIELD_KEY => 1,
+            EntityConstants::SEARCHABLE_FIELD_KEY => true
         ];
 
         $this->assertEquals($expected, $result);

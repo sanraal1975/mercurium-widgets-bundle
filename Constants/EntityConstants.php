@@ -3,11 +3,11 @@
 namespace Comitium5\MercuriumWidgetsBundle\Constants;
 
 /**
- * Class BundleConstants
+ * Class EntityConstants
  *
  * @package Comitium5\MercuriumWidgetsBundle\Constants
  */
-class BundleConstants
+class EntityConstants
 {
     // Entity fields keys
     const ASSET_FIELD_KEY = "asset";

@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -231,22 +231,22 @@ class ArticleHelperTest extends TestCase
             [
                 "entitiesIds" => "1",
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ]
         ];
@@ -451,24 +451,24 @@ class ArticleHelperTest extends TestCase
                 "entitiesIds" => "1",
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                 "quantity" => PHP_INT_MAX,
                 "expected" => [[
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => true
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]]
             ],
             [
@@ -476,12 +476,12 @@ class ArticleHelperTest extends TestCase
                 "quantity" => PHP_INT_MAX,
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 2,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 2,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -490,12 +490,12 @@ class ArticleHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 2,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 2,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -504,12 +504,12 @@ class ArticleHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 3,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 3,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -518,12 +518,12 @@ class ArticleHelperTest extends TestCase
                 "quantity" => 2,
                 "expected" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ],
                     [
-                        BundleConstants::ID_FIELD_KEY => 3,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 3,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -540,20 +540,20 @@ class ArticleHelperTest extends TestCase
 
         $result = $helper->getBy(
             [
-                BundleConstants::LIMIT_FIELD_KEY => 1
+                EntityConstants::LIMIT_FIELD_KEY => 1
             ]
         );
 
 
         $expected = [
             "total" => 1,
-            BundleConstants::LIMIT_FIELD_KEY => 1,
+            EntityConstants::LIMIT_FIELD_KEY => 1,
             "pages" => 1,
             "page" => 1,
             "results" => [
                 [
-                    BundleConstants::ID_FIELD_KEY => 1,
-                    BundleConstants::SEARCHABLE_FIELD_KEY => 1
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SEARCHABLE_FIELD_KEY => 1
                 ]
             ]
         ];
@@ -572,8 +572,8 @@ class ArticleHelperTest extends TestCase
         $result = $helper->getLastPublished();
 
         $expected = [
-            BundleConstants::ID_FIELD_KEY => 1,
-            BundleConstants::SEARCHABLE_FIELD_KEY => true
+            EntityConstants::ID_FIELD_KEY => 1,
+            EntityConstants::SEARCHABLE_FIELD_KEY => true
         ];
 
         $this->assertEquals($expected, $result);
@@ -627,8 +627,8 @@ class ArticleHelperTest extends TestCase
         $result = $helper->getLastPublishedWithType(1);
 
         $expected = [
-            BundleConstants::ID_FIELD_KEY => 1,
-            BundleConstants::SEARCHABLE_FIELD_KEY => true
+            EntityConstants::ID_FIELD_KEY => 1,
+            EntityConstants::SEARCHABLE_FIELD_KEY => true
         ];
 
         $this->assertEquals($expected, $result);
@@ -685,7 +685,7 @@ class ArticleHelperTest extends TestCase
     public function testHasSubscriptionsReturnsTrue()
     {
         $helper = new ArticleHelper($this->api);
-        $result = $helper->hasSubscriptions([BundleConstants::SUBSCRIPTIONS_FIELD_KEY => [BundleConstants::ID_FIELD_KEY => 1]]);
+        $result = $helper->hasSubscriptions([EntityConstants::SUBSCRIPTIONS_FIELD_KEY => [EntityConstants::ID_FIELD_KEY => 1]]);
 
         $this->assertTrue($result);
     }
@@ -714,10 +714,10 @@ class ArticleHelperTest extends TestCase
                 "article" => []
             ],
             [
-                "article" => [BundleConstants::ID_FIELD_KEY => 1]
+                "article" => [EntityConstants::ID_FIELD_KEY => 1]
             ],
             [
-                "article" => [BundleConstants::SUBSCRIPTIONS_FIELD_KEY => []]
+                "article" => [EntityConstants::SUBSCRIPTIONS_FIELD_KEY => []]
             ]
         ];
     }

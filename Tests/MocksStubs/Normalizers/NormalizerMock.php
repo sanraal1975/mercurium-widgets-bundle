@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers;
 
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityNormalizerInterface;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 
 /**
@@ -20,8 +20,8 @@ class NormalizerMock implements AbstractEntityNormalizerInterface
      */
     public function normalize(array $entity): array
     {
-        if (!empty($entity[BundleConstants::ID_FIELD_KEY])) {
-            if ($entity[BundleConstants::ID_FIELD_KEY] == TestHelper::ENTITY_ID_TO_RETURN_EMPTY) {
+        if (!empty($entity[EntityConstants::ID_FIELD_KEY])) {
+            if ($entity[EntityConstants::ID_FIELD_KEY] == TestHelper::ENTITY_ID_TO_RETURN_EMPTY) {
                 return [];
             }
         }

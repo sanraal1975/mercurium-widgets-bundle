@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs;
 
 use Comitium5\ApiClientBundle\Client\Client;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 
 class ClientMock extends Client
@@ -28,7 +28,7 @@ class ClientMock extends Client
                     "data" => [
                         "results" => [
                             [
-                                BundleConstants::ID_FIELD_KEY => $id,
+                                EntityConstants::ID_FIELD_KEY => $id,
                             ]
                         ]
                     ],
@@ -39,12 +39,12 @@ class ClientMock extends Client
                     "data" => [
                         "results" => [
                             [
-                                BundleConstants::ID_FIELD_KEY => $id,
-                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                EntityConstants::ID_FIELD_KEY => $id,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
                                 "children" => [
                                     [
-                                        BundleConstants::ID_FIELD_KEY => 1,
-                                        BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                        EntityConstants::ID_FIELD_KEY => 1,
+                                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
                                     ]
                                 ],
                             ]
@@ -57,10 +57,10 @@ class ClientMock extends Client
                     "data" => [
                         "results" => [
                             [
-                                BundleConstants::ID_FIELD_KEY => $id,
-                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                EntityConstants::ID_FIELD_KEY => $id,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
                                 "asset" => [
-                                    BundleConstants::ID_FIELD_KEY => 1
+                                    EntityConstants::ID_FIELD_KEY => 1
                                 ]
                             ]
                         ]
@@ -72,8 +72,8 @@ class ClientMock extends Client
                     "data" => [
                         "results" => [
                             [
-                                BundleConstants::ID_FIELD_KEY => $id,
-                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                EntityConstants::ID_FIELD_KEY => $id,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
                                 "socialNetworks" => [
                                     [
                                         "socialNetwork" => "facebook",
@@ -90,8 +90,8 @@ class ClientMock extends Client
                     "data" => [
                         "results" => [
                             [
-                                BundleConstants::ID_FIELD_KEY => $id,
-                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                EntityConstants::ID_FIELD_KEY => $id,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
                                 "socialNetworks" => [
                                     [
                                         "socialNetwork" => "facebook",
@@ -108,8 +108,8 @@ class ClientMock extends Client
                     "data" => [
                         "results" => [
                             [
-                                BundleConstants::ID_FIELD_KEY => $id,
-                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                EntityConstants::ID_FIELD_KEY => $id,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
                                 "socialNetworks" => [
                                     [
                                         "socialNetwork" => "banned_social_network",
@@ -127,8 +127,8 @@ class ClientMock extends Client
             "data" => [
                 "results" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => $id,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => $id,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],
@@ -147,13 +147,13 @@ class ClientMock extends Client
             "statusCode" => 200,
             "data" => [
                 "total" => 1,
-                BundleConstants::LIMIT_FIELD_KEY => 1,
+                EntityConstants::LIMIT_FIELD_KEY => 1,
                 "pages" => 1,
                 "page" => 1,
                 "results" => [
                     [
-                        BundleConstants::ID_FIELD_KEY => 1,
-                        BundleConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
                     ]
                 ]
             ],

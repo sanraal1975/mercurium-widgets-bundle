@@ -2,7 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 
 /**
  * Class EntityHelper
@@ -22,7 +22,7 @@ class EntityHelper
             return false;
         }
 
-        if (empty($entity[BundleConstants::SEARCHABLE_FIELD_KEY])) {
+        if (empty($entity[EntityConstants::SEARCHABLE_FIELD_KEY])) {
             return false;
         }
 
@@ -37,7 +37,7 @@ class EntityHelper
      */
     public function hasCategory(array $entity, int $categoryId): bool
     {
-        if (empty($entity[BundleConstants::CATEGORIES_FIELD_KEY])) {
+        if (empty($entity[EntityConstants::CATEGORIES_FIELD_KEY])) {
             return false;
         }
 
@@ -45,8 +45,8 @@ class EntityHelper
             return false;
         }
 
-        foreach ($entity[BundleConstants::CATEGORIES_FIELD_KEY] as $category) {
-            if ($category[BundleConstants::ID_FIELD_KEY] == $categoryId) {
+        foreach ($entity[EntityConstants::CATEGORIES_FIELD_KEY] as $category) {
+            if ($category[EntityConstants::ID_FIELD_KEY] == $categoryId) {
                 return true;
             }
         }

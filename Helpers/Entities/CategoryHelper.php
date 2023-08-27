@@ -8,7 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
-use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
@@ -166,8 +166,8 @@ class CategoryHelper extends AbstractEntityHelper
     {
         $results = $this->getBy(
             [
-                BundleConstants::LIMIT_FIELD_KEY => 1,
-                BundleConstants::SORT_FIELD_KEY => BundleConstants::PUBLISHED_DESC,
+                EntityConstants::LIMIT_FIELD_KEY => 1,
+                EntityConstants::SORT_FIELD_KEY => EntityConstants::PUBLISHED_DESC,
             ]
         );
 
@@ -196,19 +196,19 @@ class CategoryHelper extends AbstractEntityHelper
                 continue;
             }
 
-            if (empty($child[BundleConstants::ID_FIELD_KEY])) {
+            if (empty($child[EntityConstants::ID_FIELD_KEY])) {
                 unset ($category["children"][$key]);
                 continue;
             }
 
-            $child = $this->get($child[BundleConstants::ID_FIELD_KEY]);
+            $child = $this->get($child[EntityConstants::ID_FIELD_KEY]);
 
             if (empty($child)) {
                 unset($category["children"][$key]);
                 continue;
             }
 
-            if (empty($child[BundleConstants::SEARCHABLE_FIELD_KEY])) {
+            if (empty($child[EntityConstants::SEARCHABLE_FIELD_KEY])) {
                 unset($category["children"][$key]);
                 continue;
             }
@@ -235,15 +235,15 @@ class CategoryHelper extends AbstractEntityHelper
             return [];
         }
 
-        if (empty($category[BundleConstants::ID_FIELD_KEY])) {
+        if (empty($category[EntityConstants::ID_FIELD_KEY])) {
             return [];
         }
 
         if (empty($category["children"])) {
-            return [$category[BundleConstants::ID_FIELD_KEY]];
+            return [$category[EntityConstants::ID_FIELD_KEY]];
         }
 
-        $categoriesIds[] = $category[BundleConstants::ID_FIELD_KEY];
+        $categoriesIds[] = $category[EntityConstants::ID_FIELD_KEY];
         foreach ($category["children"] as $child) {
             $categoriesIds = array_merge($categoriesIds, $this->getCategoryIdAndChildrenIds($child));
         }
@@ -283,7 +283,7 @@ class CategoryHelper extends AbstractEntityHelper
         $parameters = [
             "groups" => $groupId,
             "order" => "title asc",
-            BundleConstants::LIMIT_FIELD_KEY => $quantity
+            EntityConstants::LIMIT_FIELD_KEY => $quantity
         ];
 
         return $this->getBy($parameters);
