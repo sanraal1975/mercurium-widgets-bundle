@@ -2,7 +2,6 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Factories;
 
-use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
@@ -10,6 +9,7 @@ use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\ApiClientBundle\Client\Services\TagApiService;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,9 +20,9 @@ use PHPUnit\Framework\TestCase;
 class ApiServiceFactoryTest extends TestCase
 {
     /**
-     * @var TestHelper
+     * @var ClientMock
      */
-    private $testHelper;
+    private $api;
 
     /**
      * @param $name
@@ -32,14 +32,16 @@ class ApiServiceFactoryTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = "")
     {
         parent::__construct($name, $data, $dataName);
-        $this->testHelper = new TestHelper();
+        $testHelper = new TestHelper();
+        $this->api = $testHelper->getApi();
     }
+
     /**
      * @return void
      */
     public function testCreateArticleApiService()
     {
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $factory = new ApiServiceFactory($this->api);
 
         $service = $factory->createArticleApiService();
 
@@ -51,7 +53,7 @@ class ApiServiceFactoryTest extends TestCase
      */
     public function testCreateAssetApiService()
     {
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $factory = new ApiServiceFactory($this->api);
 
         $service = $factory->createAssetApiService();
 
@@ -63,7 +65,7 @@ class ApiServiceFactoryTest extends TestCase
      */
     public function testCreateAuthorApiService()
     {
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $factory = new ApiServiceFactory($this->api);
 
         $service = $factory->createAuthorApiService();
 
@@ -75,19 +77,19 @@ class ApiServiceFactoryTest extends TestCase
      */
     public function testCreateCategoryApiService()
     {
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $factory = new ApiServiceFactory($this->api);
 
         $service = $factory->createCategoryApiService();
 
         $this->assertInstanceOf(CategoryApiService::class, $service);
     }
-    
+
     /**
      * @return void
      */
     public function testCreateTagApiService()
     {
-        $factory = new ApiServiceFactory($this->testHelper->getApi());
+        $factory = new ApiServiceFactory($this->api);
 
         $service = $factory->createTagApiService();
 
