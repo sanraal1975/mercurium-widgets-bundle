@@ -18,11 +18,6 @@ use TypeError;
 class ArticleAssetFieldsNormalizerTest extends TestCase
 {
     /**
-     * @var TestHelper
-     */
-    private $testHelper;
-
-    /**
      * @var ClientMock
      */
     private $api;
@@ -37,7 +32,6 @@ class ArticleAssetFieldsNormalizerTest extends TestCase
         parent::__construct($name, $data, $dataName);
 
         $testHelper = new TestHelper();
-        $this->testHelper = $testHelper;
         $this->api = $testHelper->getApi();
     }
 

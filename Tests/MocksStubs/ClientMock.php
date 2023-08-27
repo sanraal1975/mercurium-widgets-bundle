@@ -51,6 +51,75 @@ class ClientMock extends Client
                         ]
                     ]
                 ];
+            case TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET:
+                return [
+                    "statusCode" => 200,
+                    "data" => [
+                        "results" => [
+                            [
+                                BundleConstants::ID_FIELD_KEY => $id,
+                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                "asset" => [
+                                    BundleConstants::ID_FIELD_KEY => 1
+                                ]
+                            ]
+                        ]
+                    ]
+                ];
+            case TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORKS:
+                return [
+                    "statusCode" => 200,
+                    "data" => [
+                        "results" => [
+                            [
+                                BundleConstants::ID_FIELD_KEY => $id,
+                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                "socialNetworks" => [
+                                    [
+                                        "socialNetwork" => "facebook",
+                                        "url" => "https://www.foo.bar"
+                                    ],
+                                ]
+                            ]
+                        ]
+                    ]
+                ];
+            case TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL:
+                return [
+                    "statusCode" => 200,
+                    "data" => [
+                        "results" => [
+                            [
+                                BundleConstants::ID_FIELD_KEY => $id,
+                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                "socialNetworks" => [
+                                    [
+                                        "socialNetwork" => "facebook",
+                                        "url" => ""
+                                    ],
+                                ]
+                            ]
+                        ]
+                    ]
+                ];
+            case TestHelper::AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK:
+                return [
+                    "statusCode" => 200,
+                    "data" => [
+                        "results" => [
+                            [
+                                BundleConstants::ID_FIELD_KEY => $id,
+                                BundleConstants::SEARCHABLE_FIELD_KEY => true,
+                                "socialNetworks" => [
+                                    [
+                                        "socialNetwork" => "banned_social_network",
+                                        "url" => "https://www.foo.bar"
+                                    ],
+                                ]
+                            ]
+                        ]
+                    ]
+                ];
         }
 
         return [
