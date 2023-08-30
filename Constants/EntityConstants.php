@@ -20,6 +20,7 @@ class EntityConstants
     const SOCIAL_NETWORKS_FIELD_KEY = "socialNetworks";
     const SORT_FIELD_KEY = "sort";
     const SUBSCRIPTIONS_FIELD_KEY = "subscriptions";
+    const TAGS_FIELD_KEY = "tags";
     const TYPE_FIELD_KEY = "type";
 
     // Sort fields key

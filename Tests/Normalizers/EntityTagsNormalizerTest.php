@@ -88,7 +88,7 @@ class EntityTagsNormalizerTest extends TestCase
             ],
             [
                 "helper" => new TagHelper($this->api),
-                "field" => "tags",
+                "field" => EntityConstants::TAGS_FIELD_KEY,
                 "quantity" => null
             ],
         ];
@@ -115,7 +115,7 @@ class EntityTagsNormalizerTest extends TestCase
 
         $quantity = $this->testHelper->getZeroOrNegativeValue();
 
-        new EntityTagsNormalizer($this->api, "tags", $quantity);
+        new EntityTagsNormalizer($this->api, EntityConstants::TAGS_FIELD_KEY, $quantity);
     }
 
     /**
@@ -179,8 +179,8 @@ class EntityTagsNormalizerTest extends TestCase
                 "expected" => [EntityConstants::ID_FIELD_KEY => 1],
             ],
             [
-                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => null],
-                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => null],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => null],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => null],
             ],
         ];
     }
@@ -191,10 +191,10 @@ class EntityTagsNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityWithFieldEmptied()
     {
-        $normalizer = new EntityTagsNormalizer($this->api, "tags", 0);
-        $result = $normalizer->normalize([EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 2]]]);
+        $normalizer = new EntityTagsNormalizer($this->api, EntityConstants::TAGS_FIELD_KEY, 0);
+        $result = $normalizer->normalize([EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => 2]]]);
 
-        $expected = [EntityConstants::ID_FIELD_KEY => 1, "tags" => []];
+        $expected = [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => []];
 
         $this->assertEquals($expected, $result);
     }
@@ -207,10 +207,10 @@ class EntityTagsNormalizerTest extends TestCase
     {
         $this->expectExceptionMessage(TagHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $normalizer = new EntityTagsNormalizer($this->api, "tags", 1);
+        $normalizer = new EntityTagsNormalizer($this->api, EntityConstants::TAGS_FIELD_KEY, 1);
         $categoryId = $this->testHelper->getZeroOrNegativeValue();
 
-        $normalizer->normalize([EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $categoryId]]]);
+        $normalizer->normalize([EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => $categoryId]]]);
     }
 
     /**
@@ -221,7 +221,7 @@ class EntityTagsNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityTagsNormalized($entity, $expected, $quantity)
     {
-        $normalizer = new EntityTagsNormalizer($this->api, "tags", $quantity);
+        $normalizer = new EntityTagsNormalizer($this->api, EntityConstants::TAGS_FIELD_KEY, $quantity);
 
         $result = $normalizer->normalize($entity);
         $this->assertEquals($expected, $result);
@@ -234,28 +234,28 @@ class EntityTagsNormalizerTest extends TestCase
     {
         return [
             [
-                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1]]],
-                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]]],
-                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => []],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => []],
                 "quantity" => 1
             ],
             [
-                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1]]],
-                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1], [EntityConstants::ID_FIELD_KEY => 2]]],
-                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1], [EntityConstants::ID_FIELD_KEY => 2]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 1
             ],
             [
-                "entity" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1], [EntityConstants::ID_FIELD_KEY => 2]]],
-                "expected" => [EntityConstants::ID_FIELD_KEY => 1, "tags" => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true], [EntityConstants::ID_FIELD_KEY => 2, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY], [EntityConstants::ID_FIELD_KEY => 1], [EntityConstants::ID_FIELD_KEY => 2]]],
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::TAGS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true], [EntityConstants::ID_FIELD_KEY => 2, EntityConstants::SEARCHABLE_FIELD_KEY => true]]],
                 "quantity" => 2
             ]
         ];

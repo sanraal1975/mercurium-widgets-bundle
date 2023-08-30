@@ -39,7 +39,7 @@ class EntityTagsNormalizer implements AbstractEntityNormalizerInterface
      * @param int $quantity
      * @throws Exception
      */
-    public function __construct(Client $api, string $field = "tags", int $quantity = PHP_INT_MAX)
+    public function __construct(Client $api, string $field = EntityConstants::TAGS_FIELD_KEY, int $quantity = PHP_INT_MAX)
     {
         $this->field = $field;
         $this->quantity = $quantity;

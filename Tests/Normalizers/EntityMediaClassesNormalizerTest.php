@@ -1,6 +1,6 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers\Entities;
+namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 
 use ArgumentCountError;
 use Comitium5\ApiClientBundle\Tests\TestCase;
@@ -12,7 +12,7 @@ use TypeError;
 /**
  * Class EntityMediaClassesNormalizerTest
  *
- * @package Comitium5\MercuriumWidgetsBundle\Tests\Normalizers\Entities
+ * @package Comitium5\MercuriumWidgetsBundle\Tests\Normalizers
  */
 class EntityMediaClassesNormalizerTest extends TestCase
 {
