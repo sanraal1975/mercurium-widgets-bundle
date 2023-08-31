@@ -150,11 +150,23 @@ class ArticleAssetFieldsNormalizerTest extends TestCase
                 "expected" => []
             ],
             [
-                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::IMAGE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
+                    ]
+                ],
                 "normalizeImage" => true,
                 "normalizeVideo" => false,
                 "normalizeAudio" => false,
-                "expected" => [EntityConstants::ID_FIELD_KEY => 1],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::IMAGE_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        "orientation" => "is-horizontal"
+                    ]
+                ],
             ],
             [
                 "entity" => [EntityConstants::ID_FIELD_KEY => 1],

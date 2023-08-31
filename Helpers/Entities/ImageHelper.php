@@ -97,4 +97,34 @@ class ImageHelper extends AssetHelper
 
         return $image;
     }
+
+    /**
+     * @param array $image
+     *
+     * @return array
+     */
+    public function setOrientation(array $image): array
+    {
+        if (empty($image)) {
+            return [];
+        }
+
+        $width = 0;
+        if (!empty($image['metadata']['width'])) {
+            $width = $image['metadata']['width'];
+        }
+
+        $height = 0;
+        if (!empty($image['metadata']['height'])) {
+            $height = $image['metadata']['height'];
+        }
+
+        if ($height > $width) {
+            $image['orientation'] = "is-vertical";
+        } else {
+            $image['orientation'] = "is-horizontal";
+        }
+
+        return $image;
+    }
 }

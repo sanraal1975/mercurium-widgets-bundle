@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
+use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -44,7 +45,6 @@ class ImageHelperTest extends TestCase
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */
@@ -305,5 +305,70 @@ class ImageHelperTest extends TestCase
         $result = $helper->setCrop($image, $crop);
 
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testSetOrientationThrowsArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new ImageHelper($this->api);
+        $result = $helper->setOrientation();
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testSetOrientationThrowsTypeErrorException()
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new ImageHelper($this->api);
+        $result = $helper->setOrientation(null);
+    }
+
+    /**
+     * @dataProvider setOrientationReturnEntity
+     *
+     * @param $image
+     * @param $expected
+     *
+     * @return void
+     */
+    public function testSetOrientationReturnEntity($image, $expected)
+    {
+        $helper = new ImageHelper($this->api);
+        $result = $helper->setOrientation($image);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function setOrientationReturnEntity(): array
+    {
+        return [
+            [
+                "image" => [],
+                "expected" => []
+            ],
+            [
+                "image" => ["id" => 1],
+                "expected" => ["id" => 1, "orientation" => "is-horizontal"]
+            ],
+            [
+                "image" => ["id" => 1, "metadata" => ["height" => 1]],
+                "expected" => ["id" => 1, "metadata" => ["height" => 1], "orientation" => "is-vertical"]
+            ],
+            [
+                "image" => ["id" => 1, "metadata" => ["width" => 1]],
+                "expected" => ["id" => 1, "metadata" => ["width" => 1], "orientation" => "is-horizontal"]
+            ]
+        ];
     }
 }

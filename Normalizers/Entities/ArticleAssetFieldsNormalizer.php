@@ -5,7 +5,9 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers\Entities;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
+use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
 
 /**
@@ -61,9 +63,13 @@ class ArticleAssetFieldsNormalizer implements NormalizerInterface
             return [];
         }
 
+        $testHelper = new TestHelper();
+
         if ($this->normalizeImage) {
             $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
             $entity = $normalizer->normalize($entity);
+            $helper = new ImageHelper($this->api);
+            $entity[EntityConstants::IMAGE_FIELD_KEY] = $helper->setOrientation($entity[EntityConstants::IMAGE_FIELD_KEY]);
         }
 
         if ($this->normalizeVideo) {
