@@ -61,26 +61,21 @@ class EntityAssetNormalizer implements AbstractEntityNormalizerInterface
      */
     public function normalize(array $entity): array
     {
-        if (empty($entity)) {
-            return $entity;
+        if (!empty($entity)) {
+            if (!empty($entity[$this->field])) {
+                $assetId = $entity[$this->field];
+                if (!empty($entity[$this->field][EntityConstants::ID_FIELD_KEY])) {
+                    $assetId = $entity[$this->field][EntityConstants::ID_FIELD_KEY];
+
+                }
+
+                if (!is_numeric($assetId)) {
+                    throw new Exception(self::NON_NUMERIC_ASSET_ID . " in field " . $this->field);
+                }
+
+                $entity[$this->field] = $this->helper->get((int)$assetId);
+            }
         }
-
-        if (empty($entity[$this->field])) {
-            return $entity;
-        }
-
-        $assetId = $entity[$this->field];
-        if (!empty($entity[$this->field][EntityConstants::ID_FIELD_KEY])) {
-            $assetId = $entity[$this->field][EntityConstants::ID_FIELD_KEY];
-
-        }
-
-        if (!is_numeric($assetId)) {
-            throw new Exception(self::NON_NUMERIC_ASSET_ID . " in field " . $this->field);
-        }
-
-        $entity[$this->field] = $this->helper->get((int)$assetId);
-
         return $entity;
     }
 }

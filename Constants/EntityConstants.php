@@ -11,17 +11,21 @@ class EntityConstants
 {
     // Entity fields keys
     const ASSET_FIELD_KEY = "asset";
+    const ASSETS_FIELD_KEY = "assets";
     const AUTHOR_FIELD_KEY = "author";
     const CATEGORIES_FIELD_KEY = "categories";
     const FIELDS_FIELD_KEY = "fields";
     const ID_FIELD_KEY = "id";
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
     const SEARCHABLE_FIELD_KEY = "searchable";
+    const SOCIAL_NETWORK_FIELD_KEY = "socialNetwork";
     const SOCIAL_NETWORKS_FIELD_KEY = "socialNetworks";
     const SORT_FIELD_KEY = "sort";
     const SUBSCRIPTIONS_FIELD_KEY = "subscriptions";
     const TAGS_FIELD_KEY = "tags";
+    const TOTAL_ASSETS_FIELD_KEY = "totalAssets";
     const TYPE_FIELD_KEY = "type";
+    const URL_FIELD_KEY = "url";
 
     // Sort fields key
     const PUBLISHED_DESC = "publishedAt desc";

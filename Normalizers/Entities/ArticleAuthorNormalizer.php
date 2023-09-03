@@ -98,12 +98,12 @@ class ArticleAuthorNormalizer implements NormalizerInterface
         $areBannedSocialNetworks = !empty($this->bannedSocialNetworks);
 
         foreach ($entitySocialNetworks as $socialNetwork) {
-            if (empty($socialNetwork['url'])) {
+            if (empty($socialNetwork[EntityConstants::URL_FIELD_KEY])) {
                 continue;
             }
 
             if ($areBannedSocialNetworks) {
-                if (in_array($socialNetwork['socialNetwork'], $this->bannedSocialNetworks)) {
+                if (in_array($socialNetwork[EntityConstants::SOCIAL_NETWORK_FIELD_KEY], $this->bannedSocialNetworks)) {
                     continue;
                 }
             }

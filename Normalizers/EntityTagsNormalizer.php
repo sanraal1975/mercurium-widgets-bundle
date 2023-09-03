@@ -71,38 +71,32 @@ class EntityTagsNormalizer implements AbstractEntityNormalizerInterface
      */
     public function normalize(array $entity): array
     {
-        if (empty($entity)) {
-            return [];
-        }
+        if (!empty($entity)) {
+            if (!empty($entity[$this->field])) {
+                if ($this->quantity === 0) {
+                    $entity[$this->field] = [];
+                } else {
+                    $normalizedTags = [];
+                    foreach ($entity[$this->field] as $tag) {
+                        $tagId = empty($tag[EntityConstants::ID_FIELD_KEY]) ? $tag : $tag[EntityConstants::ID_FIELD_KEY];
+                        $tagId = (int)$tagId;
 
-        if (empty($entity[$this->field])) {
-            return $entity;
-        }
+                        $tagFromApi = $this->helper->get($tagId);
+                        if (empty($tagFromApi)) {
+                            continue;
+                        }
 
-        if ($this->quantity === 0) {
-            $entity[$this->field] = [];
-            return $entity;
-        }
+                        $normalizedTags[] = $tagFromApi;
 
-        $normalizedTags = [];
-        foreach ($entity[$this->field] as $tag) {
-            $tagId = empty($tag[EntityConstants::ID_FIELD_KEY]) ? $tag : $tag[EntityConstants::ID_FIELD_KEY];
-            $tagId = (int)$tagId;
+                        if (count($normalizedTags) === $this->quantity) {
+                            break;
+                        }
+                    }
 
-            $tagFromApi = $this->helper->get($tagId);
-            if (empty($tagFromApi)) {
-                continue;
-            }
-
-            $normalizedTags[] = $tagFromApi;
-
-            if (count($normalizedTags) === $this->quantity) {
-                break;
+                    $entity[$this->field] = $normalizedTags;
+                }
             }
         }
-
-        $entity[$this->field] = $normalizedTags;
-
         return $entity;
     }
 

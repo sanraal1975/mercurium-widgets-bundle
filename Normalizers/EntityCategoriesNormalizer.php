@@ -71,38 +71,31 @@ class EntityCategoriesNormalizer implements AbstractEntityNormalizerInterface
      */
     public function normalize(array $entity): array
     {
-        if (empty($entity)) {
-            return [];
-        }
+        if (!empty($entity)) {
+            if (!empty($entity[$this->field])) {
+                if ($this->quantity === 0) {
+                    $entity[$this->field] = [];
+                } else {
+                    $normalizedCategories = [];
+                    foreach ($entity[$this->field] as $category) {
+                        $categoryId = empty($category[EntityConstants::ID_FIELD_KEY]) ? $category : $category[EntityConstants::ID_FIELD_KEY];
+                        $categoryId = (int)$categoryId;
 
-        if (empty($entity[$this->field])) {
-            return $entity;
-        }
+                        $categoryFromApi = $this->helper->get($categoryId);
+                        if (empty($categoryFromApi)) {
+                            continue;
+                        }
 
-        if ($this->quantity === 0) {
-            $entity[$this->field] = [];
-            return $entity;
-        }
+                        $normalizedCategories[] = $categoryFromApi;
 
-        $normalizedCategories = [];
-        foreach ($entity[$this->field] as $category) {
-            $categoryId = empty($category[EntityConstants::ID_FIELD_KEY]) ? $category : $category[EntityConstants::ID_FIELD_KEY];
-            $categoryId = (int)$categoryId;
-
-            $categoryFromApi = $this->helper->get($categoryId);
-            if (empty($categoryFromApi)) {
-                continue;
-            }
-
-            $normalizedCategories[] = $categoryFromApi;
-
-            if (count($normalizedCategories) === $this->quantity) {
-                break;
+                        if (count($normalizedCategories) === $this->quantity) {
+                            break;
+                        }
+                    }
+                    $entity[$this->field] = $normalizedCategories;
+                }
             }
         }
-
-        $entity[$this->field] = $normalizedCategories;
-
         return $entity;
     }
 }

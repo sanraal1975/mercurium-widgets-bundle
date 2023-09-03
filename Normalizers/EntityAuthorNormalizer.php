@@ -34,7 +34,7 @@ class EntityAuthorNormalizer implements AbstractEntityNormalizerInterface
      * @param string $field
      * @throws Exception
      */
-    public function __construct(Client $api, string $field = "author")
+    public function __construct(Client $api, string $field = EntityConstants::AUTHOR_FIELD_KEY)
     {
         $this->field = $field;
         $this->helper = new AuthorHelper($api);
@@ -61,25 +61,20 @@ class EntityAuthorNormalizer implements AbstractEntityNormalizerInterface
      */
     public function normalize(array $entity): array
     {
-        if (empty($entity)) {
-            return $entity;
+        if (!empty($entity)) {
+            if (!empty($entity[$this->field])) {
+                $authorId = $entity[$this->field];
+                if (!empty($entity[$this->field][EntityConstants::ID_FIELD_KEY])) {
+                    $authorId = $entity[$this->field][EntityConstants::ID_FIELD_KEY];
+                }
+
+                if (!is_numeric($authorId)) {
+                    throw new Exception(self::NON_NUMERIC_AUTHOR_ID . " in field " . $this->field);
+                }
+
+                $entity[$this->field] = $this->helper->get((int)$authorId);
+            }
         }
-
-        if (empty($entity[$this->field])) {
-            return $entity;
-        }
-
-        $authorId = $entity[$this->field];
-        if (!empty($entity[$this->field][EntityConstants::ID_FIELD_KEY])) {
-            $authorId = $entity[$this->field][EntityConstants::ID_FIELD_KEY];
-        }
-
-        if (!is_numeric($authorId)) {
-            throw new Exception(self::NON_NUMERIC_AUTHOR_ID . " in field " . $this->field);
-        }
-
-        $entity[$this->field] = $this->helper->get((int)$authorId);
-
         return $entity;
     }
 }

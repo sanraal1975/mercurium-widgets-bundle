@@ -41,6 +41,7 @@ class EntityNormalizer
             throw new Exception(self::EMPTY_NORMALIZERS_ARRAY);
         }
     }
+
     /**
      * @param array $entity
      *
@@ -48,14 +49,11 @@ class EntityNormalizer
      */
     public function normalize(array $entity): array
     {
-        if (empty($entity)) {
-            return $entity;
+        if (empty(!$entity)) {
+            foreach ($this->normalizers as $normalizer) {
+                $entity = $normalizer->normalize($entity);
+            }
         }
-
-        foreach ($this->normalizers as $normalizer) {
-            $entity = $normalizer->normalize($entity);
-        }
-
         return $entity;
     }
 }

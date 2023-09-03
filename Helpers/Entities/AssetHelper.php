@@ -72,27 +72,22 @@ class AssetHelper extends AbstractEntityHelper
      */
     public function getByIds(string $entitiesIds): array
     {
-        if (empty($entitiesIds)) {
-            return [];
-        }
-
-        $helper = new EntityHelper();
-
-        $entitiesIdsAsArray = explode(",", $entitiesIds);
         $entities = [];
+        if (!empty($entitiesIds)) {
+            $helper = new EntityHelper();
 
-        foreach ($entitiesIdsAsArray as $entityId) {
-            $entityId = (int)$entityId;
+            $entitiesIdsAsArray = explode(",", $entitiesIds);
+            foreach ($entitiesIdsAsArray as $entityId) {
+                $entityId = (int)$entityId;
+                $entity = $this->get($entityId);
 
-            $entity = $this->get($entityId);
+                if (!$helper->isValid($entity)) {
+                    continue;
+                }
 
-            if (!$helper->isValid($entity)) {
-                continue;
+                $entities[] = $entity;
             }
-
-            $entities[] = $entity;
         }
-
         return $entities;
     }
 

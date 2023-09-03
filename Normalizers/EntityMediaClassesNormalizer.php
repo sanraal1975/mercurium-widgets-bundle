@@ -19,36 +19,34 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     public function normalize(array &$entity): array
     {
-        if (empty($entity)) {
-            return [];
+        if (!empty($entity)) {
+            $mediaClasses = [];
+
+            $categoryId = $this->getCategoryId($entity);
+            if (!empty($categoryId)) {
+                $mediaClasses[] = EntityConstants::HAS_CATEGORY . $categoryId;
+            }
+
+            $hasImage = $this->hasImage($entity);
+            if ($hasImage) {
+                $mediaClasses[] = EntityConstants::HAS_IMAGE;
+            } else {
+                $mediaClasses[] = EntityConstants::HAS_NO_IMAGE;
+            }
+
+            $hasVideo = $this->hasVideo($entity);
+            if ($hasVideo) {
+                $mediaClasses[] = EntityConstants::HAS_VIDEO;
+            }
+
+            $hasAudio = $this->hasAudio($entity);
+            if ($hasAudio) {
+                $mediaClasses[] = EntityConstants::HAS_AUDIO;
+            }
+
+            $mediaClasses = implode(" ", $mediaClasses);
+            $entity[EntityConstants::MEDIA_CLASSES_FIELD_KEY] = $mediaClasses;
         }
-
-        $mediaClasses = [];
-
-        $categoryId = $this->getCategoryId($entity);
-        if (!empty($categoryId)) {
-            $mediaClasses[] = EntityConstants::HAS_CATEGORY . $categoryId;
-        }
-
-        $hasImage = $this->hasImage($entity);
-        if ($hasImage) {
-            $mediaClasses[] = EntityConstants::HAS_IMAGE;
-        } else {
-            $mediaClasses[] = EntityConstants::HAS_NO_IMAGE;
-        }
-
-        $hasVideo = $this->hasVideo($entity);
-        if ($hasVideo) {
-            $mediaClasses[] = EntityConstants::HAS_VIDEO;
-        }
-
-        $hasAudio = $this->hasAudio($entity);
-        if ($hasAudio) {
-            $mediaClasses[] = EntityConstants::HAS_AUDIO;
-        }
-
-        $mediaClasses = implode(" ", $mediaClasses);
-        $entity[EntityConstants::MEDIA_CLASSES_FIELD_KEY] = $mediaClasses;
 
         return $entity;
     }
