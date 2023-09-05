@@ -115,6 +115,7 @@ class GalleryNormalizer implements NormalizerInterface
                 }
             }
         }
+
         return $entity;
     }
 }

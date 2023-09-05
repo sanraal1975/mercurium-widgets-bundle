@@ -29,9 +29,12 @@ class EntityConstants
 
     // Sort fields key
     const PUBLISHED_DESC = "publishedAt desc";
+    const TITLE_ASC = "title asc";
 
     // Query fields key
+    const GROUPS_FIELD_KEY = "groups";
     const LIMIT_FIELD_KEY = "limit";
+    const ORDER_FIELD_KEY = "order";
 
     // Assets fields keys
     const IMAGE_FIELD_KEY = "image";

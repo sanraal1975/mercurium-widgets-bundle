@@ -110,35 +110,30 @@ class CategoryHelper extends AbstractEntityHelper
      */
     public function getByIdsAndQuantity(string $entitiesIds, int $quantityOfEntities = PHP_INT_MAX): array
     {
-        if (empty($entitiesIds)) {
-            return [];
-        }
-
-        if ($quantityOfEntities < 0) {
-            throw new Exception(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-        }
-
-        if ($quantityOfEntities == 0) {
-            return [];
-        }
-
-        $helper = new EntityHelper();
-
-        $entitiesIdsAsArray = explode(",", $entitiesIds);
         $entities = [];
-
-        foreach ($entitiesIdsAsArray as $entityId) {
-            $entityId = (int)$entityId;
-            $entity = $this->get($entityId);
-
-            if (!$helper->isValid($entity)) {
-                continue;
+        if (!empty($entitiesIds)) {
+            if ($quantityOfEntities < 0) {
+                throw new Exception(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
             }
 
-            $entities[] = $entity;
+            if ($quantityOfEntities != 0) {
+                $helper = new EntityHelper();
 
-            if (count($entities) == $quantityOfEntities) {
-                break;
+                $entitiesIdsAsArray = explode(",", $entitiesIds);
+                foreach ($entitiesIdsAsArray as $entityId) {
+                    $entityId = (int)$entityId;
+                    $entity = $this->get($entityId);
+
+                    if (!$helper->isValid($entity)) {
+                        continue;
+                    }
+
+                    $entities[] = $entity;
+
+                    if (count($entities) == $quantityOfEntities) {
+                        break;
+                    }
+                }
             }
         }
 
@@ -182,45 +177,36 @@ class CategoryHelper extends AbstractEntityHelper
      */
     public function getChildren(array $category): array
     {
-        if (empty($category)) {
-            return $category;
-        }
+        if (!empty($category)) {
+            if (!empty($category["children"])) {
+                $helper = new EntityHelper();
+                foreach ($category["children"] as $key => $child) {
+                    if (empty($child)) {
+                        unset ($category["children"][$key]);
+                        continue;
+                    }
 
-        if (empty($category["children"])) {
-            return $category;
-        }
+                    if (empty($child[EntityConstants::ID_FIELD_KEY])) {
+                        unset ($category["children"][$key]);
+                        continue;
+                    }
 
-        foreach ($category["children"] as $key => $child) {
-            if (empty($child)) {
-                unset ($category["children"][$key]);
-                continue;
-            }
+                    $child = $this->get($child[EntityConstants::ID_FIELD_KEY]);
 
-            if (empty($child[EntityConstants::ID_FIELD_KEY])) {
-                unset ($category["children"][$key]);
-                continue;
-            }
+                    if (!$helper->isValid($child)) {
+                        unset($category["children"][$key]);
+                        continue;
+                    }
 
-            $child = $this->get($child[EntityConstants::ID_FIELD_KEY]);
+                    $category["children"][$key] = $child;
 
-            if (empty($child)) {
-                unset($category["children"][$key]);
-                continue;
-            }
-
-            if (empty($child[EntityConstants::SEARCHABLE_FIELD_KEY])) {
-                unset($category["children"][$key]);
-                continue;
-            }
-
-            $category["children"][$key] = $child;
-
-            if (!empty($child["children"])) {
-                $child = $this->getChildren($child);
-                $category["children"][$key] = $child;
+                    if (!empty($child["children"])) {
+                        $child = $this->getChildren($child);
+                        $category["children"][$key] = $child;
+                    }
+                }
             }
         }
-
         return $category;
     }
 
@@ -260,32 +246,28 @@ class CategoryHelper extends AbstractEntityHelper
      */
     public function getByGroup(int $groupId, int $quantity = 100): array
     {
-        if (empty($groupId)) {
-            return [];
+        $results = [];
+        if (!empty($groupId)) {
+            if ($groupId < 1) {
+                throw new Exception(self::GROUP_ID_MUST_BE_GREATER_THAN_ZERO);
+            }
+            if (!empty($quantity)) {
+                if ($quantity < 0) {
+                    throw new Exception(self::GET_BY_GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+                }
+                if ($quantity > 100) {
+                    throw new Exception(self::QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED);
+                }
+
+                $parameters = [
+                    EntityConstants::GROUPS_FIELD_KEY => $groupId,
+                    EntityConstants::ORDER_FIELD_KEY => EntityConstants::TITLE_ASC,
+                    EntityConstants::LIMIT_FIELD_KEY => $quantity
+                ];
+
+                $results = $this->getBy($parameters);
+            }
         }
-
-        if ($quantity === 0) {
-            return [];
-        }
-
-        if ($groupId < 1) {
-            throw new Exception(self::GROUP_ID_MUST_BE_GREATER_THAN_ZERO);
-        }
-
-        if ($quantity < 0) {
-            throw new Exception(self::GET_BY_GROUP_QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-        }
-
-        if ($quantity > 100) {
-            throw new Exception(self::QUANTITY_MUST_BE_EQUAL_OR_LESS_THAN_HUNDRED);
-        }
-
-        $parameters = [
-            "groups" => $groupId,
-            "order" => "title asc",
-            EntityConstants::LIMIT_FIELD_KEY => $quantity
-        ];
-
-        return $this->getBy($parameters);
+        return $results;
     }
 }

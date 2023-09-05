@@ -89,29 +89,25 @@ class ArticleAuthorNormalizer implements NormalizerInterface
      */
     private function getSocialNetworks(array $entity): array
     {
-        if (empty($entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY])) {
-            return $entity;
-        }
+        if (!empty($entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY])) {
+            $entitySocialNetworks = $entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY];
+            $normalizedSocialNetworks = [];
+            $areBannedSocialNetworks = !empty($this->bannedSocialNetworks);
 
-        $entitySocialNetworks = $entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY];
-        $normalizedSocialNetworks = [];
-        $areBannedSocialNetworks = !empty($this->bannedSocialNetworks);
-
-        foreach ($entitySocialNetworks as $socialNetwork) {
-            if (empty($socialNetwork[EntityConstants::URL_FIELD_KEY])) {
-                continue;
-            }
-
-            if ($areBannedSocialNetworks) {
-                if (in_array($socialNetwork[EntityConstants::SOCIAL_NETWORK_FIELD_KEY], $this->bannedSocialNetworks)) {
-                    continue;
+            foreach ($entitySocialNetworks as $socialNetwork) {
+                if (!empty($socialNetwork[EntityConstants::URL_FIELD_KEY])) {
+                    if ($areBannedSocialNetworks) {
+                        if (in_array($socialNetwork[EntityConstants::SOCIAL_NETWORK_FIELD_KEY], $this->bannedSocialNetworks)) {
+                            continue;
+                        }
+                    }
+                    $normalizedSocialNetworks[] = $socialNetwork;
                 }
             }
 
-            $normalizedSocialNetworks[] = $socialNetwork;
+            $entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY] = $normalizedSocialNetworks;
         }
 
-        $entity[EntityConstants::SOCIAL_NETWORKS_FIELD_KEY] = $normalizedSocialNetworks;
         return $entity;
     }
 }

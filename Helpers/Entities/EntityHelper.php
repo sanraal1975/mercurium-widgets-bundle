@@ -18,15 +18,15 @@ class EntityHelper
      */
     public function isValid(array $entity): bool
     {
-        if (empty($entity)) {
-            return false;
+        $result = false;
+
+        if (!empty($entity)) {
+            if (!empty($entity[EntityConstants::SEARCHABLE_FIELD_KEY])) {
+                $result = true;
+            }
         }
 
-        if (empty($entity[EntityConstants::SEARCHABLE_FIELD_KEY])) {
-            return false;
-        }
-
-        return true;
+        return $result;
     }
 
     /**
@@ -37,21 +37,19 @@ class EntityHelper
      */
     public function hasCategory(array $entity, int $categoryId): bool
     {
-        if (empty($entity[EntityConstants::CATEGORIES_FIELD_KEY])) {
-            return false;
-        }
+        $result = false;
 
-        if ($categoryId < 1) {
-            return false;
-        }
-
-        foreach ($entity[EntityConstants::CATEGORIES_FIELD_KEY] as $category) {
-            if ($category[EntityConstants::ID_FIELD_KEY] == $categoryId) {
-                return true;
+        if (!empty($entity[EntityConstants::CATEGORIES_FIELD_KEY])) {
+            if ($categoryId > 0) {
+                foreach ($entity[EntityConstants::CATEGORIES_FIELD_KEY] as $category) {
+                    if ($category[EntityConstants::ID_FIELD_KEY] == $categoryId) {
+                        $result = true;
+                    }
+                }
             }
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -63,17 +61,17 @@ class EntityHelper
      */
     public function getFieldReadingTime(array $entity, string $field, int $charactersPerMinute): int
     {
-        if (empty($entity[$field])) {
-            return 0;
+        $result = 0;
+
+        if (!empty($entity[$field])) {
+            if ($charactersPerMinute > 0) {
+                $characters = $this->getFieldLength($entity[$field]);
+
+                $result = $characters < ($charactersPerMinute / 2) ? 1 : (int)round($characters / $charactersPerMinute);
+            }
         }
 
-        if ($charactersPerMinute < 1) {
-            return 0;
-        }
-
-        $characters = $this->getFieldLength($entity[$field]);
-
-        return $characters < ($charactersPerMinute / 2) ? 1 : (int)round($characters / $charactersPerMinute);
+        return $result;
     }
 
     /**
