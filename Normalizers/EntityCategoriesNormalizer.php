@@ -96,6 +96,7 @@ class EntityCategoriesNormalizer implements AbstractEntityNormalizerInterface
                 }
             }
         }
+
         return $entity;
     }
 }

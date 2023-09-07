@@ -3,21 +3,16 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use ArgumentCountError;
-use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
+use Comitium5\ApiClientBundle\Client\Services\PollApiService;
 use Comitium5\ApiClientBundle\Tests\TestCase;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\GalleryHelper;
+use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\PollHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Exception;
 use TypeError;
 
-/**
- * Class GalleryHelperTest
- *
- * @package Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities
- */
-class GalleryHelperTest extends TestCase
+class PollHelperTest extends TestCase
 {
     /**
      * @var ClientMock
@@ -50,7 +45,7 @@ class GalleryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new GalleryHelper();
+        $helper = new PollHelper();
     }
 
     /**
@@ -60,7 +55,7 @@ class GalleryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new GalleryHelper(null);
+        $helper = new PollHelper(null);
     }
 
     /**
@@ -68,11 +63,11 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetService()
     {
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
 
         $service = $helper->getService();
 
-        $this->assertInstanceOf(GalleryApiService::class, $service);
+        $this->assertInstanceOf(PollApiService::class, $service);
     }
 
     /**
@@ -83,7 +78,7 @@ class GalleryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->get();
     }
 
@@ -95,7 +90,7 @@ class GalleryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->get(null);
     }
 
@@ -105,9 +100,9 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetThrowsExceptionMessageEntityIdGreaterThanZero()
     {
-        $this->expectExceptionMessage(GalleryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(PollHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->get($this->testHelper->getZeroOrNegativeValue());
     }
 
@@ -119,9 +114,9 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetByIdsThrowsExceptionMessageEntityIdGreaterThanZero($entitiesIds)
     {
-        $this->expectExceptionMessage(GalleryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(PollHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $helper->getByIds($entitiesIds);
     }
 
@@ -152,7 +147,7 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetByIdsReturnEmpty(string $ids)
     {
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->getByIds($ids);
 
         $this->assertEquals([], $result);
@@ -181,7 +176,7 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetByIdsReturnEntities($entitiesIds, $expected)
     {
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->getByIds($entitiesIds);
 
         $this->assertEquals($expected, $result);
@@ -226,7 +221,7 @@ class GalleryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->getByIdsAndQuantity();
     }
 
@@ -243,7 +238,7 @@ class GalleryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
     }
 
@@ -276,9 +271,9 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityThrowsExceptionMessageEntityIdGreaterThanZero($entityIds, $quantity)
     {
-        $this->expectExceptionMessage(GalleryHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(PollHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
@@ -311,9 +306,9 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityThrowsExceptionMessageQuantityEqualGreaterThanZero($entityIds, $quantity)
     {
-        $this->expectExceptionMessage(GalleryHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
+        $this->expectExceptionMessage(PollHelper::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $helper->getByIdsAndQuantity($entityIds, $quantity);
     }
 
@@ -350,7 +345,7 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEmpty(string $ids, int $quantity)
     {
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
 
         $result = $helper->getByIdsAndQuantity($ids, $quantity);
 
@@ -399,7 +394,7 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetByIdsAndQuantityReturnEntities($entitiesIds, $quantity, $expected)
     {
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
 
         $result = $helper->getByIdsAndQuantity($entitiesIds, $quantity);
 
@@ -505,7 +500,7 @@ class GalleryHelperTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->getBy();
     }
 
@@ -517,7 +512,7 @@ class GalleryHelperTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
         $result = $helper->getBy(null);
     }
 
@@ -528,7 +523,7 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetByReturnsEntities()
     {
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
 
         $result = $helper->getBy(
             [
@@ -559,7 +554,7 @@ class GalleryHelperTest extends TestCase
      */
     public function testGetLastPublishedReturnsEntity()
     {
-        $helper = new GalleryHelper($this->api);
+        $helper = new PollHelper($this->api);
 
         $result = $helper->getLastPublished();
 

@@ -8,6 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
+use Comitium5\ApiClientBundle\Client\Services\PollApiService;
 use Comitium5\ApiClientBundle\Client\Services\TagApiService;
 
 /**
@@ -75,5 +76,13 @@ class ApiServiceFactory
     public function createGalleryApiService(): GalleryApiService
     {
         return new GalleryApiService($this->api);
+    }
+
+    /**
+     * @return PollApiService
+     */
+    public function createPollApiService(): PollApiService
+    {
+        return new PollApiService($this->api);
     }
 }

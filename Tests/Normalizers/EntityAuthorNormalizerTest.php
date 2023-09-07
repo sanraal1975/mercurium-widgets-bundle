@@ -5,7 +5,9 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AuthorHelper;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAuthorNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Exception;
@@ -58,30 +60,67 @@ class EntityAuthorNormalizerTest extends TestCase
      *
      * @param $api
      * @param $field
+     * @param $assetNormalizer
+     * @param $normalizeSocialNetworks
+     * @param $bannedSocialNetworks
      *
      * @return void
      * @throws Exception
      */
-    public function testConstructThrowsTypeErrorException($api, $field)
+    public function testConstructThrowsTypeErrorException($api, $field, $assetNormalizer, $normalizeSocialNetworks, $bannedSocialNetworks)
     {
         $this->expectException(TypeError::class);
 
-        new EntityAuthorNormalizer($api, $field);
+        new EntityAuthorNormalizer($api, $field, $assetNormalizer, $normalizeSocialNetworks, $bannedSocialNetworks);
     }
 
     /**
      * @return array
+     * @throws Exception
      */
     public function constructThrowsTypeErrorException(): array
     {
+        $assetNormalizer = new EntityNormalizer(
+            [
+                new EntityAssetNormalizer($this->api, EntityConstants::ASSET_FIELD_KEY)
+            ]
+        );
+
         return [
             [
                 "api" => null,
-                "field" => null
+                "field" => null,
+                "assetNormalizer" => null,
+                "normalizeSocialNetworks" => null,
+                "bannedSocialNetworks" => null
             ],
             [
                 "api" => $this->api,
-                "field" => null
+                "field" => null,
+                "assetNormalizer" => null,
+                "normalizeSocialNetworks" => null,
+                "bannedSocialNetworks" => null
+            ],
+            [
+                "api" => $this->api,
+                "field" => EntityConstants::AUTHOR_FIELD_KEY,
+                "assetNormalizer" => "",
+                "normalizeSocialNetworks" => null,
+                "bannedSocialNetworks" => null
+            ],
+            [
+                "api" => $this->api,
+                "field" => EntityConstants::AUTHOR_FIELD_KEY,
+                "assetNormalizer" => $assetNormalizer,
+                "normalizeSocialNetworks" => null,
+                "bannedSocialNetworks" => null
+            ],
+            [
+                "api" => $this->api,
+                "field" => EntityConstants::AUTHOR_FIELD_KEY,
+                "assetNormalizer" => $assetNormalizer,
+                "normalizeSocialNetworks" => false,
+                "bannedSocialNetworks" => null
             ],
         ];
     }
@@ -140,12 +179,12 @@ class EntityAuthorNormalizerTest extends TestCase
     }
 
     /**
-     * @dataProvider normalizeReturnEntity
+     * @dataProvider normalizeReturnInputEntity
      *
      * @return void
      * @throws Exception
      */
-    public function testNormalizeReturnEntity(array $entity)
+    public function testNormalizeReturnInputEntity(array $entity)
     {
         $normalizer = new EntityAuthorNormalizer($this->api);
         $result = $normalizer->normalize($entity);
@@ -156,7 +195,7 @@ class EntityAuthorNormalizerTest extends TestCase
     /**
      * @return array[]
      */
-    public function normalizeReturnEntity(): array
+    public function normalizeReturnInputEntity(): array
     {
         return [
             [
@@ -235,28 +274,172 @@ class EntityAuthorNormalizerTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testNormalizeReturnsEntityAuthorNormalized($entity, $expected)
+    public function testNormalizeReturnsEntityAuthorNormalized($imageNormalizer, $normalizeSocialNetworks, $bannedSocialNetworks, $entity, $expected)
     {
-        $normalizer = new EntityAuthorNormalizer($this->api);
+        $normalizer = new EntityAuthorNormalizer($this->api, EntityConstants::AUTHOR_FIELD_KEY, $imageNormalizer, $normalizeSocialNetworks, $bannedSocialNetworks);
 
         $result = $normalizer->normalize($entity);
         $this->assertEquals($expected, $result);
     }
 
     /**
+     *
      * @return array[]
+     * @throws Exception
      */
     public function normalizeReturnsEntityAuthorNormalized(): array
     {
+        $assetNormalizer = new EntityNormalizer(
+            [
+                new EntityAssetNormalizer($this->api, EntityConstants::ASSET_FIELD_KEY)
+            ]
+        );
+
         return [
             [
+                "imageNormalizer" => null,
+                "normalizeSocialNetworks" => false,
+                "bannedSocialNetworks" => [],
                 "entity" => [EntityConstants::ID_FIELD_KEY => 1, "author" => [EntityConstants::ID_FIELD_KEY => 1]],
                 "expected" => [EntityConstants::ID_FIELD_KEY => 1, "author" => [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true]],
             ],
             [
+                "imageNormalizer" => null,
+                "normalizeSocialNetworks" => false,
+                "bannedSocialNetworks" => [],
                 "entity" => [EntityConstants::ID_FIELD_KEY => 1, "author" => [EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY]],
                 "expected" => [EntityConstants::ID_FIELD_KEY => 1, "author" => []],
             ],
+            [
+                "imageNormalizer" => null,
+                "normalizeSocialNetworks" => false,
+                "bannedSocialNetworks" => [],
+                "entity" => [],
+                "expected" => []
+            ],
+            [
+                "imageNormalizer" => null,
+                "normalizeSocialNetworks" => false,
+                "bannedSocialNetworks" => [],
+                "entity" => [
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
+                    ]
+                ],
+                "expected" => [
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
+                    ]
+                ],
+            ],
+            [
+                "imageNormalizer" => $assetNormalizer,
+                "normalizeSocialNetworks" => false,
+                "bannedSocialNetworks" => [],
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET
+                    ]
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::ASSET_FIELD_KEY => [
+                            EntityConstants::ID_FIELD_KEY => 1,
+                            EntityConstants::SEARCHABLE_FIELD_KEY => true
+                        ]
+                    ]
+                ]
+            ],
+            [
+                "imageNormalizer" => $assetNormalizer,
+                "normalizeSocialNetworks" => true,
+                "bannedSocialNetworks" => [],
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET
+                    ]
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::ASSET_FIELD_KEY => [
+                            EntityConstants::ID_FIELD_KEY => 1,
+                            EntityConstants::SEARCHABLE_FIELD_KEY => true
+                        ]
+                    ]
+                ],
+            ],
+            [
+                "imageNormalizer" => null,
+                "normalizeSocialNetworks" => true,
+                "bannedSocialNetworks" => [],
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORKS
+                    ]
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORKS,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::SOCIAL_NETWORKS_FIELD_KEY => [
+                            [
+                                "socialNetwork" => "facebook",
+                                "url" => "https://www.foo.bar"
+                            ]
+                        ]
+                    ]
+                ],
+            ],
+            [
+                "imageNormalizer" => null,
+                "normalizeSocialNetworks" => true,
+                "bannedSocialNetworks" => [],
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL
+                    ]
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::SOCIAL_NETWORKS_FIELD_KEY => []
+                    ]
+                ],
+            ],
+            [
+                "imageNormalizer" => null,
+                "normalizeSocialNetworks" => true,
+                "bannedSocialNetworks" => ["banned_social_network"],
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK
+                    ]
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::AUTHOR_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => TestHelper::AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::SOCIAL_NETWORKS_FIELD_KEY => []
+                    ]
+                ],
+            ],
+
         ];
     }
 }

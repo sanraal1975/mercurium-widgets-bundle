@@ -93,16 +93,20 @@ class GalleryNormalizer implements NormalizerInterface
                     $entityHelper = new EntityHelper();
 
                     foreach ($entity[EntityConstants::ASSETS_FIELD_KEY] as $asset) {
-                        if (empty($asset[EntityConstants::ID_FIELD_KEY])) {
+                        $assetId = $asset;
+                        if (!empty($asset[EntityConstants::ID_FIELD_KEY])) {
+                            $assetId = $asset[EntityConstants::ID_FIELD_KEY];
+                        }
+                        if (empty($assetId)) {
                             continue;
                         }
-                        $normalizedAsset = $assetHelper->get($asset[EntityConstants::ID_FIELD_KEY]);
+                        $normalizedAsset = $assetHelper->get($assetId);
                         if (!$entityHelper->isValid($normalizedAsset)) {
                             continue;
                         }
                         $normalizedAsset = $imageHelper->setOrientation($normalizedAsset);
                         if ($this->imageNormalizer != null) {
-                            $normalizedAsset = $this->imageNormalizer->normalize($asset);
+                            $normalizedAsset = $this->imageNormalizer->normalize($normalizedAsset);
                         }
                         $normalizedAssets[] = $normalizedAsset;
 

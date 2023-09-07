@@ -13,7 +13,6 @@ use Comitium5\MercuriumWidgetsBundle\Abstracts\Interfaces\AbstractEntityInterfac
 abstract class AbstractEntityHelper implements AbstractEntityInterface
 {
     /**
-     *
      * @return AbstractApiService
      */
     abstract public function getService(): AbstractApiService;
