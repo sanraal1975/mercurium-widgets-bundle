@@ -131,17 +131,10 @@ class GalleryNormalizerTest extends TestCase
     }
 
     /**
-     * @dataProvider constructThrowsTypeErrorException
-     *
-     * @param $api
-     * @param $galleryNormalizer
-     * @param $imageNormalizer
-     * @param $quantityOfAssetsToNormalize
-     *
      * @return void
      * @throws Exception
      */
-    public function testNormalizeThrowsTypeErrorException($api, $galleryNormalizer, $imageNormalizer, $quantityOfAssetsToNormalize)
+    public function testNormalizeThrowsTypeErrorException()
     {
         $this->expectException(TypeError::class);
 

@@ -5,9 +5,9 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers\Entities;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Exception;
 
@@ -88,26 +88,24 @@ class GalleryNormalizer implements NormalizerInterface
                 if ($this->quantityOfAssetsToNormalize > 0) {
                     $normalizedAssets = [];
                     $assetsCount = 0;
-                    $assetHelper = new AssetHelper($this->api);
+                    $assetNormalizer = new EntityAssetNormalizer($this->api, EntityConstants::ASSET_FIELD_KEY);
                     $imageHelper = new ImageHelper($this->api);
                     $entityHelper = new EntityHelper();
 
                     foreach ($entity[EntityConstants::ASSETS_FIELD_KEY] as $asset) {
-                        $assetId = $asset;
-                        if (!empty($asset[EntityConstants::ID_FIELD_KEY])) {
-                            $assetId = $asset[EntityConstants::ID_FIELD_KEY];
-                        }
-                        if (empty($assetId)) {
-                            continue;
-                        }
-                        $normalizedAsset = $assetHelper->get($assetId);
+                        $normalizedAsset = $assetNormalizer->normalize([EntityConstants::ASSET_FIELD_KEY => $asset]);
+                        $normalizedAsset = $normalizedAsset[EntityConstants::ASSET_FIELD_KEY];
+
                         if (!$entityHelper->isValid($normalizedAsset)) {
                             continue;
                         }
+
                         $normalizedAsset = $imageHelper->setOrientation($normalizedAsset);
+
                         if ($this->imageNormalizer != null) {
                             $normalizedAsset = $this->imageNormalizer->normalize($normalizedAsset);
                         }
+
                         $normalizedAssets[] = $normalizedAsset;
 
                         $assetsCount++;

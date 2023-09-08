@@ -82,6 +82,7 @@ class EntityAssetNormalizer implements AbstractEntityNormalizerInterface
                 $entity[$this->field] = $asset;
             }
         }
+
         return $entity;
     }
 }
