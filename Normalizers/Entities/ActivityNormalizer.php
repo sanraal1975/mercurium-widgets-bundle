@@ -7,16 +7,16 @@ use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Exception;
 
 /**
- * Class PollNormalizer
+ * Class ActivityNormalizer
  *
  * @package Comitium5\MercuriumWidgetsBundle\Normalizers\Entities
  */
-class PollNormalizer
+class ActivityNormalizer
 {
     /**
      * @var EntityNormalizer
      */
-    private $pollNormalizer;
+    private $activityNormalizer;
 
     /**
      * @var EntityNormalizer
@@ -24,12 +24,12 @@ class PollNormalizer
     private $imageNormalizer;
 
     /**
-     * @param EntityNormalizer|null $pollNormalizer
+     * @param EntityNormalizer|null $activityNormalizer
      * @param EntityNormalizer|null $imageNormalizer
      */
-    public function __construct(EntityNormalizer $pollNormalizer = null, EntityNormalizer $imageNormalizer = null)
+    public function __construct(EntityNormalizer $activityNormalizer = null, EntityNormalizer $imageNormalizer = null)
     {
-        $this->pollNormalizer = $pollNormalizer;
+        $this->activityNormalizer = $activityNormalizer;
         $this->imageNormalizer = $imageNormalizer;
     }
 
@@ -42,8 +42,8 @@ class PollNormalizer
     public function normalize(array &$entity): array
     {
         if (!empty($entity)) {
-            if ($this->pollNormalizer != null) {
-                $entity = $this->pollNormalizer->normalize($entity);
+            if ($this->activityNormalizer != null) {
+                $entity = $this->activityNormalizer->normalize($entity);
             }
 
             if ($this->imageNormalizer != null) {

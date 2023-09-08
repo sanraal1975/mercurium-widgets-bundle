@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers\Entities;
 
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
-use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\PollNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\ActivityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityCategoriesNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
@@ -15,11 +15,11 @@ use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**
- * Class PollNormalizerTest
+ * Class ActivityNormalizerTest
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\Normalizers\Entities
  */
-class PollNormalizerTest extends TestCase
+class ActivityNormalizerTest extends TestCase
 {
     /**
      * @var TestHelper
@@ -47,17 +47,17 @@ class PollNormalizerTest extends TestCase
     /**
      * @dataProvider constructThrowsTypeErrorException
      *
-     * @param $pollNormalizer
+     * @param $activityNormalizer
      * @param $imageNormalizer
      *
      * @return void
      * @throws Exception
      */
-    public function testConstructThrowsTypeErrorException($pollNormalizer, $imageNormalizer)
+    public function testConstructThrowsTypeErrorException($activityNormalizer, $imageNormalizer)
     {
         $this->expectException(TypeError::class);
 
-        $normalizer = new PollNormalizer($pollNormalizer, $imageNormalizer);
+        $normalizer = new ActivityNormalizer($activityNormalizer, $imageNormalizer);
     }
 
     /**
@@ -67,11 +67,11 @@ class PollNormalizerTest extends TestCase
     {
         return [
             [
-                "pollNormalizer" => "",
+                "activityNormalizer" => "",
                 "imageNormalizer" => "",
             ],
             [
-                "pollNormalizer" => null,
+                "activityNormalizer" => null,
                 "imageNormalizer" => "",
             ],
         ];
@@ -85,7 +85,7 @@ class PollNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $normalizer = new PollNormalizer();
+        $normalizer = new ActivityNormalizer();
 
         $entity = $normalizer->normalize();
     }
@@ -98,7 +98,7 @@ class PollNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $normalizer = new PollNormalizer();
+        $normalizer = new ActivityNormalizer();
 
         $entity = null;
         $entity = $normalizer->normalize($entity);
@@ -109,16 +109,16 @@ class PollNormalizerTest extends TestCase
      *
      * @param $entity
      * @param $expected
-     * @param $pollNormalizer
+     * @param $activityNormalizer
      * @param $assetNormalizer
      *
      * @return void
      * @throws Exception
      */
-    public function testNormalize($entity, $expected, $pollNormalizer, $assetNormalizer)
+    public function testNormalize($entity, $expected, $activityNormalizer, $assetNormalizer)
     {
-        $normalizer = new PollNormalizer(
-            $pollNormalizer,
+        $normalizer = new ActivityNormalizer(
+            $activityNormalizer,
             $assetNormalizer
         );
 
@@ -137,7 +137,7 @@ class PollNormalizerTest extends TestCase
             [
                 "entity" => [],
                 "expected" => [],
-                "pollNormalizer" => null,
+                "activityNormalizer" => null,
                 "assetNormalizer" => null,
             ],
             [
@@ -145,13 +145,13 @@ class PollNormalizerTest extends TestCase
                 "expected" => [
                     EntityConstants::ID_FIELD_KEY => 1,
                 ],
-                "pollNormalizer" => null,
+                "activityNormalizer" => null,
                 "assetNormalizer" => null,
             ],
             [
                 "entity" => [EntityConstants::ID_FIELD_KEY => 1],
                 "expected" => [EntityConstants::ID_FIELD_KEY => 1],
-                "pollNormalizer" => new EntityNormalizer(
+                "activityNormalizer" => new EntityNormalizer(
                     [
                         new EntityCategoriesNormalizer($this->api)
                     ]
@@ -166,7 +166,7 @@ class PollNormalizerTest extends TestCase
                     EntityConstants::ID_FIELD_KEY => 1,
                     EntityConstants::ASSET_FIELD_KEY => []
                 ],
-                "pollNormalizer" => null,
+                "activityNormalizer" => null,
                 "assetNormalizer" => new EntityNormalizer(
                     [
                         new EntityCategoriesNormalizer($this->api)
@@ -187,7 +187,7 @@ class PollNormalizerTest extends TestCase
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
                     ]
                 ],
-                "pollNormalizer" => new EntityNormalizer(
+                "activityNormalizer" => new EntityNormalizer(
                     [
                         new EntityAssetNormalizer($this->api, EntityConstants::ASSET_FIELD_KEY)
                     ]
@@ -200,4 +200,5 @@ class PollNormalizerTest extends TestCase
             ],
         ];
     }
+
 }
