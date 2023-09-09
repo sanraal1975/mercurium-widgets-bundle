@@ -3,8 +3,8 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers;
 
 use ArgumentCountError;
-use Comitium5\ApiClientBundle\Tests\TestCase;
 use Comitium5\MercuriumWidgetsBundle\Helpers\UtilsHelper;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class UtilsHelperTest
@@ -34,11 +34,10 @@ class UtilsHelperTest extends TestCase
         $helper = new UtilsHelper();
         $result = $helper->cleanHtmlText($input);
 
-        $this->assertEquals($expected,$result);
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     *
      * @return array[]
      */
     public function cleanHtmlTextReturnsValue(): array
@@ -50,7 +49,7 @@ class UtilsHelperTest extends TestCase
             ],
             [
                 "input" => "<div>dummy_text</div>",
-                "expected"=> "dummy_text"
+                "expected" => "dummy_text"
             ]
         ];
     }

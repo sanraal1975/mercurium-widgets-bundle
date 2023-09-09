@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Factories;
 
 use Comitium5\ApiClientBundle\Client\Client;
+use Comitium5\ApiClientBundle\Client\Services\ActivitiesApiService;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
@@ -28,6 +29,14 @@ class ApiServiceFactory
     public function __construct(Client $api)
     {
         $this->api = $api;
+    }
+
+    /**
+     * @return ActivitiesApiService
+     */
+    public function createActivityApiService(): ActivitiesApiService
+    {
+        return new ActivitiesApiService($this->api);
     }
 
     /**
@@ -63,14 +72,6 @@ class ApiServiceFactory
     }
 
     /**
-     * @return TagApiService
-     */
-    public function createTagApiService(): TagApiService
-    {
-        return new TagApiService($this->api);
-    }
-
-    /**
      * @return GalleryApiService
      */
     public function createGalleryApiService(): GalleryApiService
@@ -84,5 +85,13 @@ class ApiServiceFactory
     public function createPollApiService(): PollApiService
     {
         return new PollApiService($this->api);
+    }
+
+    /**
+     * @return TagApiService
+     */
+    public function createTagApiService(): TagApiService
+    {
+        return new TagApiService($this->api);
     }
 }

@@ -3,10 +3,10 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 
 use ArgumentCountError;
-use Comitium5\ApiClientBundle\Tests\TestCase;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityMediaClassesNormalizer;
 use Exception;
+use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**

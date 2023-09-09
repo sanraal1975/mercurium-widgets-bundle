@@ -17,6 +17,7 @@ class EntityConstants
     const FIELDS_FIELD_KEY = "fields";
     const ID_FIELD_KEY = "id";
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
+    const RELATED_CONTENT_FIELD_KEY = "relatedContent";
     const SEARCHABLE_FIELD_KEY = "searchable";
     const SOCIAL_NETWORK_FIELD_KEY = "socialNetwork";
     const SOCIAL_NETWORKS_FIELD_KEY = "socialNetworks";

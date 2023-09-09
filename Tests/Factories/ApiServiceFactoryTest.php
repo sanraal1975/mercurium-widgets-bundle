@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Factories;
 
+use Comitium5\ApiClientBundle\Client\Services\ActivitiesApiService;
 use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
@@ -36,6 +37,18 @@ class ApiServiceFactoryTest extends TestCase
         parent::__construct($name, $data, $dataName);
         $testHelper = new TestHelper();
         $this->api = $testHelper->getApi();
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateActivityApiService()
+    {
+        $factory = new ApiServiceFactory($this->api);
+
+        $service = $factory->createActivityApiService();
+
+        $this->assertInstanceOf(ActivitiesApiService::class, $service);
     }
 
     /**
@@ -89,18 +102,6 @@ class ApiServiceFactoryTest extends TestCase
     /**
      * @return void
      */
-    public function testCreateTagApiService()
-    {
-        $factory = new ApiServiceFactory($this->api);
-
-        $service = $factory->createTagApiService();
-
-        $this->assertInstanceOf(TagApiService::class, $service);
-    }
-
-    /**
-     * @return void
-     */
     public function testCreateGalleryApiService()
     {
         $factory = new ApiServiceFactory($this->api);
@@ -120,5 +121,17 @@ class ApiServiceFactoryTest extends TestCase
         $service = $factory->createPollApiService();
 
         $this->assertInstanceOf(PollApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateTagApiService()
+    {
+        $factory = new ApiServiceFactory($this->api);
+
+        $service = $factory->createTagApiService();
+
+        $this->assertInstanceOf(TagApiService::class, $service);
     }
 }

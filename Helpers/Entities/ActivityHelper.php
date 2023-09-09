@@ -14,15 +14,15 @@ use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Exception;
 
 /**
- * Class PollHelper
+ * Class ActivityHelper
  *
  * @package Comitium5\MercuriumWidgetsBundle\Helpers\Entities
  */
-class PollHelper extends AbstractEntityHelper
+class ActivityHelper extends AbstractEntityHelper
 {
-    const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "PollHelper::get. entityId must be greater than 0";
+    const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "ActivityHelper::get. entityId must be greater than 0";
 
-    const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "PollHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
+    const QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO = "ActivityHelper::getByIdsAndQuantity. quantity must be equal or greater than 0";
 
     /**
      * @var PollApiService
@@ -35,7 +35,7 @@ class PollHelper extends AbstractEntityHelper
     public function __construct(Client $api)
     {
         $factory = new ApiServiceFactory($api);
-        $this->service = $factory->createPollApiService();
+        $this->service = $factory->createActivityApiService();
     }
 
     /**
