@@ -14,6 +14,7 @@ use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\PollHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\ActivityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\GalleryNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\PollNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
 
 /**
@@ -116,6 +117,8 @@ class EntityRelatedContentNormalizer
      */
     public function normalize(array $entity): array
     {
+        $helper = new TestHelper();
+
         if (empty($entity)) {
             return [];
         }
@@ -137,51 +140,59 @@ class EntityRelatedContentNormalizer
 
         $relatedContents = $entity[EntityConstants::RELATED_CONTENT_FIELD_KEY];
         $relatedContentNormalized = [];
+
         foreach ($relatedContents as $relatedContent) {
             if (empty($relatedContent[EntityConstants::TYPE_FIELD_KEY])) {
                 continue;
             }
-            if ($relatedContent[EntityConstants::TYPE_FIELD_KEY] == ResourcesTypes::ACTIVITY) {
-                $relatedContent = $this->normalizeActivity($relatedContent);
-                if (empty($relatedContent)) {
-                    continue;
-                }
-                $entity['hasRelatedActivities'] = true;
-                $entity['relatedActivities'][] = $relatedContent;
+
+            switch ($relatedContent[EntityConstants::TYPE_FIELD_KEY]) {
+                case ResourcesTypes::ACTIVITY :
+                    $relatedContent = $this->normalizeActivity($relatedContent);
+                    if ($this->helper->isValid($relatedContent)) {
+                        $entity['hasRelatedContent'] = true;
+                        $entity['hasRelatedActivities'] = true;
+                        $entity['relatedActivities'][] = $relatedContent;
+                        $relatedContentNormalized[] = $relatedContent;
+                    }
+                    break;
+                case ResourcesTypes::ARTICLE :
+                    $relatedContent = $this->normalizeArticle($relatedContent);
+                    if ($this->helper->isValid($relatedContent)) {
+                        $entity['hasRelatedContent'] = true;
+                        $entity['hasRelatedArticles'] = true;
+                        $entity['relatedArticles'][] = $relatedContent;
+                        $relatedContentNormalized[] = $relatedContent;
+                    }
+                    break;
+                case ResourcesTypes::ASSET :
+                    $relatedContent = $this->normalizeAsset($relatedContent);
+                    if ($this->helper->isValid($relatedContent)) {
+                        $entity['hasRelatedContent'] = true;
+                        $entity['hasRelatedAssets'] = true;
+                        $entity['relatedAssets'][] = $relatedContent;
+                        $relatedContentNormalized[] = $relatedContent;
+                    }
+                    break;
+                case ResourcesTypes::GALLERY :
+                    $relatedContent = $this->normalizeGallery($relatedContent);
+                    if ($this->helper->isValid($relatedContent)) {
+                        $entity['hasRelatedContent'] = true;
+                        $entity['hasRelatedGalleries'] = true;
+                        $entity['relatedGalleries'][] = $relatedContent;
+                        $relatedContentNormalized[] = $relatedContent;
+                    }
+                    break;
+                case ResourcesTypes::POLL :
+                    $relatedContent = $this->normalizePoll($relatedContent);
+                    if ($this->helper->isValid($relatedContent)) {
+                        $entity['hasRelatedContent'] = true;
+                        $entity['hasRelatedPolls'] = true;
+                        $entity['relatedPolls'][] = $relatedContent;
+                        $relatedContentNormalized[] = $relatedContent;
+                    }
+                    break;
             }
-            if ($relatedContent[EntityConstants::TYPE_FIELD_KEY] == ResourcesTypes::ARTICLE) {
-                $relatedContent = $this->normalizeArticle($relatedContent);
-                if (empty($relatedContent)) {
-                    continue;
-                }
-                $entity['hasRelatedArticles'] = true;
-                $entity['relatedArticles'][] = $relatedContent;
-            }
-            if ($relatedContent[EntityConstants::TYPE_FIELD_KEY] == ResourcesTypes::ASSET) {
-                $relatedContent = $this->normalizeAsset($relatedContent);
-                if (empty($relatedContent)) {
-                    continue;
-                }
-                $entity['hasRelatedAssets'] = true;
-                $entity['relatedAssets'][] = $relatedContent;
-            }
-            if ($relatedContent[EntityConstants::TYPE_FIELD_KEY] == ResourcesTypes::GALLERY) {
-                $relatedContent = $this->normalizeGallery($relatedContent);
-                if (empty($relatedContent)) {
-                    continue;
-                }
-                $entity['hasRelatedGalleries'] = true;
-                $entity['relatedGalleries'][] = $relatedContent;
-            }
-            if ($relatedContent[EntityConstants::TYPE_FIELD_KEY] == ResourcesTypes::POLL) {
-                $relatedContent = $this->normalizePoll($relatedContent);
-                if (empty($relatedContent)) {
-                    continue;
-                }
-                $entity['hasRelatedPolls'] = true;
-                $entity['relatedPolls'][] = $relatedContent;
-            }
-            $relatedContentNormalized[] = $relatedContent;
         }
 
         $entity[EntityConstants::RELATED_CONTENT_FIELD_KEY] = $relatedContentNormalized;
@@ -290,6 +301,7 @@ class EntityRelatedContentNormalizer
 
         if (!empty($galleryId)) {
             $gallery = $this->galleryHelper->get($galleryId);
+
             if (!$this->helper->isValid($gallery)) {
                 return [];
             }
