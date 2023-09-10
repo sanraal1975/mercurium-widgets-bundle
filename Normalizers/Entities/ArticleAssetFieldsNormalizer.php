@@ -7,7 +7,6 @@ use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
-use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
 
 /**
@@ -62,8 +61,6 @@ class ArticleAssetFieldsNormalizer implements NormalizerInterface
         if (empty($entity)) {
             return [];
         }
-
-        $testHelper = new TestHelper();
 
         if ($this->normalizeImage) {
             $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
