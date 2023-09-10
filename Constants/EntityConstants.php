@@ -15,6 +15,11 @@ class EntityConstants
     const AUTHOR_FIELD_KEY = "author";
     const CATEGORIES_FIELD_KEY = "categories";
     const FIELDS_FIELD_KEY = "fields";
+    const HAS_RELATED_ACTIVITIES_FIELD_KEY = "hasRelatedActivities";
+    const HAS_RELATED_ARTICLES_FIELD_KEY = "hasRelatedArticles";
+    const HAS_RELATED_ASSETS_FIELD_KEY = "hasRelatedAssets";
+    const HAS_RELATED_GALLERIES_FIELD_KEY = "hasRelatedGalleries";
+    const HAS_RELATED_POLLS_FIELD_KEY = "hasRelatedPolls";
     const ID_FIELD_KEY = "id";
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
     const RELATED_CONTENT_FIELD_KEY = "relatedContent";
@@ -43,9 +48,14 @@ class EntityConstants
     const AUDIO_FIELD_KEY = "audio";
 
     // Media classes keys
+    const HAS_ACTIVITY = "has-activity";
+    const HAS_ARTICLE = "has-article";
+    const HAS_ASSET = "has-asset";
     const HAS_AUDIO = "has-audio";
     const HAS_CATEGORY = "has-category-";
+    const HAS_GALLERY = "has-gallery";
     const HAS_IMAGE = "has-image";
     const HAS_NO_IMAGE = "has-no-image";
+    const HAS_POLL = "has-poll";
     const HAS_VIDEO = "has-video";
 }

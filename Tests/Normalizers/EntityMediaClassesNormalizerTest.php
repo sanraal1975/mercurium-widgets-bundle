@@ -42,14 +42,14 @@ class EntityMediaClassesNormalizerTest extends TestCase
     }
 
     /**
-     * @dataProvider normalizeReturnEntity
+     * @dataProvider normalize
      *
      * @param $entity
      * @param $expected
      *
      * @return void
      */
-    public function testNormalizeReturnEntity($entity, $expected)
+    public function testNormalize($entity, $expected)
     {
         $normalizer = new EntityMediaClassesNormalizer();
         $result = $normalizer->normalize($entity);
@@ -60,7 +60,7 @@ class EntityMediaClassesNormalizerTest extends TestCase
     /**
      * @return array[]
      */
-    public function normalizeReturnEntity(): array
+    public function normalize(): array
     {
         return [
             [
@@ -137,7 +137,7 @@ class EntityMediaClassesNormalizerTest extends TestCase
                     "audio" => [
                         EntityConstants::ID_FIELD_KEY => 1
                     ],
-                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_NO_IMAGE . " " . EntityConstants::HAS_AUDIO
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_AUDIO . " " . EntityConstants::HAS_NO_IMAGE
                 ]
             ],
         ];
