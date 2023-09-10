@@ -64,6 +64,11 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
                 $mediaClasses[] = EntityConstants::HAS_POLL;
             }
 
+            $hasSponsor = $this->hasSponsor($entity);
+            if ($hasSponsor) {
+                $mediaClasses[] = EntityConstants::HAS_SPONSOR;
+            }
+
             $hasVideo = $this->hasVideo($entity);
             if ($hasVideo) {
                 $mediaClasses[] = EntityConstants::HAS_VIDEO;
@@ -192,6 +197,20 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
     private function hasPoll(array $entity): bool
     {
         if (empty($entity[EntityConstants::HAS_RELATED_POLLS_FIELD_KEY])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param array $entity
+     *
+     * @return bool
+     */
+    private function hasSponsor(array $entity): bool
+    {
+        if (empty($entity[EntityConstants::HAS_SPONSOR_FIELD_KEY])) {
             return false;
         }
 

@@ -21,6 +21,7 @@ class EntityConstants
     const HAS_RELATED_CONTENT_FIELD_KEY = "hasRelatedContent";
     const HAS_RELATED_GALLERIES_FIELD_KEY = "hasRelatedGalleries";
     const HAS_RELATED_POLLS_FIELD_KEY = "hasRelatedPolls";
+    const HAS_SPONSOR_FIELD_KEY = "hasSponsor";
     const ID_FIELD_KEY = "id";
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
     const RELATED_CONTENT_FIELD_KEY = "relatedContent";
@@ -63,5 +64,6 @@ class EntityConstants
     const HAS_IMAGE = "has-image";
     const HAS_NO_IMAGE = "has-no-image";
     const HAS_POLL = "has-poll";
+    const HAS_SPONSOR = "has-sponsor";
     const HAS_VIDEO = "has-video";
 }
