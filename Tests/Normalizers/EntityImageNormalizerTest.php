@@ -5,7 +5,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Normalizers;
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
-use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityImageNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Exception;
@@ -13,11 +13,11 @@ use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**
- * Class EntityAssetNormalizerTest
+ * Class EntityImageNormalizerTest
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\Normalizers
  */
-class EntityAssetNormalizerTest extends TestCase
+class EntityImageNormalizerTest extends TestCase
 {
     /**
      * @var TestHelper
@@ -46,7 +46,7 @@ class EntityAssetNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        new EntityAssetNormalizer();
+        new EntityImageNormalizer();
     }
 
     /**
@@ -62,7 +62,7 @@ class EntityAssetNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        new EntityAssetNormalizer($api, $field);
+        new EntityImageNormalizer($api, $field);
     }
 
     /**
@@ -88,9 +88,9 @@ class EntityAssetNormalizerTest extends TestCase
      */
     public function testValidateThrowsExceptionMessageEmptyField()
     {
-        $this->expectExceptionMessage(EntityAssetNormalizer::EMPTY_FIELD);
+        $this->expectExceptionMessage(EntityImageNormalizer::EMPTY_FIELD);
 
-        new EntityAssetNormalizer($this->api, "");
+        new EntityImageNormalizer($this->api, "");
     }
 
     /**
@@ -101,7 +101,7 @@ class EntityAssetNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
+        $normalizer = new EntityImageNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
         $normalizer->normalize();
     }
 
@@ -115,7 +115,7 @@ class EntityAssetNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
+        $normalizer = new EntityImageNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
         $normalizer->normalize($entity);
     }
 
@@ -142,7 +142,7 @@ class EntityAssetNormalizerTest extends TestCase
      */
     public function testNormalizeReturnEntity(array $entity)
     {
-        $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
+        $normalizer = new EntityImageNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
         $result = $normalizer->normalize($entity);
 
         $this->assertEquals($entity, $result);
@@ -180,9 +180,9 @@ class EntityAssetNormalizerTest extends TestCase
      */
     public function testNormalizeThrowsExceptionMessageNonNumericAssetId($entity)
     {
-        $this->expectExceptionMessage(EntityAssetNormalizer::NON_NUMERIC_ASSET_ID);
+        $this->expectExceptionMessage(EntityImageNormalizer::NON_NUMERIC_ASSET_ID);
 
-        $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
+        $normalizer = new EntityImageNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
         $normalizer->normalize($entity);
     }
 
@@ -220,7 +220,7 @@ class EntityAssetNormalizerTest extends TestCase
 
         $entity = [EntityConstants::IMAGE_FIELD_KEY => [EntityConstants::ID_FIELD_KEY => $this->testHelper->getZeroOrNegativeValue()]];
 
-        $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
+        $normalizer = new EntityImageNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
         $normalizer->normalize($entity);
     }
 
@@ -232,7 +232,7 @@ class EntityAssetNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsEntityAssetNormalized($entity, $expected)
     {
-        $normalizer = new EntityAssetNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
+        $normalizer = new EntityImageNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
 
         $result = $normalizer->normalize($entity);
         $this->assertEquals($expected, $result);
@@ -255,7 +255,8 @@ class EntityAssetNormalizerTest extends TestCase
                     EntityConstants::ID_FIELD_KEY => 1,
                     EntityConstants::IMAGE_FIELD_KEY => [
                         EntityConstants::ID_FIELD_KEY => 1,
-                        EntityConstants::SEARCHABLE_FIELD_KEY => true
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        EntityConstants::ORIENTATION_FIELD_KEY => "is-horizontal"
                     ]
                 ],
             ],

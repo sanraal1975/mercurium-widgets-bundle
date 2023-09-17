@@ -93,7 +93,8 @@ class EntityRelatedContentNormalizer
         EntityNormalizer   $articleNormalizer = null,
         EntityNormalizer   $assetNormalizer = null,
         GalleryNormalizer  $galleryNormalizer = null,
-        PollNormalizer     $pollNormalizer = null
+        PollNormalizer     $pollNormalizer = null,
+        LiveEventNormalizer $liveEventNormalizer = null
     )
     {
         $this->helper = new EntityHelper();

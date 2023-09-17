@@ -59,3 +59,4 @@ class PollNormalizer
         return $entity;
     }
 }
+

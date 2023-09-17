@@ -8,6 +8,7 @@ use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAssetNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityImageNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Exception;
 
@@ -33,7 +34,7 @@ class GalleryNormalizer implements NormalizerInterface
     /**
      * @var EntityNormalizer
      */
-    private $imageNormalizer;
+    private $galleryAssetNormalizer;
 
     /**
      * @var int
@@ -43,15 +44,15 @@ class GalleryNormalizer implements NormalizerInterface
     /**
      * @param Client $api
      * @param EntityNormalizer|null $galleryNormalizer
-     * @param EntityNormalizer|null $imageNormalizer
+     * @param EntityNormalizer|null $galleryAssetNormalizer
      * @param int $quantityOfAssetsToNormalize
      * @throws Exception
      */
-    public function __construct(Client $api, EntityNormalizer $galleryNormalizer = null, EntityNormalizer $imageNormalizer = null, int $quantityOfAssetsToNormalize = PHP_INT_MAX)
+    public function __construct(Client $api, EntityNormalizer $galleryNormalizer = null, EntityNormalizer $galleryAssetNormalizer = null, int $quantityOfAssetsToNormalize = PHP_INT_MAX)
     {
         $this->api = $api;
         $this->galleryNormalizer = $galleryNormalizer;
-        $this->imageNormalizer = $imageNormalizer;
+        $this->galleryAssetNormalizer = $galleryAssetNormalizer;
         $this->quantityOfAssetsToNormalize = $quantityOfAssetsToNormalize;
 
         $this->validate();
@@ -88,8 +89,7 @@ class GalleryNormalizer implements NormalizerInterface
                 if ($this->quantityOfAssetsToNormalize > 0) {
                     $normalizedAssets = [];
                     $assetsCount = 0;
-                    $assetNormalizer = new EntityAssetNormalizer($this->api, EntityConstants::ASSET_FIELD_KEY);
-                    $imageHelper = new ImageHelper($this->api);
+                    $assetNormalizer = new EntityImageNormalizer($this->api, EntityConstants::ASSET_FIELD_KEY);
                     $entityHelper = new EntityHelper();
 
                     foreach ($entity[EntityConstants::ASSETS_FIELD_KEY] as $asset) {
@@ -100,10 +100,8 @@ class GalleryNormalizer implements NormalizerInterface
                             continue;
                         }
 
-                        $normalizedAsset = $imageHelper->setOrientation($normalizedAsset);
-
-                        if ($this->imageNormalizer != null) {
-                            $normalizedAsset = $this->imageNormalizer->normalize($normalizedAsset);
+                        if ($this->galleryAssetNormalizer != null) {
+                            $normalizedAsset = $this->galleryAssetNormalizer->normalize($normalizedAsset);
                         }
 
                         $normalizedAssets[] = $normalizedAsset;

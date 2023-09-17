@@ -211,7 +211,7 @@ class EntityAuthorNormalizerTest extends TestCase
                 "entity" => [TestHelper::AUTHOR_FIELD_KEY => null],
             ],
             [
-                "entity" => [TestHelper::IMAGE_FIELD_KEY => []],
+                "entity" => [EntityConstants::IMAGE_FIELD_KEY => []],
             ],
         ];
     }

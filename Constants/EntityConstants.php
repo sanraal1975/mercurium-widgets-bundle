@@ -24,6 +24,7 @@ class EntityConstants
     const HAS_SPONSOR_FIELD_KEY = "hasSponsor";
     const ID_FIELD_KEY = "id";
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
+    const ORIENTATION_FIELD_KEY = "orientation";
     const RELATED_CONTENT_FIELD_KEY = "relatedContent";
     const RELATED_ACTIVITIES_FIELD_KEY = "relatedActivities";
     const RELATED_ARTICLES_FIELD_KEY = "relatedArticles";
@@ -50,9 +51,11 @@ class EntityConstants
     const ORDER_FIELD_KEY = "order";
 
     // Assets fields keys
-    const IMAGE_FIELD_KEY = "image";
-    const VIDEO_FIELD_KEY = "video";
     const AUDIO_FIELD_KEY = "audio";
+    const IMAGE_FIELD_KEY = "image";
+    const LOCAL_SHIELD_FIELD_KEY = "localShield";
+    const VIDEO_FIELD_KEY = "video";
+    const VISITOR_SHIELD_FIELD_KEY = "visitorShield";
 
     // Media classes keys
     const HAS_ACTIVITY = "has-activity";
