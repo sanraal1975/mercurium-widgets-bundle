@@ -5,6 +5,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers\Entities;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAuthorNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityDynamicFieldsNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityImageNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
@@ -48,20 +49,27 @@ class LiveEventNormalizer implements NormalizerInterface
     private $visitorShieldKey;
 
     /**
+     * @var EntityNormalizer|null
+     */
+    private $authorAssetNormalizer;
+
+    /**
      * @param Client $api
      * @param array $fields
      * @param string $fieldsKey
      * @param string $assetFieldKey
      * @param string $localShieldKey
      * @param string $visitorShieldKey
+     * @param EntityNormalizer|null $authorAssetNormalizer
      */
     public function __construct(
-        Client $api,
-        array  $fields,
-        string $fieldsKey = EntityConstants::FIELDS_FIELD_KEY,
-        string $assetFieldKey = EntityConstants::IMAGE_FIELD_KEY,
-        string $localShieldKey = EntityConstants::LOCAL_SHIELD_FIELD_KEY,
-        string $visitorShieldKey = EntityConstants::VISITOR_SHIELD_FIELD_KEY
+        Client           $api,
+        array            $fields,
+        string           $fieldsKey = EntityConstants::FIELDS_FIELD_KEY,
+        string           $assetFieldKey = EntityConstants::IMAGE_FIELD_KEY,
+        string           $localShieldKey = EntityConstants::LOCAL_SHIELD_FIELD_KEY,
+        string           $visitorShieldKey = EntityConstants::VISITOR_SHIELD_FIELD_KEY,
+        EntityNormalizer $authorAssetNormalizer = null
     )
     {
         $this->api = $api;
@@ -70,6 +78,7 @@ class LiveEventNormalizer implements NormalizerInterface
         $this->assetFieldKey = $assetFieldKey;
         $this->localShieldKey = $localShieldKey;
         $this->visitorShieldKey = $visitorShieldKey;
+        $this->authorAssetNormalizer = $authorAssetNormalizer;
     }
 
     /**
@@ -85,7 +94,12 @@ class LiveEventNormalizer implements NormalizerInterface
                 new EntityDynamicFieldsNormalizer($this->fields, $this->fieldsKey),
                 new EntityImageNormalizer($this->api, $this->assetFieldKey),
                 new EntityImageNormalizer($this->api, $this->localShieldKey),
-                new EntityImageNormalizer($this->api, $this->visitorShieldKey)
+                new EntityImageNormalizer($this->api, $this->visitorShieldKey),
+                new EntityAuthorNormalizer(
+                    $this->api,
+                    EntityConstants::AUTHOR_FIELD_KEY,
+                    $this->authorAssetNormalizer
+                )
             ]
         );
 
