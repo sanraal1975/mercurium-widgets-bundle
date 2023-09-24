@@ -20,6 +20,7 @@ class EntityConstants
     const HAS_RELATED_ASSETS_FIELD_KEY = "hasRelatedAssets";
     const HAS_RELATED_CONTENT_FIELD_KEY = "hasRelatedContent";
     const HAS_RELATED_GALLERIES_FIELD_KEY = "hasRelatedGalleries";
+    const HAS_RELATED_LIVE_EVENTS_FIELD_KEY = "hasRelatedLiveEvents";
     const HAS_RELATED_POLLS_FIELD_KEY = "hasRelatedPolls";
     const HAS_SPONSOR_FIELD_KEY = "hasSponsor";
     const ID_FIELD_KEY = "id";
@@ -30,6 +31,7 @@ class EntityConstants
     const RELATED_ARTICLES_FIELD_KEY = "relatedArticles";
     const RELATED_ASSETS_FIELD_KEY = "relatedAssets";
     const RELATED_GALLERIES_FIELD_KEY = "relatedGalleries";
+    const RELATED_LIVE_EVENTS_FIELD_KEY = "relatedLiveEvents";
     const RELATED_POLLS_FIELD_KEY = "relatedPolls";
     const SEARCHABLE_FIELD_KEY = "searchable";
     const SOCIAL_NETWORK_FIELD_KEY = "socialNetwork";

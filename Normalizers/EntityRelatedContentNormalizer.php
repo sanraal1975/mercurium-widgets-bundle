@@ -10,11 +10,12 @@ use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\AssetHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\GalleryHelper;
+use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\LiveEventHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\PollHelper;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\ActivityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\GalleryNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\LiveEventNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\PollNormalizer;
-use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Exception;
 
 /**
@@ -80,20 +81,31 @@ class EntityRelatedContentNormalizer
     private $pollNormalizer;
 
     /**
+     * @var PollHelper
+     */
+    private $liveEventHelper;
+
+    /**
+     * @var LiveEventNormalizer|null
+     */
+    private $liveEventNormalizer;
+
+    /**
      * @param Client $api
      * @param ActivityNormalizer|null $activityNormalizer
      * @param EntityNormalizer|null $articleNormalizer
      * @param EntityNormalizer|null $assetNormalizer
      * @param GalleryNormalizer|null $galleryNormalizer
      * @param PollNormalizer|null $pollNormalizer
+     * @param LiveEventNormalizer|null $liveEventNormalizer
      */
     public function __construct(
-        Client             $api,
-        ActivityNormalizer $activityNormalizer = null,
-        EntityNormalizer   $articleNormalizer = null,
-        EntityNormalizer   $assetNormalizer = null,
-        GalleryNormalizer  $galleryNormalizer = null,
-        PollNormalizer     $pollNormalizer = null,
+        Client              $api,
+        ActivityNormalizer  $activityNormalizer = null,
+        EntityNormalizer    $articleNormalizer = null,
+        EntityNormalizer    $assetNormalizer = null,
+        GalleryNormalizer   $galleryNormalizer = null,
+        PollNormalizer      $pollNormalizer = null,
         LiveEventNormalizer $liveEventNormalizer = null
     )
     {
@@ -108,6 +120,8 @@ class EntityRelatedContentNormalizer
         $this->galleryNormalizer = $galleryNormalizer;
         $this->pollHelper = new PollHelper($api);
         $this->pollNormalizer = $pollNormalizer;
+        $this->liveEventHelper = new LiveEventHelper($api);
+        $this->liveEventNormalizer = $liveEventNormalizer;
     }
 
     /**
@@ -118,8 +132,6 @@ class EntityRelatedContentNormalizer
      */
     public function normalize(array $entity): array
     {
-        $helper = new TestHelper();
-
         if (empty($entity)) {
             return [];
         }
@@ -135,6 +147,8 @@ class EntityRelatedContentNormalizer
         $entity['relatedGalleries'] = [];
         $entity['hasRelatedPolls'] = false;
         $entity['relatedPolls'] = [];
+        $entity['hasRelatedLiveEvents'] = false;
+        $entity['relatedLiveEvents'] = [];
         if (empty($entity[EntityConstants::RELATED_CONTENT_FIELD_KEY])) {
             return $entity;
         }
@@ -190,6 +204,15 @@ class EntityRelatedContentNormalizer
                         $entity['hasRelatedContent'] = true;
                         $entity['hasRelatedPolls'] = true;
                         $entity['relatedPolls'][] = $relatedContent;
+                        $relatedContentNormalized[] = $relatedContent;
+                    }
+                    break;
+                case ResourcesTypes::LIVE_EVENT :
+                    $relatedContent = $this->normalizeLiveEvent($relatedContent);
+                    if ($this->helper->isValid($relatedContent)) {
+                        $entity['hasRelatedContent'] = true;
+                        $entity['hasRelatedLiveEvents'] = true;
+                        $entity['relatedLiveEvents'][] = $relatedContent;
                         $relatedContentNormalized[] = $relatedContent;
                     }
                     break;
@@ -340,5 +363,33 @@ class EntityRelatedContentNormalizer
         }
 
         return $poll;
+    }
+
+    /**
+     * @param array $relatedContent
+     *
+     * @return array
+     * @throws Exception
+     */
+    private function normalizeLiveEvent(array $relatedContent): array
+    {
+        $liveEvent = [];
+
+        $liveEventId = 0;
+        if (!empty($relatedContent[EntityConstants::ID_FIELD_KEY])) {
+            $liveEventId = $relatedContent[EntityConstants::ID_FIELD_KEY];
+        }
+
+        if (!empty($liveEventId)) {
+            $liveEvent = $this->liveEventHelper->get($liveEventId);
+            if (!$this->helper->isValid($liveEvent)) {
+                return [];
+            }
+            if (!empty($this->liveEventNormalizer)) {
+                $liveEvent = $this->liveEventNormalizer->normalize($liveEvent);
+            }
+        }
+
+        return $liveEvent;
     }
 }

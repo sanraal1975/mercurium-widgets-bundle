@@ -7,6 +7,7 @@ use Comitium5\ApiClientBundle\ApiClient\ResourcesTypes;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\ActivityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\GalleryNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\LiveEventNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\PollNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityAuthorNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
@@ -37,6 +38,8 @@ class EntityRelatedContentNormalizerTest extends TestCase
         EntityConstants::RELATED_GALLERIES_FIELD_KEY => [],
         EntityConstants::HAS_RELATED_POLLS_FIELD_KEY => false,
         EntityConstants::RELATED_POLLS_FIELD_KEY => [],
+        EntityConstants::HAS_RELATED_LIVE_EVENTS_FIELD_KEY => false,
+        EntityConstants::RELATED_LIVE_EVENTS_FIELD_KEY => [],
     ];
 
     /**
@@ -82,14 +85,31 @@ class EntityRelatedContentNormalizerTest extends TestCase
      * @param $assetNormalizer
      * @param $galleryNormalizer
      * @param $pollNormalizer
+     * @param $liveEventNormalizer
      *
      * @return void
      */
-    public function testConstructThrowsTypeErrorException($api, $activityNormalizer, $articleNormalizer, $assetNormalizer, $galleryNormalizer, $pollNormalizer)
+    public function testConstructThrowsTypeErrorException(
+        $api,
+        $activityNormalizer,
+        $articleNormalizer,
+        $assetNormalizer,
+        $galleryNormalizer,
+        $pollNormalizer,
+        $liveEventNormalizer
+    )
     {
         $this->expectException(TypeError::class);
 
-        new EntityRelatedContentNormalizer($api, $activityNormalizer, $articleNormalizer, $assetNormalizer, $galleryNormalizer, $pollNormalizer);
+        new EntityRelatedContentNormalizer(
+            $api,
+            $activityNormalizer,
+            $articleNormalizer,
+            $assetNormalizer,
+            $galleryNormalizer,
+            $pollNormalizer,
+            $liveEventNormalizer
+        );
     }
 
     /**
@@ -105,7 +125,8 @@ class EntityRelatedContentNormalizerTest extends TestCase
                 "articleNormalizer" => null,
                 "assetNormalizer" => null,
                 "galleryNormalizer" => null,
-                "pollNormalizer" => null
+                "pollNormalizer" => null,
+                "liveEventNormalizer" => null
             ],
             [
                 "api" => $this->api,
@@ -113,7 +134,8 @@ class EntityRelatedContentNormalizerTest extends TestCase
                 "articleNormalizer" => null,
                 "assetNormalizer" => null,
                 "galleryNormalizer" => null,
-                "pollNormalizer" => null
+                "pollNormalizer" => null,
+                "liveEventNormalizer" => null
             ],
             [
                 "api" => $this->api,
@@ -121,7 +143,8 @@ class EntityRelatedContentNormalizerTest extends TestCase
                 "articleNormalizer" => "",
                 "assetNormalizer" => null,
                 "galleryNormalizer" => null,
-                "pollNormalizer" => null
+                "pollNormalizer" => null,
+                "liveEventNormalizer" => null
             ],
             [
                 "api" => $this->api,
@@ -129,7 +152,8 @@ class EntityRelatedContentNormalizerTest extends TestCase
                 "articleNormalizer" => null,
                 "assetNormalizer" => "",
                 "galleryNormalizer" => null,
-                "pollNormalizer" => null
+                "pollNormalizer" => null,
+                "liveEventNormalizer" => null
             ],
             [
                 "api" => $this->api,
@@ -137,7 +161,8 @@ class EntityRelatedContentNormalizerTest extends TestCase
                 "articleNormalizer" => null,
                 "assetNormalizer" => null,
                 "galleryNormalizer" => "",
-                "pollNormalizer" => null
+                "pollNormalizer" => null,
+                "liveEventNormalizer" => null
             ],
             [
                 "api" => $this->api,
@@ -145,7 +170,17 @@ class EntityRelatedContentNormalizerTest extends TestCase
                 "articleNormalizer" => null,
                 "assetNormalizer" => null,
                 "galleryNormalizer" => null,
-                "pollNormalizer" => ""
+                "pollNormalizer" => "",
+                "liveEventNormalizer" => null
+            ],
+            [
+                "api" => $this->api,
+                "activityNormalizer" => null,
+                "articleNormalizer" => null,
+                "assetNormalizer" => null,
+                "galleryNormalizer" => null,
+                "pollNormalizer" => null,
+                "liveEventNormalizer" => ""
             ],
         ];
     }
@@ -852,6 +887,139 @@ class EntityRelatedContentNormalizerTest extends TestCase
                     ]
                 ),
                 "pollNormalizer" => $pollNormalizer
+            ],
+        ];
+    }
+    /**
+     * @dataProvider normalizeLiveEvents
+     *
+     * @param $entity
+     * @param $expected
+     * @param $liveEventNormalizer
+     * @return void
+     * @throws Exception
+     */
+    public function testNormalizeLiveEvents($entity, $expected, $liveEventNormalizer)
+    {
+        $normalizer = new EntityRelatedContentNormalizer($this->api, null, null, null, null, null, $liveEventNormalizer);
+        $result = $normalizer->normalize($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function normalizeLiveEvents(): array
+    {
+        $liveEventNormalizer = new LiveEventNormalizer(
+            $this->api,
+            [
+                "live-events" => [
+                    "image"=> [
+                        "field" => "image_imagen",
+                        "valueType" => "int"
+                    ]
+                ]
+            ]
+        );
+
+        return [
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::RELATED_CONTENT_FIELD_KEY => [
+                        [
+                            EntityConstants::TYPE_FIELD_KEY => ResourcesTypes::LIVE_EVENT
+                        ]
+                    ]
+                ],
+                "expected" => array_merge(
+                    self::BASE_EXPECTED_ENTITY,
+                    [EntityConstants::RELATED_CONTENT_FIELD_KEY => []]
+                ),
+                "liveEventNormalizer" => $liveEventNormalizer,
+            ],
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::RELATED_CONTENT_FIELD_KEY => [
+                        [
+                            EntityConstants::ID_FIELD_KEY => $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
+                            EntityConstants::TYPE_FIELD_KEY => ResourcesTypes::LIVE_EVENT
+                        ]
+                    ]
+                ],
+                "expected" => array_merge(
+                    self::BASE_EXPECTED_ENTITY,
+                    [
+                        EntityConstants::RELATED_CONTENT_FIELD_KEY => [],
+                    ]
+                ),
+                "liveEventNormalizer" => $liveEventNormalizer
+            ],
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::RELATED_CONTENT_FIELD_KEY => [
+                        [
+                            EntityConstants::ID_FIELD_KEY => 1,
+                            EntityConstants::TYPE_FIELD_KEY => ResourcesTypes::LIVE_EVENT
+                        ]
+                    ]
+                ],
+                "expected" => array_merge(
+                    self::BASE_EXPECTED_ENTITY,
+                    [
+                        EntityConstants::HAS_RELATED_CONTENT_FIELD_KEY => true,
+                        EntityConstants::RELATED_CONTENT_FIELD_KEY => [
+                            [
+                                EntityConstants::ID_FIELD_KEY => 1,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true
+                            ]
+                        ],
+                        EntityConstants::HAS_RELATED_LIVE_EVENTS_FIELD_KEY => true,
+                        EntityConstants::RELATED_LIVE_EVENTS_FIELD_KEY => [
+                            [
+                                EntityConstants::ID_FIELD_KEY => 1,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true
+                            ]
+                        ]
+                    ]
+                ),
+                "liveEventNormalizer" => null
+            ],
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::RELATED_CONTENT_FIELD_KEY => [
+                        [
+                            EntityConstants::ID_FIELD_KEY => 1,
+                            EntityConstants::TYPE_FIELD_KEY => ResourcesTypes::LIVE_EVENT
+                        ]
+                    ]
+                ],
+                "expected" => array_merge(
+                    self::BASE_EXPECTED_ENTITY,
+                    [
+                        EntityConstants::HAS_RELATED_CONTENT_FIELD_KEY => true,
+                        EntityConstants::RELATED_CONTENT_FIELD_KEY => [
+                            [
+                                EntityConstants::ID_FIELD_KEY => 1,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                            ]
+                        ],
+                        EntityConstants::HAS_RELATED_LIVE_EVENTS_FIELD_KEY => true,
+                        EntityConstants::RELATED_LIVE_EVENTS_FIELD_KEY => [
+                            [
+                                EntityConstants::ID_FIELD_KEY => 1,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                            ]
+                        ]
+                    ]
+                ),
+                "liveEventNormalizer" => $liveEventNormalizer
             ],
         ];
     }
