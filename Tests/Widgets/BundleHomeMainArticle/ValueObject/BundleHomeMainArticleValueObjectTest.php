@@ -1,23 +1,23 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\HomeMainArticle\ValueObject;
+namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleHomeMainArticle\ValueObject;
 
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
-use Comitium5\MercuriumWidgetsBundle\Widgets\HomeMainArticle\ValueObject\HomeMainArticleValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**
- * Class HomeMainArticleValueObjectTest
+ * Class BundleHomeMainArticleValueObjectTest
  *
- * @package Comitium5\MercuriumWidgetsBundle\Tests\Widgets\HomeMainArticle\ValueObject
+ * @package Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleHomeMainArticle\ValueObject
  */
-class HomeMainArticleValueObjectTest extends TestCase
+class BundleHomeMainArticleValueObjectTest extends TestCase
 {
     /**
      * @var ClientMock
@@ -50,7 +50,7 @@ class HomeMainArticleValueObjectTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $valueObject = new HomeMainArticleValueObject();
+        $valueObject = new BundleHomeMainArticleValueObject();
     }
 
     /**
@@ -62,7 +62,7 @@ class HomeMainArticleValueObjectTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $valueObject = new HomeMainArticleValueObject($api, $articlesIds, $normalizer);
+        $valueObject = new BundleHomeMainArticleValueObject($api, $articlesIds, $normalizer);
     }
 
     /**
@@ -97,7 +97,7 @@ class HomeMainArticleValueObjectTest extends TestCase
     {
         $normalizer = new EntityNormalizer([new NormalizerMock()]);
 
-        $valueObject = new HomeMainArticleValueObject(
+        $valueObject = new BundleHomeMainArticleValueObject(
             $this->api,
             "",
             $normalizer

@@ -42,7 +42,6 @@ class LiveEventNormalizerTest extends TestCase
         $this->api = $this->testHelper->getApi();
     }
 
-
     /**
      * @dataProvider constructThrowsArgumentCountErrorException
      *

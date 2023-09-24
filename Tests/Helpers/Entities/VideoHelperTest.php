@@ -32,7 +32,6 @@ class VideoHelperTest  extends TestCase
     }
 
     /**
-     *
      * @return void
      * @throws Exception
      */

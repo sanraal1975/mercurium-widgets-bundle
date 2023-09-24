@@ -42,6 +42,9 @@ class EntityImageNormalizerTest extends TestCase
         $this->api = $this->testHelper->getApi();
     }
 
+    /**
+     * @return void
+     */
     public function testConstructThrowsArgumentCountErrorException()
     {
         $this->expectException(ArgumentCountError::class);

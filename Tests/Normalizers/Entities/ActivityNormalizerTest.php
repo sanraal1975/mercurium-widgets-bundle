@@ -200,5 +200,4 @@ class ActivityNormalizerTest extends TestCase
             ],
         ];
     }
-
 }

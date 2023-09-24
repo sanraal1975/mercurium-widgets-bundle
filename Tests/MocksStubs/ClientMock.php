@@ -26,43 +26,31 @@ class ClientMock extends Client
                 return [
                     "statusCode" => 200,
                     "data" => [
-                        "results" => [
-                            [
-                                EntityConstants::ID_FIELD_KEY => $id,
-                            ]
-                        ]
+                        EntityConstants::ID_FIELD_KEY => $id,
                     ],
                 ];
             case TestHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN:
                 return [
                     "statusCode" => 200,
                     "data" => [
-                        "results" => [
+                        EntityConstants::ID_FIELD_KEY => $id,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        "children" => [
                             [
-                                EntityConstants::ID_FIELD_KEY => $id,
+                                EntityConstants::ID_FIELD_KEY => 1,
                                 EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                                "children" => [
-                                    [
-                                        EntityConstants::ID_FIELD_KEY => 1,
-                                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                                    ]
-                                ],
                             ]
-                        ]
+                        ],
                     ]
                 ];
             case TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET:
                 return [
                     "statusCode" => 200,
                     "data" => [
-                        "results" => [
-                            [
-                                EntityConstants::ID_FIELD_KEY => $id,
-                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                                "asset" => [
-                                    EntityConstants::ID_FIELD_KEY => 1
-                                ]
-                            ]
+                        EntityConstants::ID_FIELD_KEY => $id,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        "asset" => [
+                            EntityConstants::ID_FIELD_KEY => 1
                         ]
                     ]
                 ];
@@ -70,17 +58,13 @@ class ClientMock extends Client
                 return [
                     "statusCode" => 200,
                     "data" => [
-                        "results" => [
+                        EntityConstants::ID_FIELD_KEY => $id,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        "socialNetworks" => [
                             [
-                                EntityConstants::ID_FIELD_KEY => $id,
-                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                                "socialNetworks" => [
-                                    [
-                                        "socialNetwork" => "facebook",
-                                        "url" => "https://www.foo.bar"
-                                    ],
-                                ]
-                            ]
+                                "socialNetwork" => "facebook",
+                                "url" => "https://www.foo.bar"
+                            ],
                         ]
                     ]
                 ];
@@ -88,17 +72,13 @@ class ClientMock extends Client
                 return [
                     "statusCode" => 200,
                     "data" => [
-                        "results" => [
+                        EntityConstants::ID_FIELD_KEY => $id,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        "socialNetworks" => [
                             [
-                                EntityConstants::ID_FIELD_KEY => $id,
-                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                                "socialNetworks" => [
-                                    [
-                                        "socialNetwork" => "facebook",
-                                        "url" => ""
-                                    ],
-                                ]
-                            ]
+                                "socialNetwork" => "facebook",
+                                "url" => ""
+                            ],
                         ]
                     ]
                 ];
@@ -106,17 +86,13 @@ class ClientMock extends Client
                 return [
                     "statusCode" => 200,
                     "data" => [
-                        "results" => [
+                        EntityConstants::ID_FIELD_KEY => $id,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                        "socialNetworks" => [
                             [
-                                EntityConstants::ID_FIELD_KEY => $id,
-                                EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                                "socialNetworks" => [
-                                    [
-                                        "socialNetwork" => "banned_social_network",
-                                        "url" => "https://www.foo.bar"
-                                    ],
-                                ]
-                            ]
+                                "socialNetwork" => "banned_social_network",
+                                "url" => "https://www.foo.bar"
+                            ],
                         ]
                     ]
                 ];
@@ -125,12 +101,8 @@ class ClientMock extends Client
         return [
             "statusCode" => 200,
             "data" => [
-                "results" => [
-                    [
-                        EntityConstants::ID_FIELD_KEY => $id,
-                        EntityConstants::SEARCHABLE_FIELD_KEY => true
-                    ]
-                ]
+                EntityConstants::ID_FIELD_KEY => $id,
+                EntityConstants::SEARCHABLE_FIELD_KEY => true
             ],
         ];
     }

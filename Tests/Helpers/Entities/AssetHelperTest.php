@@ -213,7 +213,7 @@ class AssetHelperTest extends TestCase
      */
     public function testGetByIdsReturnEmpty(string $ids)
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $api = new Client("https:foo.bar", "fake_token");
 
         $helper = new AssetHelper($this->api);
         $result = $helper->getByIds($ids);

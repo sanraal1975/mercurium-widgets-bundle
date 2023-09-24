@@ -1,6 +1,6 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\HomeMainArticle\Normalizer;
+namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleHomeMainArticle\Normalizer;
 
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
@@ -8,17 +8,18 @@ use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
-use Comitium5\MercuriumWidgetsBundle\Widgets\HomeMainArticle\Normalizer\HomeMainArticleNormalizer;
-use Comitium5\MercuriumWidgetsBundle\Widgets\HomeMainArticle\ValueObject\HomeMainArticleValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Normalizer\BundleHomeMainArticleNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
 /**
- * Class HomeMainArticleNormalizerTest
+ * Class BundleHomeMainArticleNormalizerTest
  *
- * @package Comitium5\MercuriumWidgetsBundle\Tests\Widgets\HomeMainArticle\Normalizer
+ * @package Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleHomeMainArticle\Normalizer
  */
-class HomeMainArticleNormalizerTest extends TestCase
+class BundleHomeMainArticleNormalizerTest extends TestCase
 {
     /**
      * @var TestHelper
@@ -26,7 +27,7 @@ class HomeMainArticleNormalizerTest extends TestCase
     private $testHelper;
 
     /**
-     * @var HomeMainArticleValueObject
+     * @var BundleHomeMainArticleValueObject
      */
     private $valueObject;
 
@@ -34,7 +35,7 @@ class HomeMainArticleNormalizerTest extends TestCase
      * @param $name
      * @param array $data
      * @param $dataName
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($name = null, array $data = [], $dataName = "")
     {
@@ -42,7 +43,7 @@ class HomeMainArticleNormalizerTest extends TestCase
 
         $testHelper = new TestHelper();
         $this->testHelper = $testHelper;
-        $this->valueObject = new HomeMainArticleValueObject(
+        $this->valueObject = new BundleHomeMainArticleValueObject(
             $testHelper->getApi(),
             "1",
             new EntityNormalizer(
@@ -60,7 +61,7 @@ class HomeMainArticleNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $helper = new HomeMainArticleNormalizer();
+        $helper = new BundleHomeMainArticleNormalizer();
     }
 
     /**
@@ -70,7 +71,7 @@ class HomeMainArticleNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $helper = new HomeMainArticleNormalizer(null);
+        $helper = new BundleHomeMainArticleNormalizer(null);
     }
 
     /**
@@ -80,7 +81,7 @@ class HomeMainArticleNormalizerTest extends TestCase
     {
         $this->expectException(ArgumentCountError::class);
 
-        $normalizer = new HomeMainArticleNormalizer($this->valueObject);
+        $normalizer = new BundleHomeMainArticleNormalizer($this->valueObject);
         $result = $normalizer->normalize();
     }
 
@@ -91,7 +92,7 @@ class HomeMainArticleNormalizerTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $normalizer = new HomeMainArticleNormalizer($this->valueObject);
+        $normalizer = new BundleHomeMainArticleNormalizer($this->valueObject);
         $result = $normalizer->normalize(null);
     }
 
@@ -102,7 +103,7 @@ class HomeMainArticleNormalizerTest extends TestCase
      */
     public function testNormalizeReturnsValue($entities, $expected)
     {
-        $normalizer = new HomeMainArticleNormalizer($this->valueObject);
+        $normalizer = new BundleHomeMainArticleNormalizer($this->valueObject);
 
         $result = $normalizer->normalize($entities);
 

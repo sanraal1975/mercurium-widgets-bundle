@@ -72,7 +72,7 @@ class EntityHelperTest extends TestCase
      */
     public function testHasCategoryReturnTrue(array $article, int $categoryId)
     {
-        $api = new Client("https://foo.bar", "fake_token");
+        $api = new Client("https:foo.bar", "fake_token");
 
         $helper = new EntityHelper($api);
         $result = $helper->hasCategory($article, $categoryId);

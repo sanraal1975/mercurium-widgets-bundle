@@ -240,11 +240,11 @@ class ImageHelperTest extends TestCase
             [
                 "image" => [
                     EntityConstants::ID_FIELD_KEY => 1,
-                    "url" => "https://www.bar.foo",
+                    "url" => "https:www.bar.foo",
                     "metadata" => ["width" => 100, "height" => 100],
                     "children" => [
                         0 => [
-                            "url" => "https://www.foo.bar",
+                            "url" => "https:www.foo.bar",
                             "metadata" => ["width" => 10, "height" => 10]
                         ]
                     ]
@@ -252,11 +252,11 @@ class ImageHelperTest extends TestCase
                 "crop" => new CropValueObject("100|100"),
                 "expected" => [
                     EntityConstants::ID_FIELD_KEY => 1,
-                    "url" => "https://www.bar.foo",
+                    "url" => "https:www.bar.foo",
                     "metadata" => ["width" => 100, "height" => 100],
                     "children" => [
                         0 => [
-                            "url" => "https://www.foo.bar",
+                            "url" => "https:www.foo.bar",
                             "metadata" => ["width" => 10, "height" => 10]
                         ]
                     ]
@@ -278,11 +278,11 @@ class ImageHelperTest extends TestCase
 
         $image = [
             EntityConstants::ID_FIELD_KEY => 1,
-            "url" => "https://www.bar.foo",
+            "url" => "https:www.bar.foo",
             "metadata" => ["width" => 100, "height" => 100],
             "children" => [
                 0 => [
-                    "url" => "https://www.foo.bar",
+                    "url" => "https:www.foo.bar",
                     "metadata" => ["width" => 10, "height" => 10]
                 ]
             ]
@@ -292,11 +292,11 @@ class ImageHelperTest extends TestCase
 
         $expected = [
             EntityConstants::ID_FIELD_KEY => 1,
-            "url" => "https://www.foo.bar",
+            "url" => "https:www.foo.bar",
             "metadata" => ["width" => 10, "height" => 10],
             "children" => [
                 0 => [
-                    "url" => "https://www.foo.bar",
+                    "url" => "https:www.foo.bar",
                     "metadata" => ["width" => 10, "height" => 10]
                 ]
             ]
