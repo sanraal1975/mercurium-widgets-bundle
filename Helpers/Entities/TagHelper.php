@@ -58,9 +58,7 @@ class TagHelper extends AbstractEntityHelper
             throw new Exception(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
         }
 
-        $result = $this->service->find(new IdentifiedValue($entityId));
-
-        return ApiResultsHelper::extractOne($result);
+        return $this->service->find(new IdentifiedValue($entityId));
     }
 
     /**

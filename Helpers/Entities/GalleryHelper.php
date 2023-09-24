@@ -58,9 +58,7 @@ class GalleryHelper extends AbstractEntityHelper
             throw new Exception(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
         }
 
-        $results = $this->service->find(new IdentifiedValue($entityId));
-
-        return ApiResultsHelper::extractOne($results);
+        return $this->service->find(new IdentifiedValue($entityId));
     }
 
     /**
