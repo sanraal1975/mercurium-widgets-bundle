@@ -128,6 +128,17 @@ class EntityMediaClassesNormalizerTest extends TestCase
             [
                 "entity" => [
                     EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::BODY_FIELD_KEY => '<figure class="m-media m-media--video m-media--editor" data-ck-asset-wrapper="">'
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::BODY_FIELD_KEY => '<figure class="m-media m-media--video m-media--editor" data-ck-asset-wrapper="">',
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_NO_IMAGE . " " . EntityConstants::HAS_VIDEO
+                ]
+            ],
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
                     EntityConstants::AUDIO_FIELD_KEY => [
                         EntityConstants::ID_FIELD_KEY => 1
                     ]
@@ -137,6 +148,17 @@ class EntityMediaClassesNormalizerTest extends TestCase
                     EntityConstants::AUDIO_FIELD_KEY => [
                         EntityConstants::ID_FIELD_KEY => 1
                     ],
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_AUDIO . " " . EntityConstants::HAS_NO_IMAGE
+                ]
+            ],
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::BODY_FIELD_KEY => '<figure class="m-media m-media--sound m-media--editor" data-ck-asset-wrapper="">'
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::BODY_FIELD_KEY => '<figure class="m-media m-media--sound m-media--editor" data-ck-asset-wrapper="">',
                     EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_AUDIO . " " . EntityConstants::HAS_NO_IMAGE
                 ]
             ],
@@ -198,6 +220,28 @@ class EntityMediaClassesNormalizerTest extends TestCase
                         EntityConstants::ID_FIELD_KEY => 1
                     ],
                     EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_GALLERY . " " . EntityConstants::HAS_NO_IMAGE
+                ]
+            ],
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::BODY_FIELD_KEY => '<div class="cke-element cke-element--113">'
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::BODY_FIELD_KEY => '<div class="cke-element cke-element--113">',
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_GALLERY . " " . EntityConstants::HAS_NO_IMAGE,
+                ]
+            ],
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::BODY_FIELD_KEY => '<div class="cke-element cke-element--104">',
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::BODY_FIELD_KEY => '<div class="cke-element cke-element--104">',
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => EntityConstants::HAS_NO_IMAGE . " " . EntityConstants::HAS_POLL
                 ]
             ],
             [

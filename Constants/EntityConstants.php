@@ -13,6 +13,7 @@ class EntityConstants
     const ASSET_FIELD_KEY = "asset";
     const ASSETS_FIELD_KEY = "assets";
     const AUTHOR_FIELD_KEY = "author";
+    const BODY_FIELD_KEY = "body";
     const CATEGORIES_FIELD_KEY = "categories";
     const FIELDS_FIELD_KEY = "fields";
     const HAS_RELATED_ACTIVITIES_FIELD_KEY = "hasRelatedActivities";

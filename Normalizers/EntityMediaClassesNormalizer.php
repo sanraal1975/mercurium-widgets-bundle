@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 
 /**
  * Class EntityMediaClassesNormalizer
@@ -12,6 +13,19 @@ use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
  */
 class EntityMediaClassesNormalizer implements NormalizerInterface
 {
+    /**
+     * @var array
+     */
+    private $fields;
+
+    /**
+     * @param array $fields
+     */
+    public function __construct(array $fields = [EntityConstants::BODY_FIELD_KEY])
+    {
+        $this->fields = $fields;
+    }
+
     /**
      * @param array $entity
      *
@@ -102,11 +116,19 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function hasAudio(array $entity): bool
     {
-        if (empty($entity[EntityConstants::AUDIO_FIELD_KEY])) {
-            return false;
+        $hasAudio = !empty($entity[EntityConstants::AUDIO_FIELD_KEY]);
+
+        foreach ($this->fields as $field) {
+            if (empty($entity[$field])) {
+                continue;
+            }
+
+            if (strpos($entity[$field], "m-media--sound") !== false) {
+                $hasAudio = true;
+            }
         }
 
-        return true;
+        return $hasAudio;
     }
 
     /**
@@ -168,11 +190,19 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function hasGallery(array $entity): bool
     {
-        if (empty($entity[EntityConstants::HAS_RELATED_GALLERIES_FIELD_KEY])) {
-            return false;
+        $hasGallery = !empty($entity[EntityConstants::HAS_RELATED_GALLERIES_FIELD_KEY]);
+
+        foreach ($this->fields as $field) {
+            if (empty($entity[$field])) {
+                continue;
+            }
+
+            if (strpos($entity[$field], "cke-element--113") !== false) {
+                $hasGallery = true;
+            }
         }
 
-        return true;
+        return $hasGallery;
     }
 
     /**
@@ -196,11 +226,19 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function hasPoll(array $entity): bool
     {
-        if (empty($entity[EntityConstants::HAS_RELATED_POLLS_FIELD_KEY])) {
-            return false;
+        $hasPoll = !empty($entity[EntityConstants::HAS_RELATED_POLLS_FIELD_KEY]);
+
+        foreach ($this->fields as $field) {
+            if (empty($entity[$field])) {
+                continue;
+            }
+
+            if (strpos($entity[$field], "cke-element--104") !== false) {
+                $hasPoll = true;
+            }
         }
 
-        return true;
+        return $hasPoll;
     }
 
     /**
@@ -224,10 +262,20 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function hasVideo(array $entity): bool
     {
-        if (empty($entity[EntityConstants::VIDEO_FIELD_KEY])) {
-            return false;
+        $helper = new TestHelper();
+
+        $hasVideo = !empty($entity[EntityConstants::VIDEO_FIELD_KEY]);
+
+        foreach ($this->fields as $field) {
+            if (empty($entity[$field])) {
+                continue;
+            }
+
+            if (strpos($entity[$field], "m-media--video") !== false) {
+                $hasVideo = true;
+            }
         }
 
-        return true;
+        return $hasVideo;
     }
 }
