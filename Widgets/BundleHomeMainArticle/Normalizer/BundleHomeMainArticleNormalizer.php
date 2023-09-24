@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Normalizer;
 
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 
 /**
  * Class BundleHomeMainArticleNormalizer
@@ -13,16 +13,16 @@ use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\B
 class BundleHomeMainArticleNormalizer
 {
     /**
-     * @var BundleHomeMainArticleValueObject
+     * @var EntityNormalizer
      */
-    private $valueObject;
+    private $normalizer;
 
     /**
-     * @param BundleHomeMainArticleValueObject $valueObject
+     * @param EntityNormalizer $normalizer
      */
-    public function __construct(BundleHomeMainArticleValueObject $valueObject)
+    public function __construct(EntityNormalizer $normalizer)
     {
-        $this->valueObject = $valueObject;
+        $this->normalizer = $normalizer;
     }
 
     /**
@@ -38,8 +38,6 @@ class BundleHomeMainArticleNormalizer
 
         $helper = new EntityHelper();
 
-        $normalizer = $this->valueObject->getNormalizer();
-
         $normalizedArticles = [];
 
         foreach ($articles as $article) {
@@ -47,7 +45,7 @@ class BundleHomeMainArticleNormalizer
                 continue;
             }
 
-            $article = $normalizer->normalize($article);
+            $article = $this->normalizer->normalize($article);
 
             if (!$helper->isValid($article)) {
                 continue;

@@ -14,20 +14,31 @@ use Exception;
 class BundleHomeMainArticleHelper
 {
     /**
+     * @var BundleHomeMainArticleValueObject
+     */
+    private $valueObject;
+
+    /**
      * @param BundleHomeMainArticleValueObject $valueObject
-     *
+     */
+    public function __construct(BundleHomeMainArticleValueObject $valueObject)
+    {
+        $this->valueObject = $valueObject;
+    }
+
+    /**
      * @return array
      * @throws Exception
      */
-    public function getArticles(BundleHomeMainArticleValueObject $valueObject): array
+    public function getArticles(): array
     {
-        $articlesIds = $valueObject->getArticlesIds();
+        $articlesIds = $this->valueObject->getArticlesIds();
 
         if (empty($articlesIds)) {
             return [];
         }
 
-        $helper = new ArticleHelper($valueObject->getApi());
+        $helper = new ArticleHelper($this->valueObject->getApi());
 
         return $helper->getByIds($articlesIds);
     }
