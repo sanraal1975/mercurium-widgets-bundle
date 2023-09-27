@@ -9,6 +9,7 @@ use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObjectMock;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Helper\BundleHomeMainArticleHelper;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
 use Exception;
@@ -67,7 +68,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
         $this->expectException(TypeError::class);
 
         $helper = new BundleHomeMainArticleHelper();
-        $articles = $helper->getArticles(null);
+        $articles = $helper->getArticles();
     }
 
     /**
@@ -78,14 +79,16 @@ class BundleHomeMainArticleHelperTest extends TestCase
     {
         $this->expectExceptionMessage(ArticleHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
 
-        $helper = new BundleHomeMainArticleHelper();
-        $articles = $helper->getArticles(
-            new BundleHomeMainArticleValueObject(
-                $this->api,
-                $this->testHelper->getZeroOrNegativeValueAsString(),
-                new EntityNormalizer([new NormalizerMock()])
-            )
+        $normalizer = new EntityNormalizer([new NormalizerMock()]);
+
+        $valueObject = new BundleHomeMainArticleValueObjectMock(
+            $this->api,
+            $this->testHelper->getZeroOrNegativeValue(),
+            $normalizer
         );
+
+        $helper = new BundleHomeMainArticleHelper($valueObject);
+        $articles = $helper->getArticles();
     }
 
     /**
@@ -96,8 +99,8 @@ class BundleHomeMainArticleHelperTest extends TestCase
      */
     public function testGetArticlesReturnValue($valueObject, $expected)
     {
-        $helper = new BundleHomeMainArticleHelper();
-        $articles = $helper->getArticles($valueObject);
+        $helper = new BundleHomeMainArticleHelper($valueObject);
+        $articles = $helper->getArticles();
 
         $this->assertEquals($expected, $articles);
     }
@@ -112,7 +115,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
 
         return [
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "",
                     $normalizer
@@ -120,7 +123,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 "expected" => []
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                     $normalizer
@@ -128,7 +131,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 "expected" => []
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                     $normalizer
@@ -136,7 +139,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 "expected" => []
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "1",
                     $normalizer
@@ -149,7 +152,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 ]
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
                     $normalizer
@@ -162,7 +165,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 ]
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
                     $normalizer
@@ -175,7 +178,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 ]
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "1,2",
                     $normalizer
