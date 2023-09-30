@@ -27,6 +27,14 @@ class BundleHomeMainArticleHelper
     }
 
     /**
+     * @return BundleHomeMainArticleValueObject
+     */
+    public function getValueObject(): BundleHomeMainArticleValueObject
+    {
+        return $this->valueObject;
+    }
+
+    /**
      * @return array
      * @throws Exception
      */

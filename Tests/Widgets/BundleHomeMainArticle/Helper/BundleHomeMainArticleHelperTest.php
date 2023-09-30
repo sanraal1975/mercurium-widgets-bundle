@@ -51,24 +51,42 @@ class BundleHomeMainArticleHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testGetArticlesThrowsArgumentCountErrorException()
+    public function testConstructThrowsArgumentCountErrorException()
     {
         $this->expectException(ArgumentCountError::class);
 
         $helper = new BundleHomeMainArticleHelper();
-        $articles = $helper->getArticles();
     }
 
     /**
      * @return void
      * @throws Exception
      */
-    public function testGetArticlesThrowsTypeErrorException()
+    public function testConstructThrowsTypeErrorException()
     {
         $this->expectException(TypeError::class);
 
-        $helper = new BundleHomeMainArticleHelper();
-        $articles = $helper->getArticles();
+        $helper = new BundleHomeMainArticleHelper(null);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetValueObject()
+    {
+        $normalizer = new EntityNormalizer([new NormalizerMock()]);
+
+        $valueObject = new BundleHomeMainArticleValueObjectMock(
+            $this->api,
+            $this->testHelper->getZeroOrNegativeValue(),
+            $normalizer
+        );
+
+        $helper = new BundleHomeMainArticleHelper($valueObject);
+        $valueObject = $helper->getValueObject();
+
+        $this->assertInstanceOf(BundleHomeMainArticleValueObject::class, $valueObject);
     }
 
     /**
