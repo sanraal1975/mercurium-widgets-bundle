@@ -4,7 +4,6 @@ namespace Comitium5\MercuriumWidgetsBundle\Normalizers;
 
 use Comitium5\ApiClientBundle\Normalizer\NormalizerInterface;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
-use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 
 /**
  * Class EntityMediaClassesNormalizer
@@ -262,8 +261,6 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
      */
     private function hasVideo(array $entity): bool
     {
-        $helper = new TestHelper();
-
         $hasVideo = !empty($entity[EntityConstants::VIDEO_FIELD_KEY]);
 
         foreach ($this->fields as $field) {

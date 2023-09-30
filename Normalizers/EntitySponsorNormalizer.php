@@ -22,7 +22,7 @@ class EntitySponsorNormalizer implements AbstractEntityNormalizerInterface
     /**
      * @var string
      */
-    private $assetFieldKey;
+    private $imageFieldKey;
 
     /**
      * @var string
@@ -31,13 +31,13 @@ class EntitySponsorNormalizer implements AbstractEntityNormalizerInterface
 
     /**
      * @param Client $api
-     * @param string $assetFieldKey
+     * @param string $imageFieldKey
      * @param string $textFieldKey
      */
-    public function __construct(Client $api, string $assetFieldKey, string $textFieldKey)
+    public function __construct(Client $api, string $imageFieldKey, string $textFieldKey)
     {
         $this->api = $api;
-        $this->assetFieldKey = $assetFieldKey;
+        $this->imageFieldKey = $imageFieldKey;
         $this->textFieldKey = $textFieldKey;
     }
 
@@ -53,12 +53,12 @@ class EntitySponsorNormalizer implements AbstractEntityNormalizerInterface
             return [];
         }
 
-        $normalizer = new EntityImageNormalizer($this->api, $this->assetFieldKey);
+        $normalizer = new EntityImageNormalizer($this->api, $this->imageFieldKey);
         $entity = $normalizer->normalize($entity);
 
         $hasSponsor = false;
 
-        if (!empty($entity[$this->assetFieldKey])) {
+        if (!empty($entity[$this->imageFieldKey])) {
             $hasSponsor = true;
         }
 
@@ -66,7 +66,7 @@ class EntitySponsorNormalizer implements AbstractEntityNormalizerInterface
             $hasSponsor = true;
         }
 
-        $entity[EntityConstants::HAS_SPONSOR] = $hasSponsor;
+        $entity[EntityConstants::HAS_SPONSOR_FIELD_KEY] = $hasSponsor;
 
         return $entity;
     }

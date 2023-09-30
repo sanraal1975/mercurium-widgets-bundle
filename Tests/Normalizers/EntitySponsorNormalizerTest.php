@@ -57,11 +57,11 @@ class EntitySponsorNormalizerTest extends TestCase
      *
      * @return void
      */
-    public function testConstructThrowsTypeErrorException($api, $assetField, $textField)
+    public function testConstructThrowsTypeErrorException($api, $imageFieldKey, $textFieldKey)
     {
         $this->expectException(TypeError::class);
 
-        $normalizer = new EntitySponsorNormalizer($api, $assetField, $textField);
+        $normalizer = new EntitySponsorNormalizer($api, $imageFieldKey, $textFieldKey);
     }
 
     /**
@@ -72,18 +72,18 @@ class EntitySponsorNormalizerTest extends TestCase
         return [
             [
                 "api" => null,
-                "assetField" => null,
-                "textField" => null,
+                "imageFieldKey" => null,
+                "textFieldKey" => null,
             ],
             [
                 "api" => $this->api,
-                "assetField" => null,
-                "textField" => null,
+                "imageFieldKey" => null,
+                "textFieldKey" => null,
             ],
             [
                 "api" => $this->api,
-                "assetField" => "",
-                "textField" => null,
+                "imageFieldKey" => "",
+                "textFieldKey" => null,
             ],
         ];
     }
@@ -115,17 +115,17 @@ class EntitySponsorNormalizerTest extends TestCase
     /**
      * @dataProvider normalize
      *
-     * @param $assetField
-     * @param $textField
+     * @param $imageFieldKey
+     * @param $textFieldKey
      * @param $entity
      * @param $expected
      *
      * @return void
      * @throws Exception
      */
-    public function testNormalize($assetField, $textField, $entity, $expected)
+    public function testNormalize($imageFieldKey, $textFieldKey, $entity, $expected)
     {
-        $normalizer = new EntitySponsorNormalizer($this->api, $assetField, $textField);
+        $normalizer = new EntitySponsorNormalizer($this->api, $imageFieldKey, $textFieldKey);
         $result = $normalizer->normalize($entity);
         $this->assertEquals($expected, $result);
     }
@@ -137,25 +137,25 @@ class EntitySponsorNormalizerTest extends TestCase
     {
         return [
             [
-                "assetField" => "",
-                "textField" => "",
+                "imageFieldKey" => "",
+                "textFieldKey" => "",
                 "entity" => [],
                 "expected" => []
             ],
             [
-                "assetField" => EntityConstants::IMAGE_FIELD_KEY,
-                "textField" => "",
+                "imageFieldKey" => EntityConstants::IMAGE_FIELD_KEY,
+                "textFieldKey" => "",
                 "entity" => [
                     EntityConstants::ID_FIELD_KEY => 1
                 ],
                 "expected" => [
                     EntityConstants::ID_FIELD_KEY => 1,
-                    EntityConstants::HAS_SPONSOR => false
+                    EntityConstants::HAS_SPONSOR_FIELD_KEY => false
                 ]
             ],
             [
-                "assetField" => EntityConstants::IMAGE_FIELD_KEY,
-                "textField" => "",
+                "imageFieldKey" => EntityConstants::IMAGE_FIELD_KEY,
+                "textFieldKey" => "",
                 "entity" => [
                     EntityConstants::ID_FIELD_KEY => 1,
                     EntityConstants::IMAGE_FIELD_KEY => [
@@ -164,7 +164,7 @@ class EntitySponsorNormalizerTest extends TestCase
                 ],
                 "expected" => [
                     EntityConstants::ID_FIELD_KEY => 1,
-                    EntityConstants::HAS_SPONSOR => true,
+                    EntityConstants::HAS_SPONSOR_FIELD_KEY => true,
                     EntityConstants::IMAGE_FIELD_KEY => [
                         EntityConstants::ID_FIELD_KEY => 1,
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
@@ -173,15 +173,15 @@ class EntitySponsorNormalizerTest extends TestCase
                 ]
             ],
             [
-                "assetField" => EntityConstants::IMAGE_FIELD_KEY,
-                "textField" => "sponsorText",
+                "imageFieldKey" => EntityConstants::IMAGE_FIELD_KEY,
+                "textFieldKey" => "sponsorText",
                 "entity" => [
                     EntityConstants::ID_FIELD_KEY => 1,
                     "sponsorText" => "sponsor"
                 ],
                 "expected" => [
                     EntityConstants::ID_FIELD_KEY => 1,
-                    EntityConstants::HAS_SPONSOR => true,
+                    EntityConstants::HAS_SPONSOR_FIELD_KEY => true,
                     "sponsorText" => "sponsor"
                 ]
             ],
