@@ -87,7 +87,13 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
                 $mediaClasses[] = EntityConstants::HAS_VIDEO;
             }
 
-            $mediaClasses = implode(" ", $mediaClasses);
+            if (!empty($mediaClasses)) {
+                $mediaClasses = implode(" ", $mediaClasses);
+                $mediaClasses = " " . $mediaClasses;
+            } else {
+                $mediaClasses = "";
+            }
+
             $entity[EntityConstants::MEDIA_CLASSES_FIELD_KEY] = $mediaClasses;
         }
 
