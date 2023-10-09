@@ -24,40 +24,24 @@ class BundleGalleryHomeValueObjectMock extends BundleGalleryHomeValueObject
     private $galleryId;
 
     /**
-     * @var EntityNormalizer|null
+     * @var EntityNormalizer
      */
-    private $galleryNormalizer;
-
-    /**
-     * @var EntityNormalizer|null
-     */
-    private $galleryAssetNormalizer;
-
-    /**
-     * @var int
-     */
-    private $assetsQuantity;
+    private $normalizer;
 
     /**
      * @param Client $api
      * @param int $galleryId
-     * @param EntityNormalizer|null $galleryNormalizer
-     * @param EntityNormalizer|null $galleryAssetNormalizer
-     * @param int $assetsQuantity
+     * @param EntityNormalizer $normalizer
      */
     public function __construct(
         Client           $api,
         int              $galleryId,
-        EntityNormalizer $galleryNormalizer = null,
-        EntityNormalizer $galleryAssetNormalizer = null,
-        int              $assetsQuantity = PHP_INT_MAX
+        EntityNormalizer $normalizer
     )
     {
         $this->api = $api;
         $this->galleryId = $galleryId;
-        $this->galleryNormalizer = $galleryNormalizer;
-        $this->galleryAssetNormalizer = $galleryAssetNormalizer;
-        $this->assetsQuantity = $assetsQuantity;
+        $this->normalizer = $normalizer;
     }
 
     /**
@@ -77,26 +61,10 @@ class BundleGalleryHomeValueObjectMock extends BundleGalleryHomeValueObject
     }
 
     /**
-     * @return EntityNormalizer|null
+     * @return EntityNormalizer
      */
-    public function getGalleryNormalizer(): ?EntityNormalizer
+    public function getNormalizer(): EntityNormalizer
     {
-        return $this->galleryNormalizer;
-    }
-
-    /**
-     * @return EntityNormalizer|null
-     */
-    public function getGalleryAssetNormalizer(): ?EntityNormalizer
-    {
-        return $this->galleryAssetNormalizer;
-    }
-
-    /**
-     * @return int
-     */
-    public function getAssetsQuantity(): int
-    {
-        return $this->assetsQuantity;
+        return $this->normalizer;
     }
 }

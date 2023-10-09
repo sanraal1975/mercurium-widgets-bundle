@@ -8,7 +8,6 @@ use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Normalizer\BundleHomeMainArticleNormalizer;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;

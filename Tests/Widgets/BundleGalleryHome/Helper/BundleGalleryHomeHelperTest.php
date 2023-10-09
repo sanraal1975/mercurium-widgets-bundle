@@ -4,6 +4,8 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleGalleryHome\Helpe
 
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\GalleryNormalizer;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleGalleryHome\ValueObject\BundleGalleryHomeValueObjectMock;
@@ -80,7 +82,9 @@ class BundleGalleryHomeHelperTest extends TestCase
     }
 
     /**
+     *
      * @return array[]
+     * @throws Exception
      */
     public function getGallery(): array
     {
@@ -92,9 +96,11 @@ class BundleGalleryHomeHelperTest extends TestCase
                 "valueObject" => new BundleGalleryHomeValueObjectMock(
                     $api,
                     $galleryId,
-                    null,
-                    null,
-                    PHP_INT_MAX
+                    new EntityNormalizer(
+                        [
+                            new GalleryNormalizer($api)
+                        ]
+                    )
                 ),
                 "expected" => [
                     EntityConstants::ID_FIELD_KEY => $galleryId,
@@ -105,9 +111,11 @@ class BundleGalleryHomeHelperTest extends TestCase
                 "valueObject" => new BundleGalleryHomeValueObjectMock(
                     $api,
                     TestHelper::ENTITY_ID_TO_RETURN_EMPTY,
-                    null,
-                    null,
-                    PHP_INT_MAX
+                    new EntityNormalizer(
+                        [
+                            new GalleryNormalizer($api)
+                        ]
+                    )
                 ),
                 "expected" => []
             ],
@@ -115,9 +123,11 @@ class BundleGalleryHomeHelperTest extends TestCase
                 "valueObject" => new BundleGalleryHomeValueObjectMock(
                     $api,
                     TestHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
-                    null,
-                    null,
-                    PHP_INT_MAX
+                    new EntityNormalizer(
+                        [
+                            new GalleryNormalizer($api)
+                        ]
+                    )
                 ),
                 "expected" => []
             ],
@@ -125,9 +135,11 @@ class BundleGalleryHomeHelperTest extends TestCase
                 "valueObject" => new BundleGalleryHomeValueObjectMock(
                     $api,
                     $this->testHelper->getZeroOrNegativeValue(),
-                    null,
-                    null,
-                    PHP_INT_MAX
+                    new EntityNormalizer(
+                        [
+                            new GalleryNormalizer($api)
+                        ]
+                    )
                 ),
                 "expected" => []
             ]

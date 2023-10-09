@@ -38,12 +38,7 @@ class BundleGalleryHomeNormalizer
             return [];
         }
 
-        $normalizer = new GalleryNormalizer(
-            $this->valueObject->getApi(),
-            $this->valueObject->getGalleryNormalizer(),
-            $this->valueObject->getGalleryAssetNormalizer(),
-            $this->valueObject->getAssetsQuantity()
-        );
+        $normalizer = $this->valueObject->getNormalizer();
 
         return $normalizer->normalize($gallery);
     }

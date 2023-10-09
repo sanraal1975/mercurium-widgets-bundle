@@ -25,16 +25,5 @@ abstract class BundleGalleryHomeValueObject
     /**
      * @return EntityNormalizer|null
      */
-    abstract public function getGalleryNormalizer(): ?EntityNormalizer;
-
-    /**
-     * @return EntityNormalizer|null
-     */
-    abstract public function getGalleryAssetNormalizer(): ?EntityNormalizer;
-
-    /**
-     * @return int
-     */
-    abstract public function getAssetsQuantity(): int;
-
+    abstract public function getNormalizer(): EntityNormalizer;
 }
