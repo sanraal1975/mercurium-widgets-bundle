@@ -90,8 +90,6 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
             if (!empty($mediaClasses)) {
                 $mediaClasses = implode(" ", $mediaClasses);
                 $mediaClasses = " " . $mediaClasses;
-            } else {
-                $mediaClasses = "";
             }
 
             $entity[EntityConstants::MEDIA_CLASSES_FIELD_KEY] = $mediaClasses;

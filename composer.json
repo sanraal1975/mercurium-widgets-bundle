@@ -16,11 +16,11 @@
     },
     "require": {
         "php": ">=7.2",
-        "comitium5/api-client-bundle": "^7.1.10"
+        "comitium5/api-client-bundle": "^7.1.10",
+        "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable",
-        "ext-json": "*"
+        "phpunit/phpunit": "@stable"
     },
     "repositories": [
         {

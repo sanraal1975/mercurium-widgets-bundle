@@ -1,0 +1,34 @@
+<?php
+
+namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\ValueObject;
+
+use Comitium5\ApiClientBundle\Client\Client;
+
+/**
+ * Class BundleRankingValueObject
+ *
+ * @package Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\ValueObject
+ */
+abstract class BundleRankingValueObject
+{
+    /**
+     * @return Client
+     */
+    abstract public function getApi(): Client;
+
+    /**
+     * @return string
+     */
+    abstract public function getLocale(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getJsonFile(): string;
+
+    /**
+     * @return int
+     */
+    abstract public function getQuantity(): int;
+
+}
