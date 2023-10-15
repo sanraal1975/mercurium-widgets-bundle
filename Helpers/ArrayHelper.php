@@ -27,7 +27,11 @@ class ArrayHelper
 
         return array_map(
             function ($value) use ($field) {
-                return empty($value[$field]) ? null : $value[$field];
+                $result = null;
+                if (!empty($value[$field])) {
+                    $result = $value[$field];
+                }
+                return $result;
             },
             $items
         );

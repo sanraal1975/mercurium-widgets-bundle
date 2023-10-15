@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Services\FileReaders;
 
 use Comitium5\MercuriumWidgetsBundle\Abstracts\Services\AbstractFileReader;
+use Exception;
 
 /**
  * Class LocalFileReader
@@ -11,19 +12,46 @@ use Comitium5\MercuriumWidgetsBundle\Abstracts\Services\AbstractFileReader;
  */
 class LocalFileReader extends AbstractFileReader
 {
+    const EMPTY_URL = "LocalFileReader::validate. Url can not be empty";
+
+    /**
+     * @var string
+     */
+    private $url;
+
+    /**
+     * @param string $url
+     * @throws Exception
+     */
+    public function __construct(string $url)
+    {
+        $this->url = $url;
+
+        $this->validate();
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    private function validate()
+    {
+        if (empty($this->url)) {
+            throw new Exception(self::EMPTY_URL);
+        }
+    }
+
     /**
      * @return string
      */
     public function read(): string
     {
-        $url = $this->getUrl();
+        $contents = file_get_contents($this->url);
 
-        if (empty($url)) {
+        if ($contents === false) {
             return "";
         }
 
-        $contents = file_get_contents($url);
-
-        return ($contents === false) ? "" : $contents;
+        return $contents;
     }
 }

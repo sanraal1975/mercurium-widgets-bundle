@@ -12,7 +12,6 @@ use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 interface AbstractEntityInterface
 {
     /**
-     *
      * @return AbstractApiService
      */
     public function getService(): AbstractApiService;

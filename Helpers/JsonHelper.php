@@ -2,6 +2,8 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers;
 
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+
 /**
  * Class JsonHelper
  *
@@ -17,6 +19,8 @@ class JsonHelper
      */
     public function getLocaleIds(string $jsonContent, string $locale)
     {
+        $helper = new TestHelper();
+
         if (empty($jsonContent)) {
             return [];
         }
@@ -25,8 +29,13 @@ class JsonHelper
             return [];
         }
 
-        $decodedContent = json_decode($jsonContent, true);
+        $result = [];
 
-        return (empty($decodedContent[$locale])) ? [] : $decodedContent[$locale];
+        $decodedContent = json_decode($jsonContent, true);
+        if (!empty($decodedContent[$locale])) {
+            $result = $decodedContent[$locale];
+        }
+
+        return $result;
     }
 }
