@@ -42,6 +42,7 @@ class BundleRankingHelper
      * @param string $jsonFilePath
      *
      * @return string
+     * @throws Exception
      */
     public function getJsonContent(string $jsonFilePath): string
     {
