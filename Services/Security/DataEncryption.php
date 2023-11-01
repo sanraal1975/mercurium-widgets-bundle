@@ -11,19 +11,12 @@ use Exception;
  */
 class DataEncryption
 {
-    /**
-     *  string
-     */
+    const EMPTY_DATA = "DataEncryption::validate. data can not be empty.";
+
     const SECRET_KEY = "7=dUK8IRC0?:^1~PC}Sh>rTK=o[zx3]8'l<|2ATb";
 
-    /**
-     * string
-     */
     const SECRET_IV = "n|0ny/Z7uNpb&{!_";
 
-    /**
-     * string
-     */
     const ENCRYPT_METHOD = "AES-256-CBC";
 
     /**
@@ -32,16 +25,25 @@ class DataEncryption
     protected $data;
 
     /**
-     * @param $data
+     * @param string $data
      * @throws Exception
      */
-    public function __construct($data)
+    public function __construct(string $data)
     {
-        if (!is_string($data) || empty(trim($data))) {
-            throw new Exception("Data argument must be a non empty string");
-        }
-
         $this->data = trim($data);
+
+        $this->validate();
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    private function validate()
+    {
+        if (empty($this->data)) {
+            throw new Exception(self::EMPTY_DATA);
+        }
     }
 
     /**
