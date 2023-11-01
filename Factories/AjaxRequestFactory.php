@@ -2,7 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Factories;
 
-use ComitiumSuite\Bundle\CSBundle\Widgets\Core\ValueObjects\AjaxRequestValueObject;
+use Comitium5\MercuriumWidgetsBundle\ValueObjects\AjaxRequestValueObject;
 use Exception;
 
 /**
