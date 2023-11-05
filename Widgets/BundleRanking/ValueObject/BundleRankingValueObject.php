@@ -31,4 +31,9 @@ abstract class BundleRankingValueObject
      */
     abstract public function getQuantity(): int;
 
+    /**
+     * @return string
+     */
+    abstract public function getEnvironment(): string;
+
 }

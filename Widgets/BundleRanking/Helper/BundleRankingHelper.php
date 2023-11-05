@@ -5,6 +5,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Helper;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ArrayHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
+use Comitium5\MercuriumWidgetsBundle\Helpers\FileHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\JsonHelper;
 use Comitium5\MercuriumWidgetsBundle\Services\FileReaders\LocalFileReader;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\ValueObject\BundleRankingValueObject;
@@ -36,6 +37,23 @@ class BundleRankingHelper
     public function getValueObject(): BundleRankingValueObject
     {
         return $this->valueObject;
+    }
+
+    /**
+     * @param string $filePath
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function fileExists(string $filePath): bool
+    {
+        if (empty($filePath)) {
+            return false;
+        }
+
+        $helper = new FileHelper($filePath);
+
+        return $helper->fileExists();
     }
 
     /**
