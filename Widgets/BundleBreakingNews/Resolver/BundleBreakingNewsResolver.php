@@ -15,11 +15,6 @@ use Exception;
 class BundleBreakingNewsResolver
 {
     /**
-     * @var BundleBreakingNewsValueObject
-     */
-    private $valueObject;
-
-    /**
      * @var BundleBreakingNewsHelper
      */
     private $helper;
@@ -31,24 +26,7 @@ class BundleBreakingNewsResolver
      */
     public function __construct(BundleBreakingNewsValueObject $valueObject)
     {
-        $this->valueObject = $valueObject;
         $this->helper = new BundleBreakingNewsHelper($valueObject);
-    }
-
-    /**
-     * @param string $ribbonTwigFile
-     * @param array $replacements
-     * @param string $search
-     *
-     * @return array|string|string[]
-     */
-    public function resolveRibbonTwig(string $ribbonTwigFile, array $replacements = [], string $search = "@TRANSLATION_GROUP@")
-    {
-        $twig = $this->valueObject->getTwig();
-
-        $twigResolver = new TwigResolver($twig);
-
-        return $twigResolver->resolve($ribbonTwigFile, $search, $replacements);
     }
 
     /**

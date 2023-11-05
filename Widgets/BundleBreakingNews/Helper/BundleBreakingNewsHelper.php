@@ -36,21 +36,20 @@ class BundleBreakingNewsHelper
     }
 
     /**
-     * @param string $jsonFilePath
+     * @param string $filePath
      *
      * @return bool
+     * @throws Exception
      */
-    public function fileExists(string $jsonFilePath): bool
+    public function fileExists(string $filePath): bool
     {
-        $environment = $this->valueObject->getEnvironment();
-
-        $helper = new FileHelper($jsonFilePath);
-
-        if ($environment == "prod") {
-            return $helper->fileExistsLocal();
+        if (empty($filePath)) {
+            return false;
         }
 
-        return $helper->fileExistsRemote();
+        $helper = new FileHelper($filePath);
+
+        return $helper->fileExists();
     }
 
     /**

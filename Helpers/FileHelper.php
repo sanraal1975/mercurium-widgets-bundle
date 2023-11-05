@@ -2,6 +2,8 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Helpers;
 
+use Exception;
+
 /**
  * Class FileHelper
  *
@@ -9,6 +11,8 @@ namespace Comitium5\MercuriumWidgetsBundle\Helpers;
  */
 class FileHelper
 {
+    const EMPTY_FILE = "FileHelper::validate. file can not be empty";
+
     /**
      * @var string
      */
@@ -16,33 +20,31 @@ class FileHelper
 
     /**
      * @param string $filePath
+     * @throws Exception
      */
-    public function __construct(string $filePath = "")
+    public function __construct(string $filePath)
     {
         $this->filePath = $filePath;
+
+        $this->validate();
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function validate()
+    {
+        if (empty($this->filePath)) {
+            throw new Exception(self::EMPTY_FILE);
+        }
     }
 
     /**
      * @return bool
      */
-    public function fileExistsLocal(): bool
+    public function fileExists(): bool
     {
-        if (empty($this->filePath)) {
-            return false;
-        }
-
-        return file_exists($this->filePath);
-    }
-
-    /**
-     * @return bool
-     */
-    public function fileExistsRemote(): bool
-    {
-        if (empty($this->filePath)) {
-            return false;
-        }
-
         $handle = @fopen($this->filePath, 'r');
         if (!$handle) {
             return false;
