@@ -24,11 +24,6 @@ class AjaxRequestValueObject
     /**
      * @var string
      */
-    private $ajaxAction;
-
-    /**
-     * @var string
-     */
     private $widgetClass;
 
     /**
@@ -39,68 +34,50 @@ class AjaxRequestValueObject
     /**
      * @var array
      */
-    private $callParameters;
-
-    /**
-     * @var array
-     */
     private $widgetParametersMapping;
 
     /**
      * @param string $service
      * @param string $ajaxEntryPoint
-     * @param string $ajaxAction
      * @param string $widgetClass
      * @param array $widgetParameters
-     * @param array $callParameters
      * @param array $widgetParametersMapping
-     * @throws Exception
      */
     public function __construct(
         string $service,
         string $ajaxEntryPoint,
-        string $ajaxAction,
         string $widgetClass,
-        array  $widgetParameters,
-        array  $callParameters,
-        array  $widgetParametersMapping
+        array $widgetParameters,
+        array $widgetParametersMapping
     )
     {
         $this->service = $service;
         $this->ajaxEntryPoint = $ajaxEntryPoint;
-        $this->ajaxAction = $ajaxAction;
         $this->widgetClass = $widgetClass;
         $this->widgetParameters = $widgetParameters;
-        $this->callParameters = $callParameters;
         $this->widgetParametersMapping = $widgetParametersMapping;
-
-        $this->validate();
     }
 
     /**
      * @return void
      * @throws Exception
      */
-    private function validate()
+    public function validate()
     {
-        if(empty($this->service)) {
-            throw new Exception(__METHOD__ . ": service can't be empty");
+        if (empty($this->service)) {
+            throw new Exception(__METHOD__.": comitium service can't be empty");
         }
 
-        if(empty($this->ajaxEntryPoint)) {
-            throw new Exception(__METHOD__ . ": ajax entry point can't be empty");
+        if (empty($this->ajaxEntryPoint)) {
+            throw new Exception(__METHOD__.": ajax entry point can't be empty");
         }
 
-        if(empty($this->ajaxAction)) {
-            throw new Exception(__METHOD__ . ": ajax action can't be empty");
+        if (empty($this->widgetClass)) {
+            throw new Exception(__METHOD__.": widget class can't be empty");
         }
 
-        if(empty($this->widgetClass)) {
-            throw new Exception(__METHOD__ . ": widget class can't be empty");
-        }
-
-        if(empty($this->widgetParameters)) {
-            throw new Exception(__METHOD__ . ": widget parameters can't be empty");
+        if (empty($this->widgetParameters)) {
+            throw new Exception(__METHOD__.": widget parameters can't be empty");
         }
     }
 
@@ -113,6 +90,16 @@ class AjaxRequestValueObject
     }
 
     /**
+     * @param string $service
+     *
+     * @return void
+     */
+    public function setService(string $service): void
+    {
+        $this->service = $service;
+    }
+
+    /**
      * @return string
      */
     public function getAjaxEntryPoint(): string
@@ -121,11 +108,13 @@ class AjaxRequestValueObject
     }
 
     /**
-     * @return string
+     * @param string $ajaxEntryPoint
+     *
+     * @return void
      */
-    public function getAjaxAction(): string
+    public function setAjaxEntryPoint(string $ajaxEntryPoint): void
     {
-        return $this->ajaxAction;
+        $this->ajaxEntryPoint = $ajaxEntryPoint;
     }
 
     /**
@@ -137,6 +126,16 @@ class AjaxRequestValueObject
     }
 
     /**
+     * @param string $widgetClass
+     *
+     * @return void
+     */
+    public function setWidgetClass(string $widgetClass): void
+    {
+        $this->widgetClass = $widgetClass;
+    }
+
+    /**
      * @return array
      */
     public function getWidgetParameters(): array
@@ -145,11 +144,13 @@ class AjaxRequestValueObject
     }
 
     /**
-     * @return array
+     * @param array $widgetParameters
+     *
+     * @return void
      */
-    public function getCallParameters(): array
+    public function setWidgetParameters(array $widgetParameters): void
     {
-        return $this->callParameters;
+        $this->widgetParameters = $widgetParameters;
     }
 
     /**
@@ -158,5 +159,15 @@ class AjaxRequestValueObject
     public function getWidgetParametersMapping(): array
     {
         return $this->widgetParametersMapping;
+    }
+
+    /**
+     * @param array $widgetParametersMapping
+     *
+     * @return void
+     */
+    public function setWidgetParametersMapping(array $widgetParametersMapping): void
+    {
+        $this->widgetParametersMapping = $widgetParametersMapping;
     }
 }

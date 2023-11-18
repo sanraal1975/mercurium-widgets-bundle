@@ -13,11 +13,9 @@ use Exception;
 class AjaxRequestFactory
 {
     /**
-     * @param string $ajaxAction
      * @param string $widgetClass
      * @param array $widgetParameters
      * @param array $widgetParametersMapping
-     * @param array $callParameters
      * @param string $service
      * @param string $ajaxEntryPoint
      *
@@ -25,22 +23,17 @@ class AjaxRequestFactory
      * @throws Exception
      */
     public function create(
-        string $ajaxAction,
-        string $widgetClass,
-        array  $widgetParameters,
+        string $widgetClass = "",
+        array  $widgetParameters = [],
         array  $widgetParametersMapping = [],
-        array  $callParameters = [],
         string $service = "comitium5_common_widgets_self_call",
-        string $ajaxEntryPoint = "resolveAjaxAction"
-    ): AjaxRequestValueObject
+        string $ajaxEntryPoint = "resolveAjaxAction"    ): AjaxRequestValueObject
     {
         return new AjaxRequestValueObject(
             $service,
             $ajaxEntryPoint,
-            $ajaxAction,
             $widgetClass,
             $widgetParameters,
-            $callParameters,
             $widgetParametersMapping
         );
     }
