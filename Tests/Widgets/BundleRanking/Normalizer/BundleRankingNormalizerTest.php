@@ -57,7 +57,8 @@ class BundleRankingNormalizerTest extends TestCase
             $this->testHelper->getApi(),
             "es",
             "foo.bar",
-            $this->testHelper->getPositiveValue()
+            $this->testHelper->getPositiveValue(),
+            "env"
         );
 
         $this->normalizer = new EntityNormalizer(

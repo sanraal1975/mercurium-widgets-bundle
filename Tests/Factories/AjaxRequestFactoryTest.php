@@ -25,7 +25,6 @@ class AjaxRequestFactoryTest extends TestCase
 
         $valueObject = $factory->create(
             "dummyAction",
-            "dummyClass",
             [EntityConstants::ID_FIELD_KEY => 1]
     );
 

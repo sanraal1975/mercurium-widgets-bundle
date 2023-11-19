@@ -33,22 +33,30 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
     private $quantity;
 
     /**
+     * @var string
+     */
+    private $environment;
+
+    /**
      * @param Client $api
      * @param string $locale
      * @param string $jsonFile
      * @param int $quantity
+     * @param string $environment
      */
     public function __construct(
-        Client     $api,
-        string     $locale,
-        string     $jsonFile,
-        int        $quantity
+        Client $api,
+        string $locale,
+        string $jsonFile,
+        int    $quantity,
+        string $environment
     )
     {
         $this->api = $api;
         $this->locale = $locale;
         $this->jsonFile = $jsonFile;
         $this->quantity = $quantity;
+        $this->environment = $environment;
     }
 
     /**
@@ -81,5 +89,13 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
     public function getQuantity(): int
     {
         return $this->quantity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnvironment(): string
+    {
+        return $this->environment;
     }
 }

@@ -34,10 +34,8 @@ class AjaxRequestValueObjectTest extends TestCase
         $this->ajaxRequestValueObject = new AjaxRequestValueObject(
             "comitium5_common_widgets_self_call",
             "resolveAjaxAction",
-            "renderArticlesAction",
             "dummy_widget_class",
             [EntityConstants::ID_FIELD_KEY => 1],
-            [],
             []
         );
     }
@@ -58,10 +56,8 @@ class AjaxRequestValueObjectTest extends TestCase
      *
      * @param $service
      * @param $ajaxEntryPoint
-     * @param $ajaxAction
      * @param $widgetClass
      * @param $widgetParameters
-     * @param $callParameters
      * @param $widgetParametersMapping
      *
      * @return void
@@ -70,17 +66,14 @@ class AjaxRequestValueObjectTest extends TestCase
     public function testConstructThrowsTypeErrorException(
         $service,
         $ajaxEntryPoint,
-        $ajaxAction,
         $widgetClass,
         $widgetParameters,
-        $callParameters,
         $widgetParametersMapping
-
     )
     {
         $this->expectException(TypeError::class);
 
-        $valueObject = new AjaxRequestValueObject($service, $ajaxEntryPoint, $ajaxAction, $widgetClass, $widgetParameters, $callParameters, $widgetParametersMapping);
+        $valueObject = new AjaxRequestValueObject($service, $ajaxEntryPoint, $widgetClass, $widgetParameters, $widgetParametersMapping);
     }
 
     /**
@@ -92,151 +85,112 @@ class AjaxRequestValueObjectTest extends TestCase
             [
                 "service" => null,
                 "ajaxEntryPoint" => "",
-                "ajaxAction" => "",
                 "widgetClass" => "",
                 "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
-                "callParameters" => [],
                 "widgetParametersMapping" => []
             ],
             [
                 "service" => "comitium5_common_widgets_self_call",
                 "ajaxEntryPoint" => null,
-                "ajaxAction" => "",
                 "widgetClass" => "",
                 "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
-                "callParameters" => [],
                 "widgetParametersMapping" => []
             ],
             [
                 "service" => "comitium5_common_widgets_self_call",
                 "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => null,
-                "widgetClass" => "",
-                "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
-                "callParameters" => [],
-                "widgetParametersMapping" => []
-            ],
-            [
-                "service" => "comitium5_common_widgets_self_call",
-                "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => "renderArticlesAction",
                 "widgetClass" => null,
                 "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
-                "callParameters" => [],
                 "widgetParametersMapping" => []
             ],
             [
                 "service" => "comitium5_common_widgets_self_call",
                 "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => "renderArticlesAction",
-                "widgetClass" => "dummy_widget_class",
+                "widgetClass" => 'dummy_widget_class',
                 "widgetParameters" => null,
-                "callParameters" => [],
                 "widgetParametersMapping" => []
             ],
             [
                 "service" => "comitium5_common_widgets_self_call",
                 "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => "renderArticlesAction",
                 "widgetClass" => "dummy_widget_class",
-                "widgetParameters" => [],
-                "callParameters" => null,
-                "widgetParametersMapping" => []
-            ],
-            [
-                "service" => "comitium5_common_widgets_self_call",
-                "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => "renderArticlesAction",
-                "widgetClass" => "dummy_widget_class",
-                "widgetParameters" => [],
-                "callParameters" => [],
+                "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
                 "widgetParametersMapping" => null
             ],
         ];
     }
 
     /**
-     * @dataProvider validate
+     * @dataProvider validateThrowsException
      *
      * @param $service
      * @param $ajaxEntryPoint
-     * @param $ajaxAction
      * @param $widgetClass
      * @param $widgetParameters
-     * @param $callParameters
      * @param $widgetParametersMapping
      *
      * @return void
      * @throws Exception
      */
-    public function testValidate(
+    public function testValidateThrowsException(
         $service,
         $ajaxEntryPoint,
-        $ajaxAction,
         $widgetClass,
         $widgetParameters,
-        $callParameters,
         $widgetParametersMapping
-
     )
     {
         $this->expectException(Exception::class);
 
-        $valueObject = new AjaxRequestValueObject($service, $ajaxEntryPoint, $ajaxAction, $widgetClass, $widgetParameters, $callParameters, $widgetParametersMapping);
+        $valueObject = new AjaxRequestValueObject($service, $ajaxEntryPoint, $widgetClass, $widgetParameters, $widgetParametersMapping);
+        $valueObject->validate();
     }
 
     /**
      * @return array[]
      */
-    public function validate(): array
+    public function validateThrowsException(): array
     {
         return [
             [
                 "service" => "",
                 "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => "renderArticlesAction",
                 "widgetClass" => "dummy_widget_class",
                 "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
-                "callParameters" => [],
                 "widgetParametersMapping" => []
             ],
             [
                 "service" => "comitium5_common_widgets_self_call",
                 "ajaxEntryPoint" => "",
-                "ajaxAction" => "renderArticlesAction",
                 "widgetClass" => "dummy_widget_class",
                 "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
-                "callParameters" => [],
                 "widgetParametersMapping" => []
             ],
             [
                 "service" => "comitium5_common_widgets_self_call",
                 "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => "",
-                "widgetClass" => "dummy_widget_class",
-                "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
-                "callParameters" => [],
-                "widgetParametersMapping" => []
-            ],
-            [
-                "service" => "comitium5_common_widgets_self_call",
-                "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => "renderArticlesAction",
                 "widgetClass" => "",
                 "widgetParameters" => [EntityConstants::ID_FIELD_KEY => 1],
-                "callParameters" => [],
                 "widgetParametersMapping" => []
             ],
             [
                 "service" => "comitium5_common_widgets_self_call",
                 "ajaxEntryPoint" => "resolveAjaxAction",
-                "ajaxAction" => "renderArticlesAction",
                 "widgetClass" => "dummy_widget_class",
                 "widgetParameters" => [],
-                "callParameters" => [],
                 "widgetParametersMapping" => []
             ],
         ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testValidate()
+    {
+        $result = $this->ajaxRequestValueObject->validate();
+        $this->assertTrue($result);
     }
 
     /**
@@ -262,16 +216,6 @@ class AjaxRequestValueObjectTest extends TestCase
     /**
      * @return void
      */
-    public function testGetAjaxAction()
-    {
-        $result = $this->ajaxRequestValueObject->getAjaxAction();
-
-        $this->assertEquals("renderArticlesAction", $result);
-    }
-
-    /**
-     * @return void
-     */
     public function testGetWidgetClass()
     {
         $result = $this->ajaxRequestValueObject->getWidgetClass();
@@ -287,16 +231,6 @@ class AjaxRequestValueObjectTest extends TestCase
         $result = $this->ajaxRequestValueObject->getWidgetParameters();
 
         $this->assertEquals([EntityConstants::ID_FIELD_KEY => 1], $result);
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetCallParameters()
-    {
-        $result = $this->ajaxRequestValueObject->getCallParameters();
-
-        $this->assertEquals([], $result);
     }
 
     /**

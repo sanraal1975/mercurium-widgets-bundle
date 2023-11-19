@@ -34,6 +34,16 @@ class BundleRankingHelperTest extends TestCase
     private $cwd;
 
     /**
+     * @var string
+     */
+    private $fileExists;
+
+    /**
+     * @var string
+     */
+    private $fileNoExists;
+
+    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -49,10 +59,15 @@ class BundleRankingHelperTest extends TestCase
             $this->testHelper->getApi(),
             "es",
             "foo.bar",
-            $this->testHelper->getPositiveValue()
+            $this->testHelper->getPositiveValue(),
+            "env"
         );
 
         $this->cwd = getcwd();
+
+        $this->fileExists = $this->cwd . "/Tests/Widgets/BundleRanking/Helper/BundleRankingJson.json";
+
+        $this->fileNoExists = $this->cwd . "/Tests/Widgets/BundleRanking/Helper/BundleRankingJsons.json";
     }
 
     /**
@@ -93,11 +108,74 @@ class BundleRankingHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
+    public function testFileExistsThrowsArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new BundleRankingHelper($this->valueObject);
+
+        $content = $helper->fileExists();
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testFileExistsThrowsTypeErrorException()
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new BundleRankingHelper($this->valueObject);
+
+        $content = $helper->fileExists(null);
+    }
+
+    /**
+     * @dataProvider dpFileExists
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testFileExists($filePath, $expected)
+    {
+        $helper = new BundleRankingHelper($this->valueObject);
+
+        $result = $helper->fileExists($filePath);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function dpFileExists(): array
+    {
+        return [
+            [
+                "filePath" => "",
+                "expected" => false
+            ],
+            [
+                "filePath" => $this->fileExists,
+                "expected" => true
+            ],
+            [
+                "filePath" => $this->fileNoExists,
+                "expected" => false
+            ],
+        ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
     public function testGetJsonContentThrowsArgumentCountErrorException()
     {
         $this->expectException(ArgumentCountError::class);
 
         $helper = new BundleRankingHelper($this->valueObject);
+
         $content = $helper->getJsonContent();
     }
 
@@ -110,6 +188,7 @@ class BundleRankingHelperTest extends TestCase
         $this->expectException(TypeError::class);
 
         $helper = new BundleRankingHelper($this->valueObject);
+
         $content = $helper->getJsonContent(null);
     }
 
@@ -122,6 +201,7 @@ class BundleRankingHelperTest extends TestCase
     public function testGetJsonContent($filePath, $expected)
     {
         $helper = new BundleRankingHelper($this->valueObject);
+
         $content = $helper->getJsonContent($filePath);
 
         $this->assertEquals($expected, $content);
@@ -132,15 +212,13 @@ class BundleRankingHelperTest extends TestCase
      */
     public function getJsonContent(): array
     {
-        $file = $this->cwd . "/Tests/Widgets/BundleRanking/Helper/BundleRankingJson.json";
-
         return [
             [
                 "filePath" => "",
                 "expected" => ""
             ],
             [
-                "filePath" => $file,
+                "filePath" => $this->fileExists,
                 "expected" => '{"es":1}'
             ]
         ];
@@ -155,6 +233,7 @@ class BundleRankingHelperTest extends TestCase
         $this->expectException(ArgumentCountError::class);
 
         $helper = new BundleRankingHelper($this->valueObject);
+
         $ids = $helper->getLocaleIds();
     }
 
@@ -167,6 +246,7 @@ class BundleRankingHelperTest extends TestCase
         $this->expectException(TypeError::class);
 
         $helper = new BundleRankingHelper($this->valueObject);
+
         $ids = $helper->getLocaleIds(null);
     }
 
@@ -179,6 +259,7 @@ class BundleRankingHelperTest extends TestCase
     public function testGetLocaleIds($content, $expected)
     {
         $helper = new BundleRankingHelper($this->valueObject);
+
         $ids = $helper->getLocaleIds($content);
 
         $this->assertEquals($expected, $ids);
@@ -210,6 +291,7 @@ class BundleRankingHelperTest extends TestCase
         $this->expectException(ArgumentCountError::class);
 
         $helper = new BundleRankingHelper($this->valueObject);
+
         $ids = $helper->getArticlesIdsFromArray();
     }
 
@@ -222,6 +304,7 @@ class BundleRankingHelperTest extends TestCase
         $this->expectException(TypeError::class);
 
         $helper = new BundleRankingHelper($this->valueObject);
+
         $ids = $helper->getArticlesIdsFromArray(null);
     }
 
@@ -234,6 +317,7 @@ class BundleRankingHelperTest extends TestCase
     public function testGetArticlesIdsFromArray($content, $expected)
     {
         $helper = new BundleRankingHelper($this->valueObject);
+
         $ids = $helper->getArticlesIdsFromArray($content);
 
         $this->assertEquals($expected, $ids);
@@ -265,6 +349,7 @@ class BundleRankingHelperTest extends TestCase
         $this->expectException(ArgumentCountError::class);
 
         $helper = new BundleRankingHelper($this->valueObject);
+
         $ids = $helper->getArticles();
     }
 
@@ -277,6 +362,7 @@ class BundleRankingHelperTest extends TestCase
         $this->expectException(TypeError::class);
 
         $helper = new BundleRankingHelper($this->valueObject);
+
         $ids = $helper->getArticles(null);
     }
 

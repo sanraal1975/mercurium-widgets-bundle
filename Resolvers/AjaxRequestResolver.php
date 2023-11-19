@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Resolvers;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\AjaxRequestConstants;
 use Comitium5\MercuriumWidgetsBundle\Services\Security\DataEncryption;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\AjaxRequestValueObject;
 use Exception;
@@ -48,11 +49,9 @@ class AjaxRequestResolver
      */
     private function unsetNotNecessaryValues(array $widgetParameters): array
     {
-        unset($widgetParameters['_site']);
-        unset($widgetParameters['_fields']);
-        unset($widgetParameters['_editor']);
-        unset($widgetParameters['_parameters']['webpack']);
-        unset($widgetParameters['pepito']);
+        unset($widgetParameters[AjaxRequestConstants::SITE]);
+        unset($widgetParameters[AjaxRequestConstants::FIELDS]);
+        unset($widgetParameters[AjaxRequestConstants::EDITOR]);
 
         return $widgetParameters;
     }
@@ -66,8 +65,8 @@ class AjaxRequestResolver
      */
     private function addCallParameters(array $widgetParameters, string $method, array $callParameters): array
     {
-        $widgetParameters['_parameters']['_method']['value'] = $method;
-        $widgetParameters['_parameters']['_extraParameters']['value'] = $callParameters;
+        $widgetParameters[AjaxRequestConstants::PARAMETERS][AjaxRequestConstants::METHOD][AjaxRequestConstants::VALUE] = $method;
+        $widgetParameters[AjaxRequestConstants::PARAMETERS][AjaxRequestConstants::EXTRA_PARAMETERS][AjaxRequestConstants::VALUE] = $callParameters;
 
         return $widgetParameters;
     }
@@ -80,8 +79,8 @@ class AjaxRequestResolver
     private function updateGenerateCallMapping(AjaxRequestValueObject $ajaxRequestValueObject): array
     {
         $extraValues = [
-            "_method" => "r1",
-            "_extraParameters" => "r2"
+            AjaxRequestConstants::METHOD => AjaxRequestConstants::MAPPING_FIRST_PARAMETER,
+            AjaxRequestConstants::EXTRA_PARAMETERS => AjaxRequestConstants::MAPPING_SECOND_PARAMETER
         ];
 
         $mapping = $ajaxRequestValueObject->getWidgetParametersMapping();
@@ -96,15 +95,11 @@ class AjaxRequestResolver
      */
     private function shortenParameters(array $widgetParameters, array $parametersMapping): array
     {
-        if (empty($parametersMapping)) {
-            return $widgetParameters;
-        }
-
-        foreach ($widgetParameters['_parameters'] as $key => $value) {
+        foreach ($widgetParameters[AjaxRequestConstants::PARAMETERS] as $key => $value) {
             if (!empty($parametersMapping[$key])) {
-                $widgetParameters['_parameters'][$parametersMapping[$key]] = $value['value'];
+                $widgetParameters[AjaxRequestConstants::PARAMETERS][$parametersMapping[$key]] = $value[AjaxRequestConstants::VALUE];
             }
-            unset($widgetParameters['_parameters'][$key]);
+            unset($widgetParameters[AjaxRequestConstants::PARAMETERS][$key]);
         }
 
         return $widgetParameters;
@@ -119,7 +114,7 @@ class AjaxRequestResolver
      */
     public function resolveDecodedParameters(Request $request, array $mapping): array
     {
-        $parameters = $request->get('_parameters');
+        $parameters = $request->get(AjaxRequestConstants::PARAMETERS);
         if (empty($parameters)) {
             throw new Exception(__METHOD__ . ": parameters can't be empty");
         }
@@ -128,7 +123,7 @@ class AjaxRequestResolver
 
         $parameters = $this->decodeParameters($parameters);
 
-        $parameters['_editor'] = false;
+        $parameters[AjaxRequestConstants::EDITOR] = false;
 
         return $this->lengthenParameters($parameters, $mapping);
     }
@@ -143,8 +138,8 @@ class AjaxRequestResolver
         return array_merge(
             $mapping,
             [
-                "r1" => "_method",
-                "r2" => "_extraParameters",
+                AjaxRequestConstants::MAPPING_FIRST_PARAMETER => AjaxRequestConstants::METHOD,
+                AjaxRequestConstants::MAPPING_SECOND_PARAMETER => AjaxRequestConstants::EXTRA_PARAMETERS,
             ]
         );
     }
@@ -171,14 +166,10 @@ class AjaxRequestResolver
      */
     private function lengthenParameters(array $parameters, array $mapping): array
     {
-        if (empty($mapping)) {
-            return $parameters;
-        }
-
-        foreach ($parameters['_parameters'] as $key => $value) {
+        foreach ($parameters[AjaxRequestConstants::PARAMETERS] as $key => $value) {
             if (!empty($mapping[$key])) {
-                $parameters['_parameters'][$mapping[$key]]['value'] = $value;
-                unset($parameters['_parameters'][$key]);
+                $parameters[AjaxRequestConstants::PARAMETERS][$mapping[$key]][AjaxRequestConstants::VALUE] = $value;
+                unset($parameters[AjaxRequestConstants::PARAMETERS][$key]);
             }
         }
 
