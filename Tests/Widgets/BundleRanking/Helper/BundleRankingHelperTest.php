@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleRanking\Helper;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleRanking\ValueObject\BundleRankingValueObjectMock;
@@ -55,19 +56,19 @@ class BundleRankingHelperTest extends TestCase
         $testHelper = new TestHelper();
         $this->testHelper = $testHelper;
 
+        $this->cwd = getcwd();
+        $this->fileExists = $this->cwd . "/Tests/Widgets/BundleRanking/Helper/BundleRankingJson.json";
+        $this->fileNoExists = $this->cwd . "/Tests/Widgets/BundleRanking/Helper/BundleRankingJsons.json";
+
         $this->valueObject = new BundleRankingValueObjectMock(
             $this->testHelper->getApi(),
             "es",
             "foo.bar",
             $this->testHelper->getPositiveValue(),
-            "env"
+            "env",
+            $this->fileExists,
+            $this->fileExists
         );
-
-        $this->cwd = getcwd();
-
-        $this->fileExists = $this->cwd . "/Tests/Widgets/BundleRanking/Helper/BundleRankingJson.json";
-
-        $this->fileNoExists = $this->cwd . "/Tests/Widgets/BundleRanking/Helper/BundleRankingJsons.json";
     }
 
     /**
@@ -102,6 +103,64 @@ class BundleRankingHelperTest extends TestCase
         $helperObject = $helper->getValueObject();
 
         $this->assertEquals($this->valueObject, $helperObject);
+    }
+
+    /**
+     * @dataProvider getJsonFilePath
+     *
+     * @return void
+     */
+    public function testGetJsonFilePath($valueObject, $expected)
+    {
+        $helper = new BundleRankingHelper($valueObject);
+        $result = $helper->getJsonFilePath();
+
+        $this->assertEquals($result, $expected);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getJsonFilePath(): array
+    {
+        return [
+            [
+                "valueObject" => new BundleRankingValueObjectMock(
+                    $this->testHelper->getApi(),
+                    BundleConstants::LOCALE_CA,
+                    "",
+                    PHP_INT_MAX,
+                    BundleConstants::ENVIRONMENT_DEV,
+                    "",
+                    ""
+                ),
+                "expected" => ""
+            ],
+            [
+                "valueObject" => new BundleRankingValueObjectMock(
+                    $this->testHelper->getApi(),
+                    BundleConstants::LOCALE_CA,
+                    "dummy_json.json",
+                    PHP_INT_MAX,
+                    BundleConstants::ENVIRONMENT_DEV,
+                    "dev_json.json",
+                    ""
+                ),
+                "expected" => "dev_json.json"
+            ],
+            [
+                "valueObject" => new BundleRankingValueObjectMock(
+                    $this->testHelper->getApi(),
+                    BundleConstants::LOCALE_CA,
+                    "dummy_json.json",
+                    PHP_INT_MAX,
+                    BundleConstants::ENVIRONMENT_PROD,
+                    "",
+                    "prod_json.json"
+                ),
+                "expected" => "prod_json.json"
+            ]
+        ];
     }
 
     /**
@@ -212,6 +271,9 @@ class BundleRankingHelperTest extends TestCase
      */
     public function getJsonContent(): array
     {
+        $expected[BundleConstants::LOCALE_ES] = 1;
+        $expected = json_encode($expected);
+
         return [
             [
                 "filePath" => "",
@@ -219,7 +281,7 @@ class BundleRankingHelperTest extends TestCase
             ],
             [
                 "filePath" => $this->fileExists,
-                "expected" => '{"es":1}'
+                "expected" => $expected
             ]
         ];
     }
@@ -270,14 +332,17 @@ class BundleRankingHelperTest extends TestCase
      */
     public function getLocaleIds(): array
     {
+        $content[BundleConstants::LOCALE_ES] = [EntityConstants::ID_FIELD_KEY => 1];
+        $content = json_encode($content);
+
         return [
             [
                 "content" => "",
                 "expected" => []
             ],
             [
-                "content" => '{"es":{"id":1}}',
-                "expected" => ["id" => 1]
+                "content" => $content,
+                "expected" => [EntityConstants::ID_FIELD_KEY => 1]
             ]
         ];
     }
@@ -334,7 +399,7 @@ class BundleRankingHelperTest extends TestCase
                 "expected" => ""
             ],
             [
-                "content" => [["id" => 1]],
+                "content" => [[EntityConstants::ID_FIELD_KEY => 1]],
                 "expected" => "1"
             ]
         ];

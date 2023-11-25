@@ -38,18 +38,32 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
     private $environment;
 
     /**
+     * @var string
+     */
+    private $devJsonFilePath;
+
+    /**
+     * @var string
+     */
+    private $prodJsonFilePath;
+
+    /**
      * @param Client $api
      * @param string $locale
      * @param string $jsonFile
      * @param int $quantity
      * @param string $environment
+     * @param string $devJsonFilePath
+     * @param string $prodJsonFilePath
      */
     public function __construct(
         Client $api,
         string $locale,
         string $jsonFile,
         int    $quantity,
-        string $environment
+        string $environment,
+        string $devJsonFilePath,
+        string $prodJsonFilePath
     )
     {
         $this->api = $api;
@@ -57,6 +71,8 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
         $this->jsonFile = $jsonFile;
         $this->quantity = $quantity;
         $this->environment = $environment;
+        $this->devJsonFilePath = $devJsonFilePath;
+        $this->prodJsonFilePath = $prodJsonFilePath;
     }
 
     /**
@@ -97,5 +113,21 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
     public function getEnvironment(): string
     {
         return $this->environment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDevJsonFilePath(): string
+    {
+        return $this->devJsonFilePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdJsonFilePath(): string
+    {
+        return $this->prodJsonFilePath;
     }
 }

@@ -35,4 +35,14 @@ abstract class BundleRankingValueObject
      * @return string
      */
     abstract public function getEnvironment(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getDevJsonFilePath(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getProdJsonFilePath(): string;
 }

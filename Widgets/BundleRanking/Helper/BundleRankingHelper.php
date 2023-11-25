@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Helper;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ArrayHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
@@ -37,6 +38,26 @@ class BundleRankingHelper
     public function getValueObject(): BundleRankingValueObject
     {
         return $this->valueObject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJsonFilePath(): string
+    {
+        $jsonFile = $this->valueObject->getJsonFile();
+
+        if (empty($jsonFile)) {
+            return "";
+        }
+
+        $environment = $this->valueObject->getEnvironment();
+
+        if ($environment == BundleConstants::ENVIRONMENT_DEV) {
+            return $this->valueObject->getDevJsonFilePath();
+        }
+
+        return $this->valueObject->getProdJsonFilePath();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleRanking\Normalizer;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -53,12 +54,17 @@ class BundleRankingNormalizerTest extends TestCase
         $testHelper = new TestHelper();
         $this->testHelper = $testHelper;
 
+        $cwd = getcwd();
+        $fileExists = $cwd . "/Tests/Widgets/BundleRanking/Helper/BundleRankingJson.json";
+
         $this->valueObject = new BundleRankingValueObjectMock(
             $this->testHelper->getApi(),
-            "es",
+            BundleConstants::LOCALE_ES,
             "foo.bar",
             $this->testHelper->getPositiveValue(),
-            "env"
+            BundleConstants::ENVIRONMENT_DEV,
+            $fileExists,
+            $fileExists
         );
 
         $this->normalizer = new EntityNormalizer(
@@ -174,5 +180,4 @@ class BundleRankingNormalizerTest extends TestCase
             ]
         ];
     }
-
 }
