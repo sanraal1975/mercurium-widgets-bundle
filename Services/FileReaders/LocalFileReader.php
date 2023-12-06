@@ -46,12 +46,20 @@ class LocalFileReader extends AbstractFileReader
      */
     public function read(): string
     {
-        $contents = file_get_contents($this->url);
+        $contents = $this->getContents();
 
         if ($contents === false) {
             return "";
         }
 
         return $contents;
+    }
+
+    /**
+     * @return false|string
+     */
+    public function getContents()
+    {
+        return file_get_contents($this->url);
     }
 }

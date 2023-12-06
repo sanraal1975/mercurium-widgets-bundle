@@ -5,6 +5,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Services\FileReaders;
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Services\FileReaders\LocalFileReader;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Services\FileReaders\LocalFileReaderMock;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -79,6 +80,34 @@ class LocalFileReaderTest extends TestCase
 
         $fileReader = new LocalFileReader($testFilePath);
         $contents = $fileReader->read();
+        $this->assertEquals("hello world!", $contents);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testReadReturnEmpty()
+    {
+        $currentDirectory = getcwd();
+        $testFilePath = $currentDirectory . self::SUCCESS_READING_FILE;
+
+        $fileReader = new LocalFileReaderMock($testFilePath);
+        $contents = $fileReader->read();
+        $this->assertEmpty($contents);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetContentsSuccess()
+    {
+        $currentDirectory = getcwd();
+        $testFilePath = $currentDirectory . self::SUCCESS_READING_FILE;
+
+        $fileReader = new LocalFileReader($testFilePath);
+        $contents = $fileReader->getContents();
         $this->assertEquals("hello world!", $contents);
     }
 }
