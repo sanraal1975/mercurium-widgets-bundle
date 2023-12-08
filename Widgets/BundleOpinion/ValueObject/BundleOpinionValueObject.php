@@ -25,4 +25,14 @@ abstract class BundleOpinionValueObject
      * @return string
      */
     abstract public function getArticlesIds(): string;
+
+    /**
+     * @return int
+     */
+    abstract public function getQuantity(): int;
+
+    /**
+     * @return int
+     */
+    abstract public function getCategoryOpinionId(): int;
 }

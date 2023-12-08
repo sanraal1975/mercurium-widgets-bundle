@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\Helper;
 
+use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\ValueObject\BundleOpinionValueObject;
@@ -25,6 +26,14 @@ class BundleOpinionHelper
     public function __construct(BundleOpinionValueObject $valueObject)
     {
         $this->valueObject = $valueObject;
+    }
+
+    /**
+     * @return BundleOpinionValueObject
+     */
+    public function getValueObject(): BundleOpinionValueObject
+    {
+        return $this->valueObject;
     }
 
     /**
@@ -54,5 +63,27 @@ class BundleOpinionHelper
         $helper = new ArticleHelper($api);
 
         return $helper->getByIds($this->valueObject->getArticlesIds());
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getAutomaticArticles(): array
+    {
+        $api = $this->valueObject->getApi();
+        $quantity = $this->valueObject->getQuantity();
+        $categoryId = $this->valueObject->getCategoryOpinionId();
+
+        $helper = new ArticleHelper($api);
+        $articles = $helper->getBy(
+            [
+                "page" => 1,
+                "limit" => $quantity,
+                "categories" => $categoryId
+            ]
+        );
+
+        return ApiResultsHelper::extractResults($articles);
     }
 }

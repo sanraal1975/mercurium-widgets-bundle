@@ -23,6 +23,7 @@ class EntityConstants
     const HAS_RELATED_GALLERIES_FIELD_KEY = "hasRelatedGalleries";
     const HAS_RELATED_LIVE_EVENTS_FIELD_KEY = "hasRelatedLiveEvents";
     const HAS_RELATED_POLLS_FIELD_KEY = "hasRelatedPolls";
+    const HAS_SUBSCRIPTION_FIELD_KEY = "hasSubscriptions";
     const HAS_SPONSOR_FIELD_KEY = "hasSponsor";
     const ID_FIELD_KEY = "id";
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
@@ -71,5 +72,6 @@ class EntityConstants
     const HAS_NO_IMAGE = "has-no-image";
     const HAS_POLL = "has-poll";
     const HAS_SPONSOR = "has-sponsor";
+    const HAS_SUBSCRIPTION = "has-subscription";
     const HAS_VIDEO = "has-video";
 }

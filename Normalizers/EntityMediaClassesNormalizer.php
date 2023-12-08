@@ -82,6 +82,12 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
                 $mediaClasses[] = EntityConstants::HAS_SPONSOR;
             }
 
+            $hasSubscription = $this->hasSubscription($entity);
+            if ($hasSubscription) {
+                $mediaClasses[] = EntityConstants::HAS_SUBSCRIPTION;
+                $entity[EntityConstants::HAS_SUBSCRIPTION_FIELD_KEY] = true;
+            }
+
             $hasVideo = $this->hasVideo($entity);
             if ($hasVideo) {
                 $mediaClasses[] = EntityConstants::HAS_VIDEO;
@@ -252,6 +258,20 @@ class EntityMediaClassesNormalizer implements NormalizerInterface
     private function hasSponsor(array $entity): bool
     {
         if (empty($entity[EntityConstants::HAS_SPONSOR_FIELD_KEY])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param array $entity
+     *
+     * @return bool
+     */
+    private function hasSubscription(array $entity): bool
+    {
+        if (empty($entity[EntityConstants::SUBSCRIPTIONS_FIELD_KEY])) {
             return false;
         }
 
