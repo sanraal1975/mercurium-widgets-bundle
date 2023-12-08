@@ -24,20 +24,13 @@ class BundleHomeMainArticleValueObjectMock extends BundleHomeMainArticleValueObj
     private $articlesIds;
 
     /**
-     * @var EntityNormalizer
-     */
-    private $normalizer;
-
-    /**
      * @param Client $api
      * @param string $articlesIds
-     * @param EntityNormalizer $normalizer
      */
-    public function __construct(Client $api, string $articlesIds, EntityNormalizer $normalizer)
+    public function __construct(Client $api, string $articlesIds)
     {
         $this->api = $api;
         $this->articlesIds = $articlesIds;
-        $this->normalizer = $normalizer;
     }
 
     /**

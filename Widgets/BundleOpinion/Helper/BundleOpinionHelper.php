@@ -73,16 +73,23 @@ class BundleOpinionHelper
     {
         $api = $this->valueObject->getApi();
         $quantity = $this->valueObject->getQuantity();
+
+        if (empty($quantity)) {
+            return [];
+        }
+
+        $parameters = [
+            "page" => 1,
+            "limit" => $quantity
+        ];
+
         $categoryId = $this->valueObject->getCategoryOpinionId();
+        if (!empty($categoryId)) {
+            $parameters["categories"] = $categoryId;
+        }
 
         $helper = new ArticleHelper($api);
-        $articles = $helper->getBy(
-            [
-                "page" => 1,
-                "limit" => $quantity,
-                "categories" => $categoryId
-            ]
-        );
+        $articles = $helper->getBy($parameters);
 
         return ApiResultsHelper::extractResults($articles);
     }
