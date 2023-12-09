@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleOpinion\Helper;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
@@ -31,6 +32,21 @@ class BundleOpinionHelperTest extends TestCase
     private $api;
 
     /**
+     * @var false|string
+     */
+    private $cwd;
+
+    /**
+     * @var string
+     */
+    private $fileExists;
+
+    /**
+     * @var string
+     */
+    private $fileNoExists;
+
+    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -43,6 +59,10 @@ class BundleOpinionHelperTest extends TestCase
         $testHelper = new TestHelper();
         $this->testHelper = $testHelper;
         $this->api = $testHelper->getApi();
+
+        $this->cwd = getcwd();
+        $this->fileExists = $this->cwd . "/Tests/Widgets/BundleOpinion/Helper/BundleOpinionJson.json";
+        $this->fileNoExists = $this->cwd . "/Tests/Widgets/BundleOpinion/Helper/BundleROpinionJsons.json";
     }
 
     /**
@@ -76,7 +96,8 @@ class BundleOpinionHelperTest extends TestCase
             $this->testHelper->getPositiveValue(),
             "",
             0,
-            0
+            0,
+            BundleConstants::LOCALE_CA
         );
 
         $helper = new BundleOpinionHelper($valueObject);
@@ -96,7 +117,8 @@ class BundleOpinionHelperTest extends TestCase
             0,
             "",
             0,
-            0
+            0,
+            BundleConstants::LOCALE_CA
         );
 
         $helper = new BundleOpinionHelper($valueObject);
@@ -116,7 +138,8 @@ class BundleOpinionHelperTest extends TestCase
             1,
             "",
             0,
-            0
+            0,
+            BundleConstants::LOCALE_CA
         );
 
         $helper = new BundleOpinionHelper($valueObject);
@@ -156,7 +179,8 @@ class BundleOpinionHelperTest extends TestCase
                     1,
                     "",
                     0,
-                    0
+                    0,
+                    BundleConstants::LOCALE_CA
                 ),
                 "expected" => []
             ],
@@ -166,7 +190,8 @@ class BundleOpinionHelperTest extends TestCase
                     1,
                     "1",
                     0,
-                    0
+                    0,
+                    BundleConstants::LOCALE_CA
                 ),
                 "expected" => [
                     [
@@ -184,10 +209,10 @@ class BundleOpinionHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testGetAutomaticArticles($valueObject, $expected)
+    public function testGetAutomaticArticles($valueObject, $deniedArticles, $expected)
     {
         $helper = new BundleOpinionHelper($valueObject);
-        $articles = $helper->getAutomaticArticles();
+        $articles = $helper->getAutomaticArticles($deniedArticles);
 
         $this->assertEquals($expected, $articles);
     }
@@ -204,8 +229,10 @@ class BundleOpinionHelperTest extends TestCase
                     1,
                     "",
                     0,
-                    0
+                    0,
+                    BundleConstants::LOCALE_CA
                 ),
+                "deniedArticles" => "",
                 "expected" => []
             ],
             [
@@ -214,8 +241,10 @@ class BundleOpinionHelperTest extends TestCase
                     1,
                     "",
                     1,
-                    0
+                    0,
+                    BundleConstants::LOCALE_CA
                 ),
+                "deniedArticles" => "",
                 "expected" => [
                     [
                         EntityConstants::ID_FIELD_KEY => 1,
@@ -229,8 +258,10 @@ class BundleOpinionHelperTest extends TestCase
                     1,
                     "",
                     1,
-                    1
+                    1,
+                    BundleConstants::LOCALE_CA
                 ),
+                "deniedArticles" => "",
                 "expected" => [
                     [
                         EntityConstants::ID_FIELD_KEY => 1,
@@ -238,6 +269,220 @@ class BundleOpinionHelperTest extends TestCase
                     ]
                 ]
             ],
+            [
+                "valueObject" => new BundleOpinionValueObjectMock(
+                    $this->api,
+                    1,
+                    "",
+                    1,
+                    1,
+                    BundleConstants::LOCALE_CA
+                ),
+                "deniedArticles" => "1",
+                "expected" => [
+                    [
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
+                    ]
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getJsonFilePath
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetJsonFilePath($valueObject, $expected)
+    {
+        $helper = new BundleOpinionHelper($valueObject);
+        $result = $helper->getJsonFilePath();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getJsonFilePath(): array
+    {
+        return [
+            [
+                "valueObject" => new BundleOpinionValueObjectMock(
+                    $this->api,
+                    1,
+                    "1",
+                    1,
+                    1,
+                    BundleConstants::LOCALE_CA,
+                    ""
+                ),
+                "expected" => ""
+            ],
+            [
+                "valueObject" => new BundleOpinionValueObjectMock(
+                    $this->api,
+                    1,
+                    "1",
+                    1,
+                    1,
+                    BundleConstants::LOCALE_CA,
+                    "foo.bar",
+                    BundleConstants::ENVIRONMENT_DEV,
+                    "dev.foo.bar",
+                    "prod.foo.bar"
+                ),
+                "expected" => "dev.foo.bar"
+            ],
+            [
+                "valueObject" => new BundleOpinionValueObjectMock(
+                    $this->api,
+                    1,
+                    "1",
+                    1,
+                    1,
+                    BundleConstants::LOCALE_CA,
+                    "foo.bar",
+                    BundleConstants::ENVIRONMENT_PROD,
+                    "dev.foo.bar",
+                    "prod.foo.bar"
+                ),
+                "expected" => "prod.foo.bar"
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderFileExists
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testFileExists($filePath, $expected)
+    {
+        $valueObject = new BundleOpinionValueObjectMock($this->api);
+        $helper = new BundleOpinionHelper($valueObject);
+
+        $result = $helper->fileExists($filePath);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderFileExists(): array
+    {
+        return [
+            [
+                "filePath" => "",
+                "expected" => false
+            ],
+            [
+                "filePath" => "foo.bar",
+                "expected" => false
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getJsonContent
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetJsonContent($jsonFilePath, $expected)
+    {
+        $valueObject = new BundleOpinionValueObjectMock($this->api);
+        $helper = new BundleOpinionHelper($valueObject);
+
+        $result = $helper->getJsonContent($jsonFilePath);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getJsonContent(): array
+    {
+        return [
+            [
+                "jsonFilePath" => "",
+                "expected" => ""
+            ],
+            [
+                "jsonFilePath" => $this->fileExists,
+                "expected" => '{"es":[{"id":1}]}'
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getLocaleIds
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetLocaleIds($jsonContent, $expected)
+    {
+        $valueObject = new BundleOpinionValueObjectMock($this->api);
+        $helper = new BundleOpinionHelper($valueObject);
+
+        $result = $helper->getLocaleIds($jsonContent);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getLocaleIds(): array
+    {
+        return [
+            [
+                "jsonContent" => "",
+                "expected" => []
+            ],
+            [
+                "jsonContent" => '{"ca":[{"id":1}]}',
+                "expected" => [[EntityConstants::ID_FIELD_KEY => 1]]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getArticlesIdsFromArray
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetArticlesIdsFromArray($localeIds, $expected)
+    {
+        $valueObject = new BundleOpinionValueObjectMock($this->api);
+        $helper = new BundleOpinionHelper($valueObject);
+
+        $result = $helper->getArticlesIdsFromArray($localeIds);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getArticlesIdsFromArray(): array
+    {
+        return [
+            [
+                "localeIds" => [],
+                "expected" => ""
+            ],
+            [
+                "localeIds" => [[EntityConstants::ID_FIELD_KEY => 1]],
+                "expected" => "1"
+            ]
         ];
     }
 }

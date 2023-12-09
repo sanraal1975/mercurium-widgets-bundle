@@ -17,6 +17,11 @@ abstract class BundleOpinionValueObject
     abstract public function getApi(): Client;
 
     /**
+     * @return string
+     */
+    abstract public function getLocale(): string;
+
+    /**
      * @return int
      */
     abstract public function getSponsorImageId(): int;
@@ -35,4 +40,24 @@ abstract class BundleOpinionValueObject
      * @return int
      */
     abstract public function getCategoryOpinionId(): int;
+
+    /**
+     * @return string
+     */
+    abstract public function getEnvironment(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getJsonFile(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getDevJsonFilePath(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getProdJsonFilePath(): string;
 }

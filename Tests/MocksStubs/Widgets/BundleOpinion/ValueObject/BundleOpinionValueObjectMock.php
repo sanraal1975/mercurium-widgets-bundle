@@ -38,18 +38,53 @@ class BundleOpinionValueObjectMock extends BundleOpinionValueObject
     private $categoryOpinionId;
 
     /**
+     * @var string
+     */
+    private $locale;
+
+    /**
+     * @var string
+     */
+    private $jsonFile;
+
+    /**
+     * @var string
+     */
+    private $environment;
+
+    /**
+     * @var string
+     */
+    private $devJsonFilePath;
+
+    /**
+     * @var string
+     */
+    private $prodJsonFilePath;
+
+    /**
      * @param Client $api
      * @param int $sponsorImageId
      * @param string $articlesIds
      * @param int $quantity
      * @param int $categoryOpinionId
+     * @param string $locale
+     * @param string $jsonFile
+     * @param string $environment
+     * @param string $devJsonFilePath
+     * @param string $prodJsonFilePath
      */
     public function __construct(
         Client $api,
-        int    $sponsorImageId,
-        string $articlesIds,
-        int    $quantity,
-        int    $categoryOpinionId
+        int    $sponsorImageId = 1,
+        string $articlesIds = "",
+        int    $quantity = 1,
+        int    $categoryOpinionId = 1,
+        string $locale = "ca",
+        string $jsonFile = "home_articles.json",
+        string $environment = "dev",
+        string $devJsonFilePath = "foo.bar",
+        string $prodJsonFilePath = "foo.bar"
     )
     {
         $this->api = $api;
@@ -57,6 +92,11 @@ class BundleOpinionValueObjectMock extends BundleOpinionValueObject
         $this->articlesIds = $articlesIds;
         $this->quantity = $quantity;
         $this->categoryOpinionId = $categoryOpinionId;
+        $this->locale = $locale;
+        $this->jsonFile = $jsonFile;
+        $this->environment = $environment;
+        $this->devJsonFilePath = $devJsonFilePath;
+        $this->prodJsonFilePath = $prodJsonFilePath;
     }
 
     /**
@@ -99,4 +139,43 @@ class BundleOpinionValueObjectMock extends BundleOpinionValueObject
         return $this->categoryOpinionId;
     }
 
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnvironment(): string
+    {
+        return $this->environment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJsonFile(): string
+    {
+        return $this->jsonFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDevJsonFilePath(): string
+    {
+        return $this->devJsonFilePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdJsonFilePath(): string
+    {
+        return $this->prodJsonFilePath;
+    }
 }
