@@ -17,6 +17,16 @@ abstract class BundleOpinionValueObject
     abstract public function getApi(): Client;
 
     /**
+     * @return mixed
+     */
+    abstract public function getSitePrefix();
+
+    /**
+     * @return mixed
+     */
+    abstract public function getSubSiteAcronym();
+
+    /**
      * @return string
      */
     abstract public function getLocale(): string;
@@ -60,4 +70,9 @@ abstract class BundleOpinionValueObject
      * @return string
      */
     abstract public function getProdJsonFilePath(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getHomeUrl(): string;
 }
