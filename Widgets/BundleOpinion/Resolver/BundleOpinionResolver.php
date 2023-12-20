@@ -5,6 +5,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\Resolver;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\Helper\BundleOpinionHelper;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\ValueObject\BundleOpinionValueObject;
 use Exception;
+use SebastianBergmann\CodeCoverage\Report\PHP;
 
 /**
  * Class BundleOpinionResolver
@@ -85,5 +86,4 @@ class BundleOpinionResolver
 
         return $this->helper->getArticlesIdsFromArray($localeIds);
     }
-
 }

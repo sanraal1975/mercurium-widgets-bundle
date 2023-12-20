@@ -63,6 +63,21 @@ class BundleOpinionValueObjectMock extends BundleOpinionValueObject
     private $prodJsonFilePath;
 
     /**
+     * @var string
+     */
+    private $sitePrefix;
+
+    /**
+     * @var string
+     */
+    private $homeUrl;
+
+    /**
+     * @var string
+     */
+    private $subSiteAcronym;
+
+    /**
      * @param Client $api
      * @param int $sponsorImageId
      * @param string $articlesIds
@@ -73,6 +88,9 @@ class BundleOpinionValueObjectMock extends BundleOpinionValueObject
      * @param string $environment
      * @param string $devJsonFilePath
      * @param string $prodJsonFilePath
+     * @param string $sitePrefix
+     * @param string $homeUrl
+     * @param string $subSiteAcronym
      */
     public function __construct(
         Client $api,
@@ -84,7 +102,10 @@ class BundleOpinionValueObjectMock extends BundleOpinionValueObject
         string $jsonFile = "home_articles.json",
         string $environment = "dev",
         string $devJsonFilePath = "foo.bar",
-        string $prodJsonFilePath = "foo.bar"
+        string $prodJsonFilePath = "foo.bar",
+        string $sitePrefix = "foo.bar",
+        string $homeUrl = "https://foo.bar",
+        string $subSiteAcronym = "foo.bar"
     )
     {
         $this->api = $api;
@@ -97,6 +118,9 @@ class BundleOpinionValueObjectMock extends BundleOpinionValueObject
         $this->environment = $environment;
         $this->devJsonFilePath = $devJsonFilePath;
         $this->prodJsonFilePath = $prodJsonFilePath;
+        $this->sitePrefix = $sitePrefix;
+        $this->homeUrl = $homeUrl;
+        $this->subSiteAcronym = $subSiteAcronym;
     }
 
     /**
@@ -177,5 +201,29 @@ class BundleOpinionValueObjectMock extends BundleOpinionValueObject
     public function getProdJsonFilePath(): string
     {
         return $this->prodJsonFilePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSitePrefix(): string
+    {
+        return $this->sitePrefix;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHomeUrl(): string
+    {
+        return $this->homeUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubSiteAcronym(): string
+    {
+        return $this->subSiteAcronym;
     }
 }

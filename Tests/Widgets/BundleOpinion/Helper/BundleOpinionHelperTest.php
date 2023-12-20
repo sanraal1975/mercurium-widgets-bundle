@@ -61,8 +61,8 @@ class BundleOpinionHelperTest extends TestCase
         $this->api = $testHelper->getApi();
 
         $this->cwd = getcwd();
-        $this->fileExists = $this->cwd . "/Tests/Widgets/BundleOpinion/Helper/BundleOpinionJson.json";
-        $this->fileNoExists = $this->cwd . "/Tests/Widgets/BundleOpinion/Helper/BundleROpinionJsons.json";
+        $this->fileExists = $this->cwd . "/Tests/Widgets/BundleOpinion/BundleOpinionJson.json";
+        $this->fileNoExists = $this->cwd . "/Tests/Widgets/BundleOpinion/BundleROpinionJsons.json";
     }
 
     /**
