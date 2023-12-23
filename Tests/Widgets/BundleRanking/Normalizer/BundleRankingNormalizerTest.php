@@ -64,7 +64,10 @@ class BundleRankingNormalizerTest extends TestCase
             $this->testHelper->getPositiveValue(),
             BundleConstants::ENVIRONMENT_DEV,
             $fileExists,
-            $fileExists
+            $fileExists,
+            "https://www.foo.bar",
+            "foo",
+            "bar"
         );
 
         $this->normalizer = new EntityNormalizer(

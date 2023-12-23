@@ -4,8 +4,10 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleOpinion\Resolver;
 
 use ArgumentCountError;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleOpinion\ValueObject\BundleOpinionValueObjectMock;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\Resolver\BundleOpinionResolver;
 use Exception;
@@ -40,6 +42,11 @@ class BundleOpinionResolverTest extends TestCase
     private $fileNoExists;
 
     /**
+     * @var EntityNormalizer
+     */
+    private $entityNormalizer;
+
+    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -56,6 +63,7 @@ class BundleOpinionResolverTest extends TestCase
         $this->cwd = getcwd();
         $this->fileExists = $this->cwd . "/Tests/Widgets/BundleOpinion/BundleOpinionJson.json";
         $this->fileNoExists = $this->cwd . "/Tests/Widgets/BundleOpinion/BundleOpinionJsons.json";
+        $this->entityNormalizer = new EntityNormalizer([new NormalizerMock()]);
     }
 
     /**
@@ -88,7 +96,7 @@ class BundleOpinionResolverTest extends TestCase
     {
         $valueObject = new BundleOpinionValueObjectMock($this->api);
 
-        $resolver = new BundleOpinionResolver($valueObject);
+        $resolver = new BundleOpinionResolver($valueObject, $this->entityNormalizer);
 
         $asset = $resolver->resolveSponsorImage();
 
@@ -103,7 +111,7 @@ class BundleOpinionResolverTest extends TestCase
      */
     public function testResolveJsonFilePath($valueObject, $expected)
     {
-        $resolver = new BundleOpinionResolver($valueObject);
+        $resolver = new BundleOpinionResolver($valueObject, $this->entityNormalizer);
         $result = $resolver->resolveJsonFilePath();
 
         $this->assertEquals($expected, $result);
@@ -175,7 +183,7 @@ class BundleOpinionResolverTest extends TestCase
         $this->expectException(ArgumentCountError::class);
 
         $valueObject = new BundleOpinionValueObjectMock($this->testHelper->getApi());
-        $resolver = new BundleOpinionResolver($valueObject);
+        $resolver = new BundleOpinionResolver($valueObject, $this->entityNormalizer);
 
         $resolver->resolveDeniedArticlesIds();
     }
@@ -189,7 +197,7 @@ class BundleOpinionResolverTest extends TestCase
         $this->expectException(TypeError::class);
 
         $valueObject = new BundleOpinionValueObjectMock($this->testHelper->getApi());
-        $resolver = new BundleOpinionResolver($valueObject);
+        $resolver = new BundleOpinionResolver($valueObject, $this->entityNormalizer);
 
         $resolver->resolveDeniedArticlesIds(null);
     }
@@ -211,7 +219,7 @@ class BundleOpinionResolverTest extends TestCase
             "es"
         );
 
-        $resolver = new BundleOpinionResolver($valueObject);
+        $resolver = new BundleOpinionResolver($valueObject, $this->entityNormalizer);
         $result = $resolver->resolveDeniedArticlesIds($jsonFilePath);
 
         $this->assertEquals($expected, $result);
@@ -234,6 +242,85 @@ class BundleOpinionResolverTest extends TestCase
             [
                 "jsonFilePath" => $this->fileExists,
                 "expected" => "1"
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getResolveArticles
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testResolveArticles($valueObject, $expected)
+    {
+        $resolver = new BundleOpinionResolver($valueObject, $this->entityNormalizer);
+        $result = $resolver->resolveArticles();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getResolveArticles(): array
+    {
+        return [
+            [
+                "valueObject" => new BundleOpinionValueObjectMock(
+                    $this->testHelper->getApi(),
+                    1,
+                    1
+                ),
+                "expected" => [
+                    0 => [
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
+                    ]
+                ]
+            ],
+            [
+                "valueObject" => new BundleOpinionValueObjectMock(
+                    $this->testHelper->getApi(),
+                    1,
+                    "",
+                    0
+                ),
+                "expected" => []
+            ],
+            [
+                "valueObject" => new BundleOpinionValueObjectMock(
+                    $this->testHelper->getApi(),
+                    1,
+                    "",
+                    1,
+                    1,
+                    "es",
+                    ""
+                ),
+                "expected" => [
+                    0 => [
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
+                    ]
+                ]
+            ],
+            [
+                "valueObject" => new BundleOpinionValueObjectMock(
+                    $this->testHelper->getApi(),
+                    1,
+                    "",
+                    1,
+                    1,
+                    "es",
+                    $this->fileExists
+                ),
+                "expected" => [
+                    0 => [
+                        EntityConstants::ID_FIELD_KEY => 1,
+                        EntityConstants::SEARCHABLE_FIELD_KEY => true
+                    ]
+                ]
             ]
         ];
     }

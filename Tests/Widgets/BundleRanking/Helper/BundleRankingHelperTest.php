@@ -67,7 +67,10 @@ class BundleRankingHelperTest extends TestCase
             $this->testHelper->getPositiveValue(),
             "env",
             $this->fileExists,
-            $this->fileExists
+            $this->fileExists,
+            "https://www.foo.bar",
+            "foo",
+            "bar"
         );
     }
 
@@ -132,7 +135,10 @@ class BundleRankingHelperTest extends TestCase
                     PHP_INT_MAX,
                     BundleConstants::ENVIRONMENT_DEV,
                     "",
-                    ""
+                    "",
+                    "https://www.foo.bar",
+                    "foo",
+                    "bar"
                 ),
                 "expected" => ""
             ],
@@ -144,7 +150,10 @@ class BundleRankingHelperTest extends TestCase
                     PHP_INT_MAX,
                     BundleConstants::ENVIRONMENT_DEV,
                     "dev_json.json",
-                    ""
+                    "",
+                    "https://www.foo.bar",
+                    "foo",
+                    "bar"
                 ),
                 "expected" => "dev_json.json"
             ],
@@ -156,7 +165,10 @@ class BundleRankingHelperTest extends TestCase
                     PHP_INT_MAX,
                     BundleConstants::ENVIRONMENT_PROD,
                     "",
-                    "prod_json.json"
+                    "prod_json.json",
+                    "https://www.foo.bar",
+                    "foo",
+                    "bar"
                 ),
                 "expected" => "prod_json.json"
             ]

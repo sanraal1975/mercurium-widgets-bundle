@@ -24,6 +24,16 @@ abstract class BundleRankingValueObject
     /**
      * @return string
      */
+    abstract public function getSubSiteAcronym(): string;
+
+    /**
+     * @return mixed
+     */
+    abstract public function getSitePrefix();
+
+    /**
+     * @return string
+     */
     abstract public function getJsonFile(): string;
 
     /**
@@ -45,4 +55,9 @@ abstract class BundleRankingValueObject
      * @return string
      */
     abstract public function getProdJsonFilePath(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getHomeUrl(): string;
 }

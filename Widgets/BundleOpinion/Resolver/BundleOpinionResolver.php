@@ -2,10 +2,12 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\Resolver;
 
+use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\Helper\BundleOpinionHelper;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\Normalizer\BundleOpinionNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\ValueObject\BundleOpinionValueObject;
+use ComitiumSuite\Bundle\CSBundle\Widgets\Opinion\Normalizer\OpinionNormalizer;
 use Exception;
-use SebastianBergmann\CodeCoverage\Report\PHP;
 
 /**
  * Class BundleOpinionResolver
@@ -25,12 +27,19 @@ class BundleOpinionResolver
     private $helper;
 
     /**
-     * @param BundleOpinionValueObject $valueObject
+     * @var BundleOpinionNormalizer
      */
-    public function __construct(BundleOpinionValueObject $valueObject)
+    private $normalizer;
+
+    /**
+     * @param BundleOpinionValueObject $valueObject
+     * @param EntityNormalizer $normalizer
+     */
+    public function __construct(BundleOpinionValueObject $valueObject, EntityNormalizer $normalizer)
     {
         $this->valueObject = $valueObject;
         $this->helper = new BundleOpinionHelper($valueObject);
+        $this->normalizer = new BundleOpinionNormalizer($normalizer);
     }
 
     /**
@@ -85,5 +94,31 @@ class BundleOpinionResolver
         $localeIds = $this->helper->getLocaleIds($jsonContent);
 
         return $this->helper->getArticlesIdsFromArray($localeIds);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function resolveArticles(): array
+    {
+        $articlesIds = $this->valueObject->getArticlesIds();
+        $articles = [];
+
+        if (!empty($articlesIds)) {
+            $articles = $this->helper->getManualArticles();
+        } else {
+            $quantity = $this->valueObject->getQuantity();
+            if ($quantity > 0) {
+                $jsonFilePath = $this->resolveJsonFilePath();
+                $deniedArticlesIds = "";
+                if (!empty($jsonFilePath)) {
+                    $deniedArticlesIds = $this->resolveDeniedArticlesIds($jsonFilePath);
+                }
+                $articles = $this->helper->getAutomaticArticles($deniedArticlesIds);
+            }
+        }
+
+        return $this->normalizer->normalize($articles);
     }
 }

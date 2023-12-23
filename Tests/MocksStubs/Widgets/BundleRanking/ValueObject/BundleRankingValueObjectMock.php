@@ -48,6 +48,21 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
     private $prodJsonFilePath;
 
     /**
+     * @var string
+     */
+    private $homeUrl;
+
+    /**
+     * @var string
+     */
+    private $subSiteAcronym;
+
+    /**
+     * @var string
+     */
+    private $sitePrefix;
+
+    /**
      * @param Client $api
      * @param string $locale
      * @param string $jsonFile
@@ -55,6 +70,9 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
      * @param string $environment
      * @param string $devJsonFilePath
      * @param string $prodJsonFilePath
+     * @param string $homeUrl
+     * @param string $subSiteAcronym
+     * @param string $sitePrefix
      */
     public function __construct(
         Client $api,
@@ -63,7 +81,10 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
         int    $quantity,
         string $environment,
         string $devJsonFilePath,
-        string $prodJsonFilePath
+        string $prodJsonFilePath,
+        string $homeUrl,
+        string $subSiteAcronym,
+        string $sitePrefix
     )
     {
         $this->api = $api;
@@ -73,6 +94,9 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
         $this->environment = $environment;
         $this->devJsonFilePath = $devJsonFilePath;
         $this->prodJsonFilePath = $prodJsonFilePath;
+        $this->homeUrl = $homeUrl;
+        $this->subSiteAcronym = $subSiteAcronym;
+        $this->sitePrefix = $sitePrefix;
     }
 
     /**
@@ -89,6 +113,22 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
     public function getLocale(): string
     {
         return $this->locale;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubSiteAcronym(): string
+    {
+        return $this->subSiteAcronym;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSitePrefix(): string
+    {
+        return $this->sitePrefix;
     }
 
     /**
@@ -129,5 +169,13 @@ class BundleRankingValueObjectMock extends BundleRankingValueObject
     public function getProdJsonFilePath(): string
     {
         return $this->prodJsonFilePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHomeUrl(): string
+    {
+        return $this->homeUrl;
     }
 }
