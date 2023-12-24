@@ -274,6 +274,22 @@ class EntityMediaClassesNormalizerTest extends TestCase
                     EntityConstants::MEDIA_CLASSES_FIELD_KEY => " ".EntityConstants::HAS_NO_IMAGE . " " . EntityConstants::HAS_SPONSOR
                 ]
             ],
+            [
+                "entity" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SUBSCRIPTIONS_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
+                    ]
+                ],
+                "expected" => [
+                    EntityConstants::ID_FIELD_KEY => 1,
+                    EntityConstants::SUBSCRIPTIONS_FIELD_KEY => [
+                        EntityConstants::ID_FIELD_KEY => 1
+                    ],
+                    EntityConstants::HAS_SUBSCRIPTION_FIELD_KEY => true,
+                    EntityConstants::MEDIA_CLASSES_FIELD_KEY => " ".EntityConstants::HAS_NO_IMAGE . " " . EntityConstants::HAS_SUBSCRIPTION
+                ]
+            ]
         ];
     }
 }
