@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Helper;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\FileHelper;
 use Comitium5\MercuriumWidgetsBundle\Services\FileReaders\LocalFileReader;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\ValueObject\BundleBreakingNewsValueObject;
@@ -33,6 +34,26 @@ class BundleBreakingNewsHelper
     public function getValueObject(): BundleBreakingNewsValueObject
     {
         return $this->valueObject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJsonFilePath(): string
+    {
+        $jsonFile = $this->valueObject->getJsonFile();
+
+        if (empty($jsonFile)) {
+            return "";
+        }
+
+        $environment = $this->valueObject->getEnvironment();
+
+        if ($environment == BundleConstants::ENVIRONMENT_DEV) {
+            return $this->valueObject->getDevJsonFilePath();
+        }
+
+        return $this->valueObject->getProdJsonFilePath();
     }
 
     /**

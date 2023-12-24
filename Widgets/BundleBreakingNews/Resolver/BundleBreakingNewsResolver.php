@@ -2,7 +2,6 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Resolver;
 
-use Comitium5\MercuriumWidgetsBundle\Resolvers\TwigResolver;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Helper\BundleBreakingNewsHelper;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\ValueObject\BundleBreakingNewsValueObject;
 use Exception;
@@ -20,12 +19,18 @@ class BundleBreakingNewsResolver
     private $helper;
 
     /**
+     * @var BundleBreakingNewsValueObject
+     */
+    private $valueObject;
+
+    /**
      * @param BundleBreakingNewsValueObject $valueObject
      *
      * @return void
      */
     public function __construct(BundleBreakingNewsValueObject $valueObject)
     {
+        $this->valueObject = $valueObject;
         $this->helper = new BundleBreakingNewsHelper($valueObject);
     }
 
@@ -48,4 +53,28 @@ class BundleBreakingNewsResolver
         return $this->helper->getJsonContent($jsonFilePath);
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function resolveJsonFilePath(): string
+    {
+        $jsonFile = $this->valueObject->getJsonFile();
+
+        if (empty($jsonFile)) {
+            return "";
+        }
+
+        $filePath = $this->helper->getJsonFilePath();
+
+        $filePath = str_replace("@SITE_PREFIX@", $this->valueObject->getSitePrefix(), $filePath);
+
+        $filePath = str_replace("@SUBSITE_ACRONYM@", $this->valueObject->getSubSiteAcronym(), $filePath);
+
+        $filePath = str_replace("@HOME_URL@", $this->valueObject->getHomeUrl(), $filePath);
+
+        $jsonFile = str_replace("@LOCALE@", $this->valueObject->getLocale(), $jsonFile);
+
+        return $filePath . $jsonFile;
+    }
 }

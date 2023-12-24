@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleBreakingNews\Resolver;
 
 use ArgumentCountError;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleBreakingNews\BundleBreakingNewsValueObjectMock;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Resolver\BundleBreakingNewsResolver;
 use Exception;
@@ -25,6 +26,11 @@ class BundleBreakingNewsResolverTest extends TestCase
      * @var false|string
      */
     private $cwd;
+    
+    /**
+     * @var TestHelper
+     */
+    private $testHelper;
 
     /**
      * @param $name
@@ -35,8 +41,19 @@ class BundleBreakingNewsResolverTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->valueObjectDev = new BundleBreakingNewsValueObjectMock("dev");
+        $this->valueObjectDev = new BundleBreakingNewsValueObjectMock(
+            "dev",
+            "es",
+            "foo",
+            "bar",
+            "https://www.foo.bar",
+            "breaking_news.json",
+            "breaking_news.json",
+            "breaking_news.json"
+        );
 
+        $this->testHelper = new TestHelper();
+        
         $this->cwd = getcwd();
     }
 
@@ -123,4 +140,67 @@ class BundleBreakingNewsResolverTest extends TestCase
             ]
         ];
     }
+
+    /**
+     * @dataProvider getResolveJsonFilePath
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testResolveJsonFilePath($valueObject, $expected)
+    {
+        $resolver = new BundleBreakingNewsResolver($valueObject);
+        $result = $resolver->resolveJsonFilePath();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getResolveJsonFilePath(): array
+    {
+        return [
+            [
+                "valueObject" => new BundleBreakingNewsValueObjectMock(
+                    "dev",
+                    "es",
+                    "foo",
+                    "bar",
+                    "https://www.foo.bar",
+                    "@HOME_URL@/uploads/static/@SUBSITE_ACRONYM@/",
+                    "/var/www/@SITE_PREFIX@/prod/front/@SUBSITE_ACRONYM@/current/web/uploads/static/@SUBSITE_ACRONYM@/",
+                    ""
+                ),
+                "expected" => ""
+            ],
+            [
+                "valueObject" => new BundleBreakingNewsValueObjectMock(
+                    "dev",
+                    "es",
+                    "foo",
+                    "bar",
+                    "https://www.foo.bar",
+                    "@HOME_URL@/uploads/static/@SUBSITE_ACRONYM@/",
+                    "/var/www/@SITE_PREFIX@/prod/front/@SUBSITE_ACRONYM@/current/web/uploads/static/@SUBSITE_ACRONYM@/",
+                    "breaking_news_@LOCALE@.json"
+                ),
+                "expected" => "https://www.foo.bar/uploads/static/bar/breaking_news_es.json"
+            ],
+            [
+                "valueObject" => new BundleBreakingNewsValueObjectMock(
+                    "prod",
+                    "es",
+                    "foo",
+                    "bar",
+                    "https://www.foo.bar",
+                    "@HOME_URL@/uploads/static/@SUBSITE_ACRONYM@/",
+                    "/var/www/@SITE_PREFIX@/prod/front/@SUBSITE_ACRONYM@/current/web/uploads/static/@SUBSITE_ACRONYM@/",
+                    "breaking_news_@LOCALE@.json"
+                ),
+                "expected" => "/var/www/foo/prod/front/bar/current/web/uploads/static/bar/breaking_news_es.json"
+            ]
+        ];
+    }
+
 }

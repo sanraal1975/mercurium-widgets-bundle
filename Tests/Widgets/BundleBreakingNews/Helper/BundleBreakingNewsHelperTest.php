@@ -41,9 +41,27 @@ class BundleBreakingNewsHelperTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->valueObjectDev = new BundleBreakingNewsValueObjectMock("dev");
+        $this->valueObjectDev = new BundleBreakingNewsValueObjectMock(
+            "dev",
+            "es",
+            "foo",
+            "bar",
+            "https://www.foo.bar",
+            "breaking_news.json",
+            "breaking_news.json",
+            "breaking_news.json"
+        );
 
-        $this->valueObjectProd = new BundleBreakingNewsValueObjectMock("prod");
+        $this->valueObjectProd = new BundleBreakingNewsValueObjectMock(
+            "prod",
+            "es",
+            "foo",
+            "bar",
+            "https://www.foo.bar",
+            "breaking_news.json",
+            "breaking_news.json",
+            "breaking_news.json"
+        );
 
         $this->cwd = getcwd();
     }
@@ -214,6 +232,68 @@ class BundleBreakingNewsHelperTest extends TestCase
                 "filePath" => $fileExists,
                 "expected" => '{"es":1}'
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider getJsonFilePath
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testGetJsonFilePath($valueObject, $expected)
+    {
+        $helper = new BundleBreakingNewsHelper($valueObject);
+        $result = $helper->getJsonFilePath();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getJsonFilePath()
+    {
+        return [
+            [
+                "valueObject" =>new BundleBreakingNewsValueObjectMock(
+                    "dev",
+                    "es",
+                    "foo",
+                    "bar",
+                    "https://www.foo.bar",
+                    "dev_breaking_news.json",
+                    "prod_breaking_news.json",
+                    ""
+                ),
+                "expected" => ""
+            ],
+            [
+                "valueObject" =>new BundleBreakingNewsValueObjectMock(
+                    "dev",
+                    "es",
+                    "foo",
+                    "bar",
+                    "https://www.foo.bar",
+                    "dev_breaking_news.json",
+                    "prod_breaking_news.json",
+                    "breaking_news_es.json"
+                ),
+                "expected" => "dev_breaking_news.json"
+            ],
+            [
+                "valueObject" =>new BundleBreakingNewsValueObjectMock(
+                    "prod",
+                    "es",
+                    "foo",
+                    "bar",
+                    "https://www.foo.bar",
+                    "dev_breaking_news.json",
+                    "prod_breaking_news.json",
+                    "breaking_news_es.json"
+                ),
+                "expected" => "prod_breaking_news.json"
+            ]
         ];
     }
 
