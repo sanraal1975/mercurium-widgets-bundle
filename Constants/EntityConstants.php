@@ -28,6 +28,7 @@ class EntityConstants
     const ID_FIELD_KEY = "id";
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
     const ORIENTATION_FIELD_KEY = "orientation";
+    const PERMALINK_FIELD_KEY = "permalink";
     const RELATED_CONTENT_FIELD_KEY = "relatedContent";
     const RELATED_ACTIVITIES_FIELD_KEY = "relatedActivities";
     const RELATED_ARTICLES_FIELD_KEY = "relatedArticles";

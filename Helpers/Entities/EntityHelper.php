@@ -128,4 +128,25 @@ class EntityHelper
         }
         return $field;
     }
+
+    /**
+     * @param array $entity
+     * @param string $field
+     *
+     * @return false|mixed
+     */
+    public function getField(array $entity, string $field)
+    {
+        return empty($entity[$field]) ? false : $entity[$field];
+    }
+
+    /**
+     * @param array $entity
+     *
+     * @return false|mixed
+     */
+    public function getPermalink(array $entity)
+    {
+        return $this->getField($entity, EntityConstants::PERMALINK_FIELD_KEY);
+    }
 }
