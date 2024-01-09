@@ -30,7 +30,7 @@ class PageHelper extends AbstractEntityHelper
     public function __construct(Client $api)
     {
         $factory = new ApiServiceFactory($api);
-        $this->service = $factory->createCategoryApiService();
+        $this->service = $factory->createPageApiService();
     }
 
     /**
