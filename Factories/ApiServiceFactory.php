@@ -12,6 +12,7 @@ use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
 use Comitium5\ApiClientBundle\Client\Services\LiveEventApiService;
 use Comitium5\ApiClientBundle\Client\Services\PagesApiService;
 use Comitium5\ApiClientBundle\Client\Services\PollApiService;
+use Comitium5\ApiClientBundle\Client\Services\SubscriptionApiService;
 use Comitium5\ApiClientBundle\Client\Services\TagApiService;
 
 /**
@@ -103,6 +104,14 @@ class ApiServiceFactory
     public function createPollApiService(): PollApiService
     {
         return new PollApiService($this->api);
+    }
+
+    /**
+     * @return SubscriptionApiService
+     */
+    public function createSubscriptionApiService(): SubscriptionApiService
+    {
+        return new SubscriptionApiService($this->api);
     }
 
     /**
