@@ -10,6 +10,7 @@ use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
 use Comitium5\ApiClientBundle\Client\Services\LiveEventApiService;
+use Comitium5\ApiClientBundle\Client\Services\MailingApiService;
 use Comitium5\ApiClientBundle\Client\Services\PagesApiService;
 use Comitium5\ApiClientBundle\Client\Services\PollApiService;
 use Comitium5\ApiClientBundle\Client\Services\SubscriptionApiService;
@@ -88,6 +89,14 @@ class ApiServiceFactory
     public function createLiveEventApiService(): LiveEventApiService
     {
         return new LiveEventApiService($this->api);
+    }
+
+    /**
+     * @return MailingApiService
+     */
+    public function createMailingApiService(): MailingApiService
+    {
+        return new MailingApiService($this->api);
     }
 
     /**
