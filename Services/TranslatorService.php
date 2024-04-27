@@ -33,13 +33,13 @@ class TranslatorService
      */
     public function __construct(
         TranslatorInterface $translator,
-        string $locale,
-        string $domain
+        string              $domain,
+        string              $locale
     )
     {
         $this->translator = $translator;;
-        $this->locale = $locale;
         $this->domain = $domain;
+        $this->locale = $locale;
     }
 
     /**
@@ -50,6 +50,6 @@ class TranslatorService
      */
     public function trans(string $translationKey, array $parameters = []): string
     {
-        return $this->translator->trans($translationKey, $parameters, $this->domain, $this->locale);
+        return empty($translationKey) ? "" : $this->translator->trans($translationKey, $parameters, $this->domain, $this->locale);
     }
 }
