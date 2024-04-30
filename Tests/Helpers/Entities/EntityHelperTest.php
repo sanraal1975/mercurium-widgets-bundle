@@ -396,4 +396,66 @@ class EntityHelperTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider getField
+     *
+     * @return void
+     */
+    public function testGetField(array $entity, string $field, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getField($entity, $field);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getField(): array
+    {
+        return [
+            [
+                "entity" => ["id" => 1],
+                "field" => "permalink",
+                "expected" => false
+            ],
+            [
+                "entity" => ["id" => 1],
+                "field" => "id",
+                "expected" => 1
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getPermalink
+     *
+     * @return void
+     */
+    public function testGetPermalink(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getPermalink($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getPermalink(): array
+    {
+        return [
+            [
+                "entity" => ["id" => 1],
+                "expected" => false
+            ],
+            [
+                "entity" => ["permalink" => "https://www.google.es"],
+                "expected" => "https://www.google.es"
+            ],
+        ];
+    }
 }

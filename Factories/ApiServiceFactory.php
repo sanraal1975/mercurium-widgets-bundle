@@ -8,6 +8,7 @@ use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
+use Comitium5\ApiClientBundle\Client\Services\ContactApiService;
 use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
 use Comitium5\ApiClientBundle\Client\Services\LiveEventApiService;
 use Comitium5\ApiClientBundle\Client\Services\MailingApiService;
@@ -73,6 +74,14 @@ class ApiServiceFactory
     public function createCategoryApiService(): CategoryApiService
     {
         return new CategoryApiService($this->api);
+    }
+
+    /**
+     * @return ContactApiService
+     */
+    public function createContactApiService(): ContactApiService
+    {
+        return new ContactApiService($this->api);
     }
 
     /**

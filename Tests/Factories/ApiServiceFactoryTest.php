@@ -8,7 +8,10 @@ use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
 use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
+use Comitium5\ApiClientBundle\Client\Services\MailingApiService;
+use Comitium5\ApiClientBundle\Client\Services\PagesApiService;
 use Comitium5\ApiClientBundle\Client\Services\PollApiService;
+use Comitium5\ApiClientBundle\Client\Services\SubscriptionApiService;
 use Comitium5\ApiClientBundle\Client\Services\TagApiService;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -114,6 +117,30 @@ class ApiServiceFactoryTest extends TestCase
     /**
      * @return void
      */
+    public function testCreateMailingApiService()
+    {
+        $factory = new ApiServiceFactory($this->api);
+
+        $service = $factory->createMailingApiService();
+
+        $this->assertInstanceOf(MailingApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreatePageApiService()
+    {
+        $factory = new ApiServiceFactory($this->api);
+
+        $service = $factory->createPageApiService();
+
+        $this->assertInstanceOf(PagesApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     */
     public function testCreatePollApiService()
     {
         $factory = new ApiServiceFactory($this->api);
@@ -121,6 +148,18 @@ class ApiServiceFactoryTest extends TestCase
         $service = $factory->createPollApiService();
 
         $this->assertInstanceOf(PollApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateSubscriptionApiService()
+    {
+        $factory = new ApiServiceFactory($this->api);
+
+        $service = $factory->createSubscriptionApiService();
+
+        $this->assertInstanceOf(SubscriptionApiService::class, $service);
     }
 
     /**
