@@ -31,6 +31,14 @@ class SubscriptionHelper
     }
 
     /**
+     * @return SubscriptionApiService
+     */
+    public function getService(): SubscriptionApiService
+    {
+        return $this->service;
+    }
+
+    /**
      * @param array $parameters
      *
      * @return array
@@ -55,8 +63,11 @@ class SubscriptionHelper
             return [];
         }
 
+        $helper = new EntityHelper();
+
         foreach ($subscriptions as $subscription) {
-            if ($subscription['price'] == 0) {
+            $price = $helper->getPrice($subscription);
+            if (!$price) {
                 return $subscription;
             }
         }
@@ -72,6 +83,8 @@ class SubscriptionHelper
     {
         $subscription = $this->getFreeSubscription();
 
-        return empty($subscription['id']) ? 0 : (int)$subscription['id'];
+        $helper = new EntityHelper();
+
+        return $helper->getId($subscription);
     }
 }

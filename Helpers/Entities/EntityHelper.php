@@ -131,6 +131,18 @@ class EntityHelper
 
     /**
      * @param array $entity
+     *
+     * @return mixed|string
+     */
+    public function getExpirationDate(array $entity)
+    {
+        $fieldValue = $this->getField($entity, EntityConstants::EXPIRATION_DATE_FIELD_KEY);
+
+        return empty($fieldValue) ? "" : $fieldValue;
+    }
+
+    /**
+     * @param array $entity
      * @param string $field
      *
      * @return false|mixed
@@ -143,10 +155,44 @@ class EntityHelper
     /**
      * @param array $entity
      *
-     * @return false|mixed
+     * @return int
+     */
+    public function getId(array $entity): int
+    {
+        return (int)$this->getField($entity, EntityConstants::ID_FIELD_KEY);
+    }
+
+    /**
+     * @param array $entity
+     *
+     * @return mixed|string
      */
     public function getPermalink(array $entity)
     {
-        return $this->getField($entity, EntityConstants::PERMALINK_FIELD_KEY);
+        $fieldValue = $this->getField($entity, EntityConstants::PERMALINK_FIELD_KEY);
+
+        return empty($fieldValue) ? "" : $fieldValue;
+    }
+
+    /**
+     * @param array $entity
+     *
+     * @return float
+     */
+    public function getPrice(array $entity): float
+    {
+        return (float)$this->getField($entity, EntityConstants::PRICE_FIELD_KEY);
+    }
+
+    /**
+     * @param array $entity
+     *
+     * @return array
+     */
+    public function getSubscriptions(array $entity): array
+    {
+        $fieldValue = $this->getField($entity, EntityConstants::SUBSCRIPTIONS_FIELD_KEY);
+
+        return empty($fieldValue) ? [] : $fieldValue;
     }
 }

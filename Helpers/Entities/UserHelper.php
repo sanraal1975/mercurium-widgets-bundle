@@ -3,8 +3,8 @@
 namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
-use Comitium5\ApiClientBundle\Client\Services\ContactSubscriptionApiService;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
+use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use DateTime;
 
 /**
@@ -21,7 +21,10 @@ class UserHelper
      */
     public function hasSubscriptions(array $userData): bool
     {
-        return !empty($userData['subscriptions']);
+        $helper = new EntityHelper();
+        $subscriptions = $helper->getSubscriptions($userData);
+        
+        return !empty($subscriptions);
     }
 
     /**
@@ -38,11 +41,15 @@ class UserHelper
         $now = new DateTime();
         $nowString = $now->format("Y-m-d H:i:s");
 
-        foreach ($userData['subscriptions'] as $subscription) {
-            if (empty($subscription['expirationDate'])) {
+        $helper = new EntityHelper();
+        $subscriptions = $helper->getSubscriptions($userData);
+
+        foreach ($subscriptions as $subscription) {
+            $expirationDate = $helper->getExpirationDate($subscription);
+            if (empty($expirationDate)) {
                 return true;
             }
-            if ($nowString < $subscription['expirationDate']) {
+            if ($nowString < $expirationDate) {
                 return true;
             }
         }
@@ -64,12 +71,19 @@ class UserHelper
         $now = new DateTime();
         $nowString = $now->format("Y-m-d H:i:s");
 
-        foreach ($userData['subscriptions'] as $subscription) {
-            if (empty($subscription['expirationDate'])) {
-                continue;
-            }
-            if ($nowString < $subscription['expirationDate']) {
-                return true;
+        $helper = new EntityHelper();
+        $subscriptions = $helper->getSubscriptions($userData);
+
+        foreach ($subscriptions as $subscription) {
+            $expirationDate = $helper->getExpirationDate($subscription);
+            $price = $helper->getPrice($subscription);
+            if ($price > 0) {
+                if (empty($expirationDate)) {
+                    return true;
+                }
+                if ($nowString < $expirationDate) {
+                    return true;
+                }
             }
         }
 
@@ -85,12 +99,13 @@ class UserHelper
      */
     public function addSubscription(Client $api, int $userId, int $subscriptionId): array
     {
-        $service = new ContactSubscriptionApiService($api);
+        $factory = new ApiServiceFactory($api);
+        $service = $factory->createContactSubscriptionApiService();
 
         return $service->post(
             new ParametersValue(
                 [
-                    "contact"      => $userId,
+                    "contact" => $userId,
                     "subscription" => $subscriptionId,
                 ]
             )

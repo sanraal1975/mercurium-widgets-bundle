@@ -29,6 +29,8 @@ class TestHelper
     const AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK = 98765432109;
     const AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL = 987654321098;
 
+    const EMAIL_CONTACT_NOT_FOUND = "foo@bar.com";
+
     /**
      * @return ClientMock
      */

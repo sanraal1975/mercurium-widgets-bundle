@@ -18,6 +18,8 @@ use Exception;
  */
 class ContactHelper extends AbstractEntityHelper
 {
+    const EMPTY_EMAIL = "ContactHelper::getByEmail. email can not be empty";
+
     /**
      * @var ContactApiService
      */
@@ -46,7 +48,7 @@ class ContactHelper extends AbstractEntityHelper
      * @return array
      * @throws Exception
      */
-    public function getBy(array $parameters): array
+    public function getBy(array $parameters = []): array
     {
         return $this->service->findBy(
             new ParametersValue($parameters)
@@ -61,6 +63,10 @@ class ContactHelper extends AbstractEntityHelper
      */
     public function getByEmail(string $email): array
     {
+        if (empty($email)) {
+            throw new Exception(self::EMPTY_EMAIL);
+        }
+
         $contact = $this->getBy(['email' => $email]);
 
         return ApiResultsHelper::extractOne($contact);

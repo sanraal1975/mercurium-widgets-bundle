@@ -146,6 +146,20 @@ class TagHelperTest extends TestCase
      * @return void
      * @throws Exception
      */
+    public function testGet()
+    {
+        $helper = new TagHelper($this->api);
+        $result = $helper->get(1);
+
+        $expected = [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true];
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
     public function testGetByIdsThrowsArgumentCountErrorException()
     {
         $this->expectException(ArgumentCountError::class);

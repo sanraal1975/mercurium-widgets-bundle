@@ -430,6 +430,36 @@ class EntityHelperTest extends TestCase
     }
 
     /**
+     * @dataProvider getId
+     *
+     * @return void
+     */
+    public function testGetId(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getId($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getId(): array
+    {
+        return [
+            [
+                "entity" => ["ids" => 1],
+                "expected" => 0
+            ],
+            [
+                "entity" => ["id" => 1],
+                "expected" => 1
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider getPermalink
      *
      * @return void

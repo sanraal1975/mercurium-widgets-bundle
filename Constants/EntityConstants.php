@@ -15,6 +15,8 @@ class EntityConstants
     const AUTHOR_FIELD_KEY = "author";
     const BODY_FIELD_KEY = "body";
     const CATEGORIES_FIELD_KEY = "categories";
+    const EMAIL_FIELD_KEY = "email";
+    const EXPIRATION_DATE_FIELD_KEY = "expirationDate";
     const FIELDS_FIELD_KEY = "fields";
     const HAS_RELATED_ACTIVITIES_FIELD_KEY = "hasRelatedActivities";
     const HAS_RELATED_ARTICLES_FIELD_KEY = "hasRelatedArticles";
@@ -29,6 +31,7 @@ class EntityConstants
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
     const ORIENTATION_FIELD_KEY = "orientation";
     const PERMALINK_FIELD_KEY = "permalink";
+    const PRICE_FIELD_KEY = "price";
     const RELATED_CONTENT_FIELD_KEY = "relatedContent";
     const RELATED_ACTIVITIES_FIELD_KEY = "relatedActivities";
     const RELATED_ARTICLES_FIELD_KEY = "relatedArticles";

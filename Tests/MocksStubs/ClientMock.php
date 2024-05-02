@@ -2,9 +2,11 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs;
 
+use Comitium5\ApiClientBundle\ApiClient\ResourcesTypes;
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
+use Symfony\Component\HttpFoundation\Response;
 
 class ClientMock extends Client
 {
@@ -19,19 +21,19 @@ class ClientMock extends Client
         switch ($id) {
             case TestHelper::ENTITY_ID_TO_RETURN_EMPTY:
                 return [
-                    "statusCode" => 400,
+                    "statusCode" => Response::HTTP_NOT_FOUND,
                     "data" => [],
                 ];
             case TestHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE:
                 return [
-                    "statusCode" => 200,
+                    "statusCode" => Response::HTTP_OK,
                     "data" => [
                         EntityConstants::ID_FIELD_KEY => $id,
                     ],
                 ];
             case TestHelper::ENTITY_ID_TO_RETURN_ENTITY_WITH_CHILDREN:
                 return [
-                    "statusCode" => 200,
+                    "statusCode" => Response::HTTP_OK,
                     "data" => [
                         EntityConstants::ID_FIELD_KEY => $id,
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
@@ -45,7 +47,7 @@ class ClientMock extends Client
                 ];
             case TestHelper::AUTHOR_ID_TO_RETURN_WITH_ASSET:
                 return [
-                    "statusCode" => 200,
+                    "statusCode" => Response::HTTP_OK,
                     "data" => [
                         EntityConstants::ID_FIELD_KEY => $id,
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
@@ -56,7 +58,7 @@ class ClientMock extends Client
                 ];
             case TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORKS:
                 return [
-                    "statusCode" => 200,
+                    "statusCode" => Response::HTTP_OK,
                     "data" => [
                         EntityConstants::ID_FIELD_KEY => $id,
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
@@ -70,7 +72,7 @@ class ClientMock extends Client
                 ];
             case TestHelper::AUTHOR_ID_TO_RETURN_WITH_SOCIALNETWORK_WITH_EMPTY_URL:
                 return [
-                    "statusCode" => 200,
+                    "statusCode" => Response::HTTP_OK,
                     "data" => [
                         EntityConstants::ID_FIELD_KEY => $id,
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
@@ -84,7 +86,7 @@ class ClientMock extends Client
                 ];
             case TestHelper::AUTHOR_ID_TO_RETURN_WITH_BANNED_SOCIALNETWORK:
                 return [
-                    "statusCode" => 200,
+                    "statusCode" => Response::HTTP_OK,
                     "data" => [
                         EntityConstants::ID_FIELD_KEY => $id,
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
@@ -99,7 +101,7 @@ class ClientMock extends Client
         }
 
         return [
-            "statusCode" => 200,
+            "statusCode" => Response::HTTP_OK,
             "data" => [
                 EntityConstants::ID_FIELD_KEY => $id,
                 EntityConstants::SEARCHABLE_FIELD_KEY => true
@@ -115,20 +117,78 @@ class ClientMock extends Client
      */
     public function findBy($resourceType, $parameters): array
     {
-        return [
-            "statusCode" => 200,
-            "data" => [
-                "total" => 1,
-                EntityConstants::LIMIT_FIELD_KEY => 1,
-                "pages" => 1,
-                "page" => 1,
-                "results" => [
-                    [
-                        EntityConstants::ID_FIELD_KEY => 1,
-                        EntityConstants::SEARCHABLE_FIELD_KEY => true
-                    ]
-                ]
-            ],
-        ];
+        switch ($resourceType) {
+            case ResourcesTypes::CONTACT:
+                if ($parameters['email'] == TestHelper::EMAIL_CONTACT_NOT_FOUND) {
+                    return [
+                        "statusCode" => Response::HTTP_NOT_FOUND,
+                        "data" => [],
+                    ];
+                } else {
+                    return [
+                        "statusCode" => Response::HTTP_OK,
+                        "data" => [
+                            "total" => 1,
+                            EntityConstants::LIMIT_FIELD_KEY => 1,
+                            "pages" => 1,
+                            "page" => 1,
+                            "results" => [
+                                [
+                                    EntityConstants::ID_FIELD_KEY => 1,
+                                    EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                                    EntityConstants::EMAIL_FIELD_KEY => $parameters['email'],
+                                ]
+                            ]
+                        ],
+                    ];
+                }
+            case ResourcesTypes::SUBSCRIPTION:
+            {
+                if (!empty($parameters['empty'])) {
+                    return [
+                        "statusCode" => Response::HTTP_NOT_FOUND,
+                        "data" => []
+                    ];
+                } else {
+                    return [
+                        "statusCode" => Response::HTTP_OK,
+                        "data" => [
+                            "total" => 1,
+                            EntityConstants::LIMIT_FIELD_KEY => 1,
+                            "pages" => 1,
+                            "page" => 1,
+                            "results" => [
+                                [
+                                    EntityConstants::ID_FIELD_KEY => 1,
+                                    EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                                    EntityConstants::PRICE_FIELD_KEY => 1
+                                ],
+                                [
+                                    EntityConstants::ID_FIELD_KEY => 2,
+                                    EntityConstants::SEARCHABLE_FIELD_KEY => true,
+                                    EntityConstants::PRICE_FIELD_KEY => 0
+                                ]
+                            ]
+                        ],
+                    ];
+                }
+            }
+            default:
+                return [
+                    "statusCode" => Response::HTTP_OK,
+                    "data" => [
+                        "total" => 1,
+                        EntityConstants::LIMIT_FIELD_KEY => 1,
+                        "pages" => 1,
+                        "page" => 1,
+                        "results" => [
+                            [
+                                EntityConstants::ID_FIELD_KEY => 1,
+                                EntityConstants::SEARCHABLE_FIELD_KEY => true
+                            ]
+                        ]
+                    ],
+                ];
+        }
     }
 }

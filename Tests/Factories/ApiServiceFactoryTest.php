@@ -7,6 +7,8 @@ use Comitium5\ApiClientBundle\Client\Services\ArticleApiService;
 use Comitium5\ApiClientBundle\Client\Services\AssetApiService;
 use Comitium5\ApiClientBundle\Client\Services\AuthorApiService;
 use Comitium5\ApiClientBundle\Client\Services\CategoryApiService;
+use Comitium5\ApiClientBundle\Client\Services\ContactApiService;
+use Comitium5\ApiClientBundle\Client\Services\ContactSubscriptionApiService;
 use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
 use Comitium5\ApiClientBundle\Client\Services\MailingApiService;
 use Comitium5\ApiClientBundle\Client\Services\PagesApiService;
@@ -100,6 +102,30 @@ class ApiServiceFactoryTest extends TestCase
         $service = $factory->createCategoryApiService();
 
         $this->assertInstanceOf(CategoryApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateContactApiService()
+    {
+        $factory = new ApiServiceFactory($this->api);
+
+        $service = $factory->createContactApiService();
+
+        $this->assertInstanceOf(ContactApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateContactSubscriptionApiService()
+    {
+        $factory = new ApiServiceFactory($this->api);
+
+        $service = $factory->createContactSubscriptionApiService();
+
+        $this->assertInstanceOf(ContactSubscriptionApiService::class, $service);
     }
 
     /**

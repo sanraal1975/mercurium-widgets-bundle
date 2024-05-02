@@ -146,6 +146,20 @@ class ArticleHelperTest extends TestCase
     }
 
     /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGet()
+    {
+        $helper = new ArticleHelper($this->api);
+        $result = $helper->get(1);
+
+        $expected = [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true];
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
      * @dataProvider getByIdsThrowsExceptionMessageEntityIdGreaterThanZero
      *
      * @return void
