@@ -23,7 +23,7 @@ class UserHelper
     {
         $helper = new EntityHelper();
         $subscriptions = $helper->getSubscriptions($userData);
-        
+
         return !empty($subscriptions);
     }
 
