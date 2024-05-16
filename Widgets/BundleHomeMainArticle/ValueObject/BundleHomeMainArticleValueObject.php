@@ -20,4 +20,34 @@ abstract class BundleHomeMainArticleValueObject
      * @return string
      */
     abstract public function getArticlesIds(): string;
+
+    /**
+     * @return string
+     */
+    abstract public function getFormat(): string;
+
+    /**
+     * @return bool
+     */
+    abstract public function getShowImage(): bool;
+
+    /**
+     * @return bool
+     */
+    abstract public function getShowNumComments(): bool;
+
+    /**
+     * @return bool
+     */
+    abstract public function getShowRelatedContent(): bool;
+
+    /**
+     * @return bool
+     */
+    abstract public function getShowSponsor(): bool;
+
+    /**
+     * @return bool
+     */
+    abstract public function getShowSubtitle(): bool;
 }
