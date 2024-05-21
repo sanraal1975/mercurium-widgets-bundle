@@ -6,8 +6,9 @@ use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 use Comitium5\ApiClientBundle\Client\Services\PagesApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
-use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetInterface;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetServiceInterface;
 use Exception;
 
 /**
@@ -15,7 +16,7 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Helpers\Entities
  */
-class PageHelper extends AbstractEntityHelper
+class PageHelper implements EntityGetServiceInterface, EntityGetInterface
 {
     const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "PageHelper::get. entityId must be greater than 0";
 
@@ -54,52 +55,5 @@ class PageHelper extends AbstractEntityHelper
         }
 
         return $this->service->find(new IdentifiedValue($entityId));
-    }
-
-    /**
-     * @param string $entitiesIds
-     *
-     * @return array
-     */
-    public function getByIds(string $entitiesIds): array
-    {
-        // TODO: Implement getByIds() method.
-
-        return [];
-    }
-
-    /**
-     * @param string $entitiesIds
-     * @param int $quantityOfEntities
-     *
-     * @return array
-     */
-    public function getByIdsAndQuantity(string $entitiesIds, int $quantityOfEntities = PHP_INT_MAX): array
-    {
-        // TODO: Implement getByIdsAndQuantity() method.
-
-        return [];
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return array
-     */
-    public function getBy(array $parameters): array
-    {
-        // TODO: Implement getBy() method.
-
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    public function getLastPublished(): array
-    {
-        // TODO: Implement getLastPublished() method.
-
-        return [];
     }
 }
