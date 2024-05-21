@@ -19,6 +19,21 @@ interface BundleHomeMainArticleInterface
     /**
      * @return string
      */
+    public function getLocale(): string;
+
+    /**
+     * @return string
+     */
+    public function getSubSiteAcronym(): string;
+
+    /**
+     * @return string
+     */
+    public function getTranslationGroup(): string;
+
+    /**
+     * @return string
+     */
     public function getArticlesIds(): string;
 
     /**

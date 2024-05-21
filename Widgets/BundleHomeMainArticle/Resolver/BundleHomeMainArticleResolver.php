@@ -48,6 +48,9 @@ class BundleHomeMainArticleResolver
     public function resolve(): array
     {
         $articles = $this->resolveArticles();
+        $locale = $this->valueObject->getLocale();
+        $translationGroup = $this->valueObject->getTranslationGroup();
+        $subSiteAcronym = $this->valueObject->getSubSiteAcronym();
         $format = $this->valueObject->getFormat();
         $showImage = $this->valueObject->getShowImage();
         $showNumComments = $this->valueObject->getShowNumComments();
@@ -58,6 +61,9 @@ class BundleHomeMainArticleResolver
         return [
             "articles" => $articles,
             "format" => $format,
+            "locale" => $locale,
+            "translationGroup" => $translationGroup,
+            "subSiteAcronym" => $subSiteAcronym,
             "showImage" => $showImage,
             "showNumComments" => $showNumComments,
             "showRelatedContent" => $showRelatedContent,

@@ -17,15 +17,14 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleInterface
      */
     protected $api;
 
-    /**
-     * @var string
-     */
     private $locale;
 
     /**
      * @var string
      */
     private $subSiteAcronym;
+
+    private $translationGroup;
 
     /**
      * @var string
@@ -66,6 +65,7 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleInterface
      * @param Client $api
      * @param string $locale
      * @param string $subSiteAcronym
+     * @param string $translationGroup
      * @param string $format
      * @param string $articlesIds
      * @param bool $showSubtitle
@@ -78,6 +78,7 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleInterface
         Client $api,
         string $locale,
         string $subSiteAcronym,
+        string $translationGroup,
         string $format,
         string $articlesIds,
         bool   $showSubtitle,
@@ -90,6 +91,7 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleInterface
         $this->api = $api;
         $this->locale = $locale;
         $this->subSiteAcronym = $subSiteAcronym;
+        $this->translationGroup = $translationGroup;
         $this->format = $format;
         $this->articlesIds = $articlesIds;
         $this->showSubtitle = $showSubtitle;
@@ -107,9 +109,6 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleInterface
         return $this->api;
     }
 
-    /**
-     * @return string
-     */
     public function getLocale(): string
     {
         return $this->locale;
@@ -121,6 +120,11 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleInterface
     public function getSubSiteAcronym(): string
     {
         return $this->subSiteAcronym;
+    }
+
+    public function getTranslationGroup(): string
+    {
+        return $this->translationGroup;
     }
 
     /**
