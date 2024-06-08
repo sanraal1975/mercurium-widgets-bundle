@@ -4,8 +4,8 @@ namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Resolve
 
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Helper\BundleHomeMainArticleHelper;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleValueObjectInterface;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Normalizer\BundleHomeMainArticleNormalizer;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
 use Exception;
 
 /**
@@ -16,7 +16,7 @@ use Exception;
 class BundleHomeMainArticleResolver
 {
     /**
-     * @var BundleHomeMainArticleValueObject
+     * @var BundleHomeMainArticleValueObjectInterface
      */
     private $valueObject;
 
@@ -31,10 +31,10 @@ class BundleHomeMainArticleResolver
     private $normalizer;
 
     /**
-     * @param BundleHomeMainArticleValueObject $valueObject
+     * @param BundleHomeMainArticleValueObjectInterface $valueObject
      * @param EntityNormalizer $normalizer
      */
-    public function __construct(BundleHomeMainArticleValueObject $valueObject, EntityNormalizer $normalizer)
+    public function __construct(BundleHomeMainArticleValueObjectInterface $valueObject, EntityNormalizer $normalizer)
     {
         $this->valueObject = $valueObject;
         $this->helper = new BundleHomeMainArticleHelper($valueObject);

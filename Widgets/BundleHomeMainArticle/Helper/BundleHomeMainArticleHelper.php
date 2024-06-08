@@ -3,7 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Helper;
 
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleValueObjectInterface;
 use Exception;
 
 /**
@@ -14,14 +14,14 @@ use Exception;
 class BundleHomeMainArticleHelper
 {
     /**
-     * @var BundleHomeMainArticleValueObject
+     * @var BundleHomeMainArticleValueObjectInterface
      */
     private $valueObject;
 
     /**
-     * @param BundleHomeMainArticleValueObject $valueObject
+     * @param BundleHomeMainArticleValueObjectInterface $valueObject
      */
-    public function __construct(BundleHomeMainArticleValueObject $valueObject)
+    public function __construct(BundleHomeMainArticleValueObjectInterface $valueObject)
     {
         $this->valueObject = $valueObject;
     }

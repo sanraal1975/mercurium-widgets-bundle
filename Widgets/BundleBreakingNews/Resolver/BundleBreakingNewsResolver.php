@@ -3,6 +3,7 @@
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Resolver;
 
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Helper\BundleBreakingNewsHelper;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Interfaces\BundleBreakingNewsValueObjectInterface;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\ValueObject\BundleBreakingNewsValueObject;
 use Exception;
 
@@ -19,16 +20,16 @@ class BundleBreakingNewsResolver
     private $helper;
 
     /**
-     * @var BundleBreakingNewsValueObject
+     * @var BundleBreakingNewsValueObjectInterface
      */
     private $valueObject;
 
     /**
-     * @param BundleBreakingNewsValueObject $valueObject
+     * @param BundleBreakingNewsValueObjectInterface $valueObject
      *
      * @return void
      */
-    public function __construct(BundleBreakingNewsValueObject $valueObject)
+    public function __construct(BundleBreakingNewsValueObjectInterface $valueObject)
     {
         $this->valueObject = $valueObject;
         $this->helper = new BundleBreakingNewsHelper($valueObject);

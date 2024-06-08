@@ -5,7 +5,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Helper;
 use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\FileHelper;
 use Comitium5\MercuriumWidgetsBundle\Services\FileReaders\LocalFileReader;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\ValueObject\BundleBreakingNewsValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Interfaces\BundleBreakingNewsValueObjectInterface;
 use Exception;
 
 /**
@@ -16,22 +16,22 @@ use Exception;
 class BundleBreakingNewsHelper
 {
     /**
-     * @var BundleBreakingNewsValueObject
+     * @var BundleBreakingNewsValueObjectInterface
      */
     private $valueObject;
 
     /**
-     * @param BundleBreakingNewsValueObject $valueObject
+     * @param BundleBreakingNewsValueObjectInterface $valueObject
      */
-    public function __construct(BundleBreakingNewsValueObject $valueObject)
+    public function __construct(BundleBreakingNewsValueObjectInterface $valueObject)
     {
         $this->valueObject = $valueObject;
     }
 
     /**
-     * @return BundleBreakingNewsValueObject
+     * @return BundleBreakingNewsValueObjectInterface
      */
-    public function getValueObject(): BundleBreakingNewsValueObject
+    public function getValueObject(): BundleBreakingNewsValueObjectInterface
     {
         return $this->valueObject;
     }
