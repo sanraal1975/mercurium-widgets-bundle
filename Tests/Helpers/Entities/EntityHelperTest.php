@@ -398,11 +398,11 @@ class EntityHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getField
+     * @dataProvider getFieldReturnFalse
      *
      * @return void
      */
-    public function testGetField(array $entity, string $field, $expected)
+    public function testGetFieldReturnFalse(array $entity, string $field, $expected)
     {
         $helper = new EntityHelper();
         $result = $helper->getField($entity, $field);
@@ -413,17 +413,39 @@ class EntityHelperTest extends TestCase
     /**
      * @return array[]
      */
-    public function getField(): array
+    public function getFieldReturnFalse(): array
     {
         return [
             [
-                "entity" => ["id" => 1],
-                "field" => "permalink",
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "field" => EntityConstants::PERMALINK_FIELD_KEY,
                 "expected" => false
-            ],
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getFieldReturnValue
+     *
+     * @return void
+     */
+    public function testGetFieldReturnValue(array $entity, string $field, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getField($entity, $field);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getFieldReturnValue(): array
+    {
+        return [
             [
-                "entity" => ["id" => 1],
-                "field" => "id",
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "field" => EntityConstants::ID_FIELD_KEY,
                 "expected" => 1
             ],
         ];
@@ -460,11 +482,11 @@ class EntityHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getPermalink
+     * @dataProvider getPermalinkReturnEmpty
      *
      * @return void
      */
-    public function testGetPermalink(array $entity, $expected)
+    public function testGetPermalinkReturnEmpty(array $entity, $expected)
     {
         $helper = new EntityHelper();
         $result = $helper->getPermalink($entity);
@@ -475,16 +497,142 @@ class EntityHelperTest extends TestCase
     /**
      * @return array[]
      */
-    public function getPermalink(): array
+    public function getPermalinkReturnEmpty(): array
     {
         return [
             [
-                "entity" => ["id" => 1],
-                "expected" => false
-            ],
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "expected" => ""
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getPermalinkReturnValue
+     *
+     * @return void
+     */
+    public function testGetPermalinkReturnValue(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getPermalink($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getPermalinkReturnValue(): array
+    {
+        return [
             [
-                "entity" => ["permalink" => "https://www.google.es"],
+                "entity" => [EntityConstants::PERMALINK_FIELD_KEY => "https://www.google.es"],
                 "expected" => "https://www.google.es"
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getExpirationDateReturnEmpty
+     *
+     * @return void
+     */
+    public function testGetExpirationDateReturnEmpty(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getExpirationDate($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getExpirationDateReturnEmpty(): array
+    {
+        return [
+            [
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "expected" => ""
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getExpirationDateReturnValue
+     *
+     * @return void
+     */
+    public function testGetExpirationDateReturnValue(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getExpirationDate($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getExpirationDateReturnValue(): array
+    {
+        return [
+            [
+                "entity" => [EntityConstants::EXPIRATION_DATE_FIELD_KEY => "2024-01-01 00:00:00"],
+                "expected" => "2024-01-01 00:00:00"
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getSubscriptionsReturnEmpty
+     *
+     * @return void
+     */
+    public function testGetSubscriptionsReturnEmpty(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getSubscriptions($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getSubscriptionsReturnEmpty(): array
+    {
+        return [
+            [
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "expected" => []
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getSubscriptionsReturnValue
+     *
+     * @return void
+     */
+    public function testGetSubscriptionsReturnValue(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getSubscriptions($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getSubscriptionsReturnValue(): array
+    {
+        return [
+            [
+                "entity" => [EntityConstants::SUBSCRIPTIONS_FIELD_KEY => [[EntityConstants::ID_FIELD_KEY => 1]]],
+                "expected" => [[EntityConstants::ID_FIELD_KEY => 1]]
             ],
         ];
     }

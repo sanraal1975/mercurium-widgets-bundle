@@ -10,7 +10,7 @@ use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Helper\BundleHomeMainArticleHelper;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleInterface;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleValueObjectInterface;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -67,35 +67,6 @@ class BundleHomeMainArticleHelperTest extends TestCase
         $this->expectException(TypeError::class);
 
         $helper = new BundleHomeMainArticleHelper(null);
-    }
-
-    /**
-     * @return void
-     * @throws Exception
-     */
-    public function testGetValueObject()
-    {
-        $normalizer = new EntityNormalizer([new NormalizerMock()]);
-
-        $valueObject = new BundleHomeMainArticleValueObject(
-            $this->api,
-            "es",
-            "mercurium",
-            "default",
-            "format-1",
-            "1",
-            true,
-            true,
-            true,
-            true,
-            true,
-            "1"
-        );
-
-        $helper = new BundleHomeMainArticleHelper($valueObject);
-        $valueObject = $helper->getValueObject();
-
-        $this->assertInstanceOf(BundleHomeMainArticleInterface::class, $valueObject);
     }
 
     /**

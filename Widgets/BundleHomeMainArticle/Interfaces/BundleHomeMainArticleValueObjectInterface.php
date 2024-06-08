@@ -5,11 +5,11 @@ namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfa
 use Comitium5\ApiClientBundle\Client\Client;
 
 /**
- * Interface BundleHomeMainArticleInterface
+ * Interface BundleHomeMainArticleValueObjectInterface
  *
  * @package Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces
  */
-interface BundleHomeMainArticleInterface
+interface BundleHomeMainArticleValueObjectInterface
 {
     /**
      * @return Client

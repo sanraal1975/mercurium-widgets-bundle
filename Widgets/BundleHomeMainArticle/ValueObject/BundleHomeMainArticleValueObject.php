@@ -3,20 +3,23 @@
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject;
 
 use Comitium5\ApiClientBundle\Client\Client;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleInterface;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleValueObjectInterface;
 
 /**
  * Class BundleHomeMainArticleValueObject
  *
  * @package Comitium5\MercuriumWidgetsBundle\ValueObjects
  */
-class BundleHomeMainArticleValueObject implements BundleHomeMainArticleInterface
+class BundleHomeMainArticleValueObject implements BundleHomeMainArticleValueObjectInterface
 {
     /**
      * @var Client
      */
     protected $api;
 
+    /**
+     * @var string
+     */
     private $locale;
 
     /**
