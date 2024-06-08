@@ -36,16 +36,6 @@ class BundleBreakingNewsValueObject implements BundleBreakingNewsValueObjectInte
     /**
      * @var string
      */
-    private $translationGroup;
-
-    /**
-     * @var TwigEngine
-     */
-    private $twig;
-
-    /**
-     * @var string
-     */
     private $homeUrl;
 
     /**
@@ -73,8 +63,6 @@ class BundleBreakingNewsValueObject implements BundleBreakingNewsValueObjectInte
      * @param string $locale
      * @param string $sitePrefix
      * @param string $subSiteAcronym
-     * @param string $translationGroup
-     * @param TwigEngine $twig
      * @param string $homeUrl
      * @param string $environment
      * @param string $devJsonFilePath
@@ -86,8 +74,6 @@ class BundleBreakingNewsValueObject implements BundleBreakingNewsValueObjectInte
         string     $locale,
         string     $sitePrefix,
         string     $subSiteAcronym,
-        string     $translationGroup,
-        TwigEngine $twig,
         string     $homeUrl,
         string     $environment,
         string     $devJsonFilePath,
@@ -99,8 +85,6 @@ class BundleBreakingNewsValueObject implements BundleBreakingNewsValueObjectInte
         $this->locale = $locale;
         $this->sitePrefix = $sitePrefix;
         $this->subSiteAcronym = $subSiteAcronym;
-        $this->translationGroup = $translationGroup;
-        $this->twig = $twig;
         $this->homeUrl = $homeUrl;
         $this->environment = $environment;
         $this->devJsonFilePath = $devJsonFilePath;
@@ -138,22 +122,6 @@ class BundleBreakingNewsValueObject implements BundleBreakingNewsValueObjectInte
     public function getSubSiteAcronym(): string
     {
         return $this->subSiteAcronym;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTranslationGroup(): string
-    {
-        return $this->translationGroup;
-    }
-
-    /**
-     * @return TwigEngine
-     */
-    public function getTwig(): TwigEngine
-    {
-        return $this->twig;
     }
 
     /**
