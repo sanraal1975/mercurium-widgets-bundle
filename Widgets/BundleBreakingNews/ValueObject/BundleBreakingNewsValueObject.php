@@ -4,7 +4,6 @@ namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\ValueObjec
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Interfaces\BundleBreakingNewsValueObjectInterface;
-use Symfony\Bundle\TwigBundle\TwigEngine;
 
 /**
  * Class BundleBreakingNewsValueObject
@@ -70,15 +69,15 @@ class BundleBreakingNewsValueObject implements BundleBreakingNewsValueObjectInte
      * @param string $jsonFile
      */
     public function __construct(
-        Client     $api,
-        string     $locale,
-        string     $sitePrefix,
-        string     $subSiteAcronym,
-        string     $homeUrl,
-        string     $environment,
-        string     $devJsonFilePath,
-        string     $prodJsonFilePath,
-        string     $jsonFile
+        Client $api,
+        string $locale,
+        string $sitePrefix,
+        string $subSiteAcronym,
+        string $homeUrl,
+        string $environment,
+        string $devJsonFilePath,
+        string $prodJsonFilePath,
+        string $jsonFile
     )
     {
         $this->api = $api;
