@@ -13,6 +13,7 @@ use Comitium5\ApiClientBundle\Client\Services\ContactSubscriptionApiService;
 use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
 use Comitium5\ApiClientBundle\Client\Services\LiveEventApiService;
 use Comitium5\ApiClientBundle\Client\Services\MailingApiService;
+use Comitium5\ApiClientBundle\Client\Services\MenuApiService;
 use Comitium5\ApiClientBundle\Client\Services\PagesApiService;
 use Comitium5\ApiClientBundle\Client\Services\PollApiService;
 use Comitium5\ApiClientBundle\Client\Services\SubscriptionApiService;
@@ -115,6 +116,14 @@ class ApiServiceFactory
     public function createMailingApiService(): MailingApiService
     {
         return new MailingApiService($this->api);
+    }
+
+    /**
+     * @return MenuApiService
+     */
+    public function createMenuApiService()
+    {
+        return new MenuApiService($this->api);
     }
 
     /**
