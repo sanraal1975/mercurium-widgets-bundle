@@ -177,6 +177,18 @@ class EntityHelper
     /**
      * @param array $entity
      *
+     * @return array|mixed
+     */
+    public function getPermalinks(array $entity)
+    {
+        $fieldValue = $this->getField($entity, EntityConstants::PERMALINKS_FIELD_KEY);
+
+        return empty($fieldValue) ? [] : $fieldValue;
+    }
+
+    /**
+     * @param array $entity
+     *
      * @return float
      */
     public function getPrice(array $entity): float
