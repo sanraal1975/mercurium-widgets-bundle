@@ -15,15 +15,15 @@
         }
     },
     "require": {
-        "php": ">=7.2",
-        "comitium5/api-client-bundle": "^7.1",
+        "php": "^8.3",
+        "comitium5/api-client-bundle": "8.0.x-dev",
         "ext-json": "*",
         "ext-openssl": "*",
-        "symfony/symfony": "2.8.*",
-        "twig/twig": "1.34.*"
+        "symfony/symfony": "^4.4",
+        "twig/twig": "^2.15.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable"
+        "phpunit/phpunit": "^8.0"
     },
     "repositories": [
         {
