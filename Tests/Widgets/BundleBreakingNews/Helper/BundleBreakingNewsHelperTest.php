@@ -128,6 +128,7 @@ class BundleBreakingNewsHelperTest extends TestCase
      * @dataProvider fileExistsValues
      *
      * @return void
+     * @throws Exception
      */
     public function testFileExists($valueObject, $filePath, $expected)
     {
@@ -252,7 +253,7 @@ class BundleBreakingNewsHelperTest extends TestCase
     /**
      * @return array[]
      */
-    public function getJsonFilePath()
+    public function getJsonFilePath(): array
     {
         return [
             [
@@ -296,5 +297,4 @@ class BundleBreakingNewsHelperTest extends TestCase
             ]
         ];
     }
-
 }

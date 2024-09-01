@@ -16,16 +16,10 @@ use Exception;
 class BundleBreakingNewsHelper
 {
     /**
-     * @var BundleBreakingNewsValueObjectInterface
-     */
-    private $valueObject;
-
-    /**
      * @param BundleBreakingNewsValueObjectInterface $valueObject
      */
-    public function __construct(BundleBreakingNewsValueObjectInterface $valueObject)
+    public function __construct(private readonly BundleBreakingNewsValueObjectInterface $valueObject)
     {
-        $this->valueObject = $valueObject;
     }
 
     /**

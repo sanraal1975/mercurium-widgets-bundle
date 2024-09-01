@@ -20,9 +20,9 @@ interface BundleBreakingNewsValueObjectInterface
     public function getSubSiteAcronym(): string;
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSitePrefix();
+    public function getSitePrefix(): string;
 
     /**
      * @return string

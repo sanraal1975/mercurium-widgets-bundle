@@ -13,51 +13,6 @@ use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Interfaces\Bundl
 class BundleBreakingNewsValueObject implements BundleBreakingNewsValueObjectInterface
 {
     /**
-     * @var Client
-     */
-    protected $api;
-
-    /**
-     * @var string
-     */
-    private $locale;
-
-    /**
-     * @var string
-     */
-    private $sitePrefix;
-
-    /**
-     * @var string
-     */
-    private $subSiteAcronym;
-
-    /**
-     * @var string
-     */
-    private $homeUrl;
-
-    /**
-     * @var string
-     */
-    private $environment;
-
-    /**
-     * @var string
-     */
-    private $devJsonFilePath;
-
-    /**
-     * @var string
-     */
-    private $prodJsonFilePath;
-
-    /**
-     * @var string
-     */
-    private $jsonFile;
-
-    /**
      * @param Client $api
      * @param string $locale
      * @param string $sitePrefix
@@ -69,26 +24,17 @@ class BundleBreakingNewsValueObject implements BundleBreakingNewsValueObjectInte
      * @param string $jsonFile
      */
     public function __construct(
-        Client $api,
-        string $locale,
-        string $sitePrefix,
-        string $subSiteAcronym,
-        string $homeUrl,
-        string $environment,
-        string $devJsonFilePath,
-        string $prodJsonFilePath,
-        string $jsonFile
+        private readonly Client $api,
+        private readonly string $locale,
+        private readonly string $sitePrefix,
+        private readonly string $subSiteAcronym,
+        private readonly string $homeUrl,
+        private readonly string $environment,
+        private readonly string $devJsonFilePath,
+        private readonly string $prodJsonFilePath,
+        private readonly string $jsonFile
     )
     {
-        $this->api = $api;
-        $this->locale = $locale;
-        $this->sitePrefix = $sitePrefix;
-        $this->subSiteAcronym = $subSiteAcronym;
-        $this->homeUrl = $homeUrl;
-        $this->environment = $environment;
-        $this->devJsonFilePath = $devJsonFilePath;
-        $this->prodJsonFilePath = $prodJsonFilePath;
-        $this->jsonFile = $jsonFile;
     }
 
     /**
