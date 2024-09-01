@@ -28,11 +28,6 @@ class BundleBreakingNewsResolverTest extends TestCase
     private $cwd;
     
     /**
-     * @var TestHelper
-     */
-    private $testHelper;
-
-    /**
      * @param $name
      * @param array $data
      * @param $dataName
@@ -52,8 +47,6 @@ class BundleBreakingNewsResolverTest extends TestCase
             "breaking_news.json"
         );
 
-        $this->testHelper = new TestHelper();
-        
         $this->cwd = getcwd();
     }
 

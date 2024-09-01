@@ -2,14 +2,14 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleBreakingNews;
 
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\ValueObject\BundleBreakingNewsValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleBreakingNews\Interfaces\BundleBreakingNewsValueObjectInterface;
 
 /**
  * Class BundleBreakingNewsValueObjectMock
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleBreakingNews
  */
-class BundleBreakingNewsValueObjectMock extends BundleBreakingNewsValueObject
+class BundleBreakingNewsValueObjectMock implements BundleBreakingNewsValueObjectInterface
 {
     /**
      * @var string

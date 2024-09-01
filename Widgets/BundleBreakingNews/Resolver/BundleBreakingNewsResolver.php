@@ -14,17 +14,23 @@ use Exception;
 class BundleBreakingNewsResolver
 {
     /**
+     * @var BundleBreakingNewsValueObjectInterface
+     */
+    private $valueObject;
+
+    /**
      * @var BundleBreakingNewsHelper
      */
-    private BundleBreakingNewsHelper $helper;
+    private $helper;
 
     /**
      * @param BundleBreakingNewsValueObjectInterface $valueObject
      *
      * @return void
      */
-    public function __construct(private readonly BundleBreakingNewsValueObjectInterface $valueObject)
+    public function __construct(BundleBreakingNewsValueObjectInterface $valueObject)
     {
+        $this->valueObject = $valueObject;
         $this->helper = new BundleBreakingNewsHelper($valueObject);
     }
 
