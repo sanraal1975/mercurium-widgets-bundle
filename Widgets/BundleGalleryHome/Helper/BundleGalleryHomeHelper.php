@@ -4,7 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\Helper;
 
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\GalleryHelper;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\ValueObject\BundleGalleryHomeValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\Interfaces\BundleGalleryHomeValueObjectInterface;
 use Exception;
 
 /**
@@ -15,15 +15,14 @@ use Exception;
 class BundleGalleryHomeHelper
 {
     /**
-     * @var BundleGalleryHomeValueObject
+     * @var BundleGalleryHomeValueObjectInterface
      */
     private $valueObject;
 
     /**
-     * @param BundleGalleryHomeValueObject $valueObject
-     * @throws Exception
+     * @param BundleGalleryHomeValueObjectInterface $valueObject
      */
-    public function __construct(BundleGalleryHomeValueObject $valueObject)
+    public function __construct(BundleGalleryHomeValueObjectInterface $valueObject)
     {
         $this->valueObject = $valueObject;
     }

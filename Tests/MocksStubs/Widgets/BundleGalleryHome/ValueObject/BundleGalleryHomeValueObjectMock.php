@@ -4,14 +4,14 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleGaller
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\ValueObject\BundleGalleryHomeValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\Interfaces\BundleGalleryHomeValueObjectInterface;
 
 /**
  * Class BundleGalleryHomeValueObjectMock
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleGalleryHome\ValueObject
  */
-class BundleGalleryHomeValueObjectMock extends BundleGalleryHomeValueObject
+class BundleGalleryHomeValueObjectMock implements BundleGalleryHomeValueObjectInterface
 {
     /**
      * @var Client

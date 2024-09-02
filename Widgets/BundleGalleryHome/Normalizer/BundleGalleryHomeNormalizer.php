@@ -2,8 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\Normalizer;
 
-use Comitium5\MercuriumWidgetsBundle\Normalizers\Entities\GalleryNormalizer;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\ValueObject\BundleGalleryHomeValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\Interfaces\BundleGalleryHomeValueObjectInterface;
 use Exception;
 
 /**
@@ -14,14 +13,14 @@ use Exception;
 class BundleGalleryHomeNormalizer
 {
     /**
-     * @var BundleGalleryHomeValueObject
+     * @var BundleGalleryHomeValueObjectInterface
      */
     private $valueObject;
 
     /**
-     * @param BundleGalleryHomeValueObject $valueObject
+     * @param BundleGalleryHomeValueObjectInterface $valueObject
      */
-    public function __construct(BundleGalleryHomeValueObject $valueObject)
+    public function __construct(BundleGalleryHomeValueObjectInterface $valueObject)
     {
         $this->valueObject = $valueObject;
     }
