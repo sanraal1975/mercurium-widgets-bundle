@@ -1,16 +1,17 @@
 <?php
 
-namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject;
+namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleHomeMainArticle\ValueObject;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleValueObjectInterface;
+use Symfony\Bundle\TwigBundle\TwigEngine;
 
 /**
- * Class BundleHomeMainArticleValueObject
+ * Class BundleHomeMainArticleValueObjectMock
  *
- * @package Comitium5\MercuriumWidgetsBundle\ValueObjects
+ * @package Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleHomeMainArticle\ValueObject
  */
-class BundleHomeMainArticleValueObject implements BundleHomeMainArticleValueObjectInterface
+class BundleHomeMainArticleValueObjectMock implements BundleHomeMainArticleValueObjectInterface
 {
     /**
      * @var Client
@@ -27,6 +28,9 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleValueObje
      */
     private $subSiteAcronym;
 
+    /**
+     * @var string
+     */
     private $translationGroup;
 
     /**
@@ -76,19 +80,20 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleValueObje
      * @param bool $showRelatedContent
      * @param bool $showNumComments
      * @param bool $showSponsor
+     * @param string $bannerId
      */
     public function __construct(
-        Client $api,
-        string $locale,
-        string $subSiteAcronym,
-        string $translationGroup,
-        string $format,
-        string $articlesIds,
-        bool   $showSubtitle,
-        bool   $showImage,
-        bool   $showRelatedContent,
-        bool   $showNumComments,
-        bool   $showSponsor
+        Client     $api,
+        string     $locale,
+        string     $subSiteAcronym,
+        string     $translationGroup,
+        string     $format,
+        string     $articlesIds,
+        bool       $showSubtitle,
+        bool       $showImage,
+        bool       $showRelatedContent,
+        bool       $showNumComments,
+        bool       $showSponsor
     )
     {
         $this->api = $api;
@@ -112,6 +117,9 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleValueObje
         return $this->api;
     }
 
+    /**
+     * @return string
+     */
     public function getLocale(): string
     {
         return $this->locale;
@@ -125,6 +133,9 @@ class BundleHomeMainArticleValueObject implements BundleHomeMainArticleValueObje
         return $this->subSiteAcronym;
     }
 
+    /**
+     * @return string
+     */
     public function getTranslationGroup(): string
     {
         return $this->translationGroup;

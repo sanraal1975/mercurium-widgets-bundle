@@ -9,9 +9,8 @@ use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\ClientMock;
 use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Normalizers\NormalizerMock;
+use Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObjectMock;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Helper\BundleHomeMainArticleHelper;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleValueObjectInterface;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\ValueObject\BundleHomeMainArticleValueObject;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use TypeError;
@@ -79,7 +78,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
 
         $normalizer = new EntityNormalizer([new NormalizerMock()]);
 
-        $valueObject = new BundleHomeMainArticleValueObject(
+        $valueObject = new BundleHomeMainArticleValueObjectMock(
             $this->api,
             "es",
             "mercurium",
@@ -121,7 +120,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
 
         return [
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "es",
                     "mercurium",
@@ -137,7 +136,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 "expected" => []
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "es",
                     "mercurium",
@@ -153,7 +152,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 "expected" => []
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "es",
                     "mercurium",
@@ -169,7 +168,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 "expected" => []
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "es",
                     "mercurium",
@@ -190,7 +189,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 ]
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "es",
                     "mercurium",
@@ -211,7 +210,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 ]
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "es",
                     "mercurium",
@@ -232,7 +231,7 @@ class BundleHomeMainArticleHelperTest extends TestCase
                 ]
             ],
             [
-                "valueObject" => new BundleHomeMainArticleValueObject(
+                "valueObject" => new BundleHomeMainArticleValueObjectMock(
                     $this->api,
                     "es",
                     "mercurium",

@@ -17,6 +17,8 @@ class TestHelper
     const API_SUBSITE = "mercurium";
     const API_LOCALE = "ca";
 
+    const TRANSLATION_GROUP = "default";
+
     const IMAGE_FIELD_KEY = "image";
     const VIDEO_FIELD_KEY = "video";
     const AUTHOR_FIELD_KEY = "author";
