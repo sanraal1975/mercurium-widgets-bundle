@@ -9,7 +9,7 @@ use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\FileHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\JsonHelper;
 use Comitium5\MercuriumWidgetsBundle\Services\FileReaders\LocalFileReader;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\ValueObject\BundleRankingValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Interfaces\BundleRankingValueObjectInterface;
 use Exception;
 
 /**
@@ -20,24 +20,16 @@ use Exception;
 class BundleRankingHelper
 {
     /**
-     * @var BundleRankingValueObject
+     * @var BundleRankingValueObjectInterface
      */
     private $valueObject;
 
     /**
-     * @param BundleRankingValueObject $valueObject
+     * @param BundleRankingValueObjectInterface $valueObject
      */
-    public function __construct(BundleRankingValueObject $valueObject)
+    public function __construct(BundleRankingValueObjectInterface $valueObject)
     {
         $this->valueObject = $valueObject;
-    }
-
-    /**
-     * @return BundleRankingValueObject
-     */
-    public function getValueObject(): BundleRankingValueObject
-    {
-        return $this->valueObject;
     }
 
     /**
@@ -99,7 +91,7 @@ class BundleRankingHelper
      *
      * @return array|mixed
      */
-    public function getLocaleIds(string $jsonContent)
+    public function getLocaleIds(string $jsonContent): mixed
     {
         if (empty($jsonContent)) {
             return [];
@@ -146,5 +138,4 @@ class BundleRankingHelper
 
         return $helper->getByIdsAndQuantity($articlesIds, $quantity);
     }
-
 }

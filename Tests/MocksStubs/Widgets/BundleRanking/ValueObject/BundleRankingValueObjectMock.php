@@ -3,14 +3,14 @@
 namespace Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleRanking\ValueObject;
 
 use Comitium5\ApiClientBundle\Client\Client;
-use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\ValueObject\BundleRankingValueObject;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Interfaces\BundleRankingValueObjectInterface;
 
 /**
  * Class BundleRankingValueObjectMock
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\MocksStubs\Widgets\BundleRanking\ValueObject
  */
-class BundleRankingValueObjectMock extends BundleRankingValueObject
+class BundleRankingValueObjectMock implements BundleRankingValueObjectInterface
 {
     /**
      * @var Client

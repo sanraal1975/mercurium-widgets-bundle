@@ -56,5 +56,4 @@ class BundleRankingNormalizer
 
         return $normalizedArticles;
     }
-
 }

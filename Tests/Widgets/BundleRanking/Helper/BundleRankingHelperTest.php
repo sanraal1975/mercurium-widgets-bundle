@@ -97,18 +97,6 @@ class BundleRankingHelperTest extends TestCase
     }
 
     /**
-     * @return void
-     */
-    public function testGetValueObject()
-    {
-        $helper = new BundleRankingHelper($this->valueObject);
-
-        $helperObject = $helper->getValueObject();
-
-        $this->assertEquals($this->valueObject, $helperObject);
-    }
-
-    /**
      * @dataProvider getJsonFilePath
      *
      * @return void

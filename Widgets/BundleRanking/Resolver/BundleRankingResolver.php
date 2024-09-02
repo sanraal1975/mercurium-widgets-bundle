@@ -4,10 +4,16 @@ namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Resolver;
 
 use Comitium5\MercuriumWidgetsBundle\Normalizers\EntityNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Helper\BundleRankingHelper;
+use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Interfaces\BundleRankingValueObjectInterface;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Normalizer\BundleRankingNormalizer;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\ValueObject\BundleRankingValueObject;
 use Exception;
 
+/**
+ * Class BundleRankingResolver
+ *
+ * @package Comitium5\MercuriumWidgetsBundle\Widgets\BundleRanking\Resolver
+ */
 class BundleRankingResolver
 {
     /**
@@ -26,10 +32,10 @@ class BundleRankingResolver
     private $normalizer;
 
     /**
-     * @param BundleRankingValueObject $valueObject
+     * @param BundleRankingValueObjectInterface $valueObject
      * @param EntityNormalizer $normalizer
      */
-    public function __construct(BundleRankingValueObject $valueObject, EntityNormalizer $normalizer)
+    public function __construct(BundleRankingValueObjectInterface $valueObject, EntityNormalizer $normalizer)
     {
         $this->valueObject = $valueObject;
         $this->helper = new BundleRankingHelper($valueObject);
