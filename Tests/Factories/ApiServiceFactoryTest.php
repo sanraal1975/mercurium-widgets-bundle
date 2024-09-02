@@ -11,6 +11,7 @@ use Comitium5\ApiClientBundle\Client\Services\ContactApiService;
 use Comitium5\ApiClientBundle\Client\Services\ContactSubscriptionApiService;
 use Comitium5\ApiClientBundle\Client\Services\GalleryApiService;
 use Comitium5\ApiClientBundle\Client\Services\MailingApiService;
+use Comitium5\ApiClientBundle\Client\Services\MenuApiService;
 use Comitium5\ApiClientBundle\Client\Services\PagesApiService;
 use Comitium5\ApiClientBundle\Client\Services\PollApiService;
 use Comitium5\ApiClientBundle\Client\Services\SubscriptionApiService;
@@ -150,6 +151,18 @@ class ApiServiceFactoryTest extends TestCase
         $service = $factory->createMailingApiService();
 
         $this->assertInstanceOf(MailingApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateMenuApiService()
+    {
+        $factory = new ApiServiceFactory($this->api);
+
+        $service = $factory->createMenuApiService();
+
+        $this->assertInstanceOf(MenuApiService::class, $service);
     }
 
     /**

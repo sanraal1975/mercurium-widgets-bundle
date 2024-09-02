@@ -91,7 +91,7 @@ class BundleRankingHelper
      *
      * @return array|mixed
      */
-    public function getLocaleIds(string $jsonContent): mixed
+    public function getLocaleIds(string $jsonContent)
     {
         if (empty($jsonContent)) {
             return [];

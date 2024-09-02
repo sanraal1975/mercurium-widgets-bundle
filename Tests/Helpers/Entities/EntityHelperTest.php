@@ -534,6 +534,58 @@ class EntityHelperTest extends TestCase
     }
 
     /**
+     * @dataProvider getPermalinksReturnEmpty
+     *
+     * @return void
+     */
+    public function testGetPermalinksReturnEmpty(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getPermalinks($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getPermalinksReturnEmpty(): array
+    {
+        return [
+            [
+                "entity" => [EntityConstants::ID_FIELD_KEY => 1],
+                "expected" => []
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider getPermalinksReturnValue
+     *
+     * @return void
+     */
+    public function testGetPermalinksReturnValue(array $entity, $expected)
+    {
+        $helper = new EntityHelper();
+        $result = $helper->getPermalinks($entity);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getPermalinksReturnValue(): array
+    {
+        return [
+            [
+                "entity" => [EntityConstants::PERMALINKS_FIELD_KEY => ["ca" => "https://www.google.ca", "es" => "https://www.google.es"]],
+                "expected" => ["ca" => "https://www.google.ca", "es" => "https://www.google.es"]
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider getExpirationDateReturnEmpty
      *
      * @return void

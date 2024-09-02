@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\UserHelper;
+use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,6 +14,22 @@ use PHPUnit\Framework\TestCase;
  */
 class UserHelperTest extends TestCase
 {
+    /**
+     * @var TestHelper
+     */
+    private $testHelper;
+
+    /**
+     * @param $name
+     * @param array $data
+     * @param $dataName
+     */
+    public function __construct($name = null, array $data = [], $dataName = "")
+    {
+        parent::__construct($name, $data, $dataName);
+        $this->testHelper = new TestHelper();
+    }
+
     /**
      * @dataProvider getSubscriptionsReturnFalse
      *
@@ -178,5 +195,21 @@ class UserHelperTest extends TestCase
                 "entity" => [EntityConstants::SUBSCRIPTIONS_FIELD_KEY => [[EntityConstants::PRICE_FIELD_KEY => 1, EntityConstants::EXPIRATION_DATE_FIELD_KEY => "3000-01-01"]]],
             ],
         ];
+    }
+
+    /**
+     * @return void
+     */
+    public function testAddSubscription()
+    {
+        $helper = new UserHelper();
+
+        $api = $this->testHelper->getApi();
+
+        $result = $helper->addSubscription($api, 1, 1);
+
+        $expected = [];
+
+        $this->assertEquals($expected, $result);
     }
 }

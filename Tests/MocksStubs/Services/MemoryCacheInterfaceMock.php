@@ -11,19 +11,39 @@ use Comitium5\ApiClientBundle\Cache\MemoryCacheInterface;
  */
 class MemoryCacheInterfaceMock implements MemoryCacheInterface
 {
-    public function set($key, $value, $ttl = null, $index = null)
+    /**
+     * @param $key
+     * @param $value
+     * @param $ttl
+     * @param $index
+     *
+     * @return true
+     */
+    public function set($key, $value, $ttl = null, $index = null): bool
     {
-        // TODO: Implement set() method.
+        return $key == '__mercurium__testKeyReturnTrue';
     }
 
-    public function get($key, $index = null)
+    /**
+     * @param $key
+     * @param $index
+     *
+     * @return string
+     */
+    public function get($key, $index = null): string
     {
-        // TODO: Implement get() method.
+        return ($key == "__mercurium__testKeyReturnValue") ? "foo" : "";
     }
 
-    public function delete($key, $index = null)
+    /**
+     * @param $key
+     * @param $index
+     *
+     * @return bool
+     */
+    public function delete($key, $index = null): bool
     {
-        // TODO: Implement delete() method.
+        return $key == '__mercurium__testKeyReturnTrue';
     }
 
     public function setTTL($key, $ttl)

@@ -98,6 +98,18 @@ class ClientMock extends Client
                         ]
                     ]
                 ];
+            case TestHelper::MENU_WITH_ITEMS:
+                return [
+                    "statusCode" => Response::HTTP_OK,
+                    "data" => [
+                        "items" => [
+                            [
+                                "title" => "foo",
+                                "permalink" => "https://www.bar.com"
+                            ]
+                        ]
+                    ]
+                ];
         }
 
         return [
@@ -190,5 +202,19 @@ class ClientMock extends Client
                     ],
                 ];
         }
+    }
+
+    /**
+     * @param $url
+     * @param $parameters
+     *
+     * @return array
+     */
+    public function post($url, $parameters = [])
+    {
+        return [
+            "statusCode" => Response::HTTP_OK,
+            "data" => []
+        ];
     }
 }

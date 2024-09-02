@@ -19,7 +19,7 @@ class CacheServiceTest extends TestCase
     /**
      * @var TestHelper
      */
-    private TestHelper $helper;
+    private $helper;
 
     /**
      * @param $name
@@ -55,10 +55,126 @@ class CacheServiceTest extends TestCase
     /**
      * @return void
      */
-    public function testSetReturnFalse()
+    public function testSetReturnFalseForEmptyKey()
     {
         $service = new CacheService(new MemoryCacheInterfaceMock(), $this->helper::API_SUBSITE);
 
         $this->assertFalse($service->set("", "", 0));
     }
+
+    /**
+     * @dataProvider setReturnResult
+     *
+     * @return void
+     */
+    public function testSetReturnResult($key, $value)
+    {
+        $service = new CacheService(new MemoryCacheInterfaceMock(), $this->helper::API_SUBSITE);
+
+        $result = $service->set($key, "testValue", 10);
+
+        $this->assertEquals($value, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function setReturnResult(): array
+    {
+        return [
+            [
+                "key" => "testKeyReturnFalse",
+                "value" => false
+            ],
+            [
+                "key" => "testKeyReturnTrue",
+                "value" => true
+            ]
+        ];
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetReturnsEmptyForEmptyKey()
+    {
+        $service = new CacheService(new MemoryCacheInterfaceMock(), $this->helper::API_SUBSITE);
+
+        $result = $service->get("");
+
+        $this->assertEquals("", $result);
+    }
+
+    /**
+     * @dataProvider getReturnsValue
+     *
+     * @return void
+     */
+    public function testGetReturnsValue($key, $value)
+    {
+        $service = new CacheService(new MemoryCacheInterfaceMock(), $this->helper::API_SUBSITE);
+
+        $result = $service->get($key);
+
+        $this->assertEquals($value, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getReturnsValue()
+    {
+        return [
+            [
+                "key" => "testKeyReturnValue",
+                "value" => "foo"
+            ],
+            [
+                "key" => "testKeyReturnEmpty",
+                "value" => ""
+            ],
+        ];
+    }
+
+    /**
+     * @return void
+     */
+    public function testDeleteReturnFalseForEmptyKey()
+    {
+        $service = new CacheService(new MemoryCacheInterfaceMock(), $this->helper::API_SUBSITE);
+
+        $this->assertFalse($service->delete(""));
+    }
+
+    /**
+     * @dataProvider deleteReturnValue
+     *
+     * @return void
+     */
+    public function testDeleteReturnValue($key, $value)
+    {
+        $service = new CacheService(new MemoryCacheInterfaceMock(), $this->helper::API_SUBSITE);
+
+        $result = $service->delete($key);
+
+        $this->assertEquals($value, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function deleteReturnValue(): array
+    {
+        return [
+            [
+                "key" => "testKeyReturnFalse",
+                "value" => false
+            ],
+            [
+                "key" => "testKeyReturnTrue",
+                "value" => true
+            ]
+        ];
+    }
+
 }

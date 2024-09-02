@@ -38,7 +38,7 @@ class CacheService
      *
      * @return bool
      */
-    public function set(string $key, $value, int $ttl): bool
+    public function set(string $key, $value, int $ttl)
     {
         $result = false;
 

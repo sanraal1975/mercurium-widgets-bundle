@@ -32,6 +32,14 @@ class MenuHelper implements EntityGetInterface, EntityGetServiceInterface
     }
 
     /**
+     * @return AbstractApiService
+     */
+    public function getService(): AbstractApiService
+    {
+        return $this->service;
+    }
+
+    /**
      * @param int $entityId
      *
      * @return array
@@ -40,13 +48,5 @@ class MenuHelper implements EntityGetInterface, EntityGetServiceInterface
     public function get(int $entityId): array
     {
         return $this->service->find(new IdentifiedValue($entityId));
-    }
-
-    /**
-     * @return AbstractApiService
-     */
-    public function getService(): AbstractApiService
-    {
-        return $this->service;
     }
 }
