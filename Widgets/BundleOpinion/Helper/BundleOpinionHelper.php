@@ -6,11 +6,11 @@ use Comitium5\MercuriumWidgetsBundle\Constants\BundleConstants;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ArrayHelper;
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ImageHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\FileHelper;
 use Comitium5\MercuriumWidgetsBundle\Helpers\JsonHelper;
+use Comitium5\MercuriumWidgetsBundle\Helpers\WidgetHelper;
 use Comitium5\MercuriumWidgetsBundle\Services\FileReaders\LocalFileReader;
+use Comitium5\MercuriumWidgetsBundle\ValueObjects\ApiRequestValueObject;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleOpinion\ValueObject\BundleOpinionValueObject;
 use Exception;
 
@@ -19,7 +19,7 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Tests\Widgets\BundleOpinion\Helper
  */
-class BundleOpinionHelper
+class BundleOpinionHelper extends WidgetHelper
 {
     /**
      * @var BundleOpinionValueObject
@@ -32,6 +32,8 @@ class BundleOpinionHelper
     public function __construct(BundleOpinionValueObject $valueObject)
     {
         $this->valueObject = $valueObject;
+        $api = $this->valueObject->getApi();
+        parent::__construct($api);
     }
 
     /**
@@ -48,15 +50,15 @@ class BundleOpinionHelper
      */
     public function getSponsorImage(): array
     {
+        $image = [];
+
         $imageId = $this->valueObject->getSponsorImageId();
 
-        if (empty($imageId)) {
-            return [];
+        if ($imageId > 0) {
+            $image = $this->getImage($imageId);
         }
-        $api = $this->valueObject->getApi();
-        $imageHelper = new ImageHelper($api);
 
-        return $imageHelper->get($imageId);
+        return $image;
     }
 
     /**
@@ -65,10 +67,14 @@ class BundleOpinionHelper
      */
     public function getManualArticles(): array
     {
-        $api = $this->valueObject->getApi();
-        $helper = new ArticleHelper($api);
+        $articles = [];
 
-        return $helper->getByIds($this->valueObject->getArticlesIds());
+        $articlesIds = $this->valueObject->getArticlesIds();
+        if (!empty($articlesIds)) {
+            $articles = $this->getArticlesByIds($articlesIds);
+        }
+
+        return $articles;
     }
 
     /**
@@ -79,31 +85,29 @@ class BundleOpinionHelper
      */
     public function getAutomaticArticles(string $deniedArticlesIds): array
     {
-        $api = $this->valueObject->getApi();
+        $articles = [];
+
         $quantity = $this->valueObject->getQuantity();
+        if ($quantity > 0) {
+            $apiRequestValueObject = new ApiRequestValueObject();
 
-        if (empty($quantity)) {
-            return [];
+            $apiRequestValueObject->setLimit($quantity);
+
+            $categoryId = $this->valueObject->getCategoryOpinionId();
+            if (!empty($categoryId)) {
+                $apiRequestValueObject->setCategories($categoryId);
+            }
+
+            if (!empty($deniedArticlesIds)) {
+                $apiRequestValueObject->setExcludeIds($deniedArticlesIds);
+            }
+
+            $articles = $this->getArticlesBy($apiRequestValueObject);
+            $articles = ApiResultsHelper::extractResults($articles);
         }
 
-        $parameters = [
-            "page" => 1,
-            "limit" => $quantity
-        ];
+        return $articles;
 
-        $categoryId = $this->valueObject->getCategoryOpinionId();
-        if (!empty($categoryId)) {
-            $parameters["categories"] = $categoryId;
-        }
-
-        if (!empty($deniedArticlesIds)) {
-            $parameters["exclude_ids"] = $deniedArticlesIds;
-        }
-
-        $helper = new ArticleHelper($api);
-        $articles = $helper->getBy($parameters);
-
-        return ApiResultsHelper::extractResults($articles);
     }
 
     /**

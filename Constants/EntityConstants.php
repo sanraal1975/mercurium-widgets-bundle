@@ -28,6 +28,7 @@ class EntityConstants
     const HAS_SUBSCRIPTION_FIELD_KEY = "hasSubscriptions";
     const HAS_SPONSOR_FIELD_KEY = "hasSponsor";
     const ID_FIELD_KEY = "id";
+    const ITEMS_FIELD_KEY = "items";
     const MEDIA_CLASSES_FIELD_KEY = "mediaClasses";
     const ORIENTATION_FIELD_KEY = "orientation";
     const PERMALINK_FIELD_KEY = "permalink";

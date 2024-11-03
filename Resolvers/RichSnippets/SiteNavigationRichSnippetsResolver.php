@@ -15,12 +15,12 @@ class SiteNavigationRichSnippetsResolver
     /**
      * @var string
      */
-    private $siteName;
+    private string $siteName;
 
     /**
      * @var string
      */
-    private $baseUrl;
+    private string $baseUrl;
 
     /**
      * @param string $siteName
@@ -42,21 +42,13 @@ class SiteNavigationRichSnippetsResolver
         $richSnippets = "";
 
         if (!empty($items)) {
-            $this->baseUrl = str_replace("http:", "https:", $this->baseUrl);
+            $this->fixBaseUrl();
 
-            $richSnippets = [
-                "@context" => RichSnippetsConstants::CONTEXT,
-                "@graph" => [],
-            ];
+            $richSnippets = $this->getBaseStructure();
 
             foreach ($items as $item) {
-                $item = [
-                    "@id" => $this->baseUrl . " - " . $this->siteName,
-                    "@type" => RichSnippetsConstants::TYPE_SITE_NAVIGATION_ELEMENT,
-                    "name" => $item['title'],
-                    "url" => $this->baseUrl . $item['permalink'],
-                ];
-                $richSnippets["@graph"][] = $item;
+                $itemStructure = $this->getItemStructure($item);
+                $richSnippets["@graph"][] = $itemStructure;
             }
 
             $helper = new RichSnippetsHelper();
@@ -65,5 +57,39 @@ class SiteNavigationRichSnippetsResolver
         }
 
         return $richSnippets;
+    }
+
+    /**
+     * @return void
+     */
+    private function fixBaseUrl()
+    {
+        $this->baseUrl = str_replace("http:", "https:", $this->baseUrl);
+    }
+
+    /**
+     * @return array
+     */
+    private function getBaseStructure(): array
+    {
+        return [
+            "@context" => RichSnippetsConstants::CONTEXT,
+            "@graph" => [],
+        ];
+    }
+
+    /**
+     * @param array $item
+     *
+     * @return array
+     */
+    private function getItemStructure(array $item): array
+    {
+        return [
+            "@id" => $this->baseUrl . " - " . $this->siteName,
+            "@type" => RichSnippetsConstants::TYPE_SITE_NAVIGATION_ELEMENT,
+            "name" => $item['title'],
+            "url" => $this->baseUrl . $item['permalink'],
+        ];
     }
 }

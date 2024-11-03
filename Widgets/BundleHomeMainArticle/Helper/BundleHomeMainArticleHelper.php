@@ -2,7 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Helper;
 
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\ArticleHelper;
+use Comitium5\MercuriumWidgetsBundle\Helpers\WidgetHelper;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Interfaces\BundleHomeMainArticleValueObjectInterface;
 use Exception;
 
@@ -11,7 +11,7 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Widgets\BundleHomeMainArticle\Helper
  */
-class BundleHomeMainArticleHelper
+class BundleHomeMainArticleHelper extends WidgetHelper
 {
     /**
      * @var BundleHomeMainArticleValueObjectInterface
@@ -23,6 +23,9 @@ class BundleHomeMainArticleHelper
      */
     public function __construct(BundleHomeMainArticleValueObjectInterface $valueObject)
     {
+        $api = $valueObject->getApi();
+        parent::__construct($api);
+
         $this->valueObject = $valueObject;
     }
 
@@ -32,14 +35,14 @@ class BundleHomeMainArticleHelper
      */
     public function getArticles(): array
     {
+        $articles = [];
+
         $articlesIds = $this->valueObject->getArticlesIds();
 
-        if (empty($articlesIds)) {
-            return [];
+        if (!empty($articlesIds)) {
+            $articles = $this->getArticlesByIds($articlesIds);
         }
 
-        $helper = new ArticleHelper($this->valueObject->getApi());
-
-        return $helper->getByIds($articlesIds);
+        return $articles;
     }
 }

@@ -3,16 +3,14 @@
 namespace Comitium5\MercuriumWidgetsBundle\Interfaces;
 
 /**
- * Interface EntityBasicInterface
+ * Interface EntityGetLastInterface
  *
  * @package Comitium5\MercuriumWidgetsBundle\Interfaces
  */
-interface EntityGetByInterface
+interface EntityGetLastInterface
 {
     /**
-     * @param array $parameters
-     *
      * @return array
      */
-    public function getBy(array $parameters): array;
+    public function getLast(): array;
 }

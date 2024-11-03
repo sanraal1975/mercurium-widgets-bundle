@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetLastInterface;
 use Exception;
 
 /**
@@ -11,7 +12,7 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Helpers\Entities
  */
-class VideoHelper extends AssetHelper
+class VideoHelper extends AssetHelper implements EntityGetLastInterface
 {
     /**
      * @return array
@@ -25,9 +26,7 @@ class VideoHelper extends AssetHelper
             EntityConstants::TYPE_FIELD_KEY => "video",
         ];
 
-        $image = $this->getBy(
-            $options
-        );
+        $image = $this->getBy($options);
 
         return ApiResultsHelper::extractOne($image);
     }

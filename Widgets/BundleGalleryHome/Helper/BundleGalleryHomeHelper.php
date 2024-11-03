@@ -2,8 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\Helper;
 
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\EntityHelper;
-use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\GalleryHelper;
+use Comitium5\MercuriumWidgetsBundle\Helpers\WidgetHelper;
 use Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\Interfaces\BundleGalleryHomeValueObjectInterface;
 use Exception;
 
@@ -12,7 +11,7 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Widgets\BundleGalleryHome\Helper
  */
-class BundleGalleryHomeHelper
+class BundleGalleryHomeHelper extends WidgetHelper
 {
     /**
      * @var BundleGalleryHomeValueObjectInterface
@@ -24,6 +23,9 @@ class BundleGalleryHomeHelper
      */
     public function __construct(BundleGalleryHomeValueObjectInterface $valueObject)
     {
+        $api = $this->valueObject->getApi();
+        parent::__construct($api);
+
         $this->valueObject = $valueObject;
     }
 
@@ -31,19 +33,13 @@ class BundleGalleryHomeHelper
      * @return array
      * @throws Exception
      */
-    public function getGallery(): array
+    public function getGalleryFromApi(): array
     {
         $gallery = [];
+
         $galleryId = $this->valueObject->getGalleryId();
-
         if ($galleryId > 0) {
-            $api = $this->valueObject->getApi();
-
-            $galleryHelper = new GalleryHelper($api);
-            $gallery = $galleryHelper->get($galleryId);
-
-            $entityHelper = new EntityHelper();
-            $gallery = ($entityHelper->isValid($gallery)) ? $gallery : [];
+            $gallery = $this->getGallery($galleryId);
         }
 
         return $gallery;

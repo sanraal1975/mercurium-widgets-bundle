@@ -4,9 +4,13 @@ namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
 use Comitium5\ApiClientBundle\Client\Client;
 use Comitium5\ApiClientBundle\Client\Services\SubscriptionApiService;
+use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetByInterface;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetInterface;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetServiceInterface;
 use Exception;
 
 /**
@@ -14,12 +18,14 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Helpers\Entities
  */
-class SubscriptionHelper
+class SubscriptionHelper implements EntityGetServiceInterface, EntityGetInterface, EntityGetByInterface
 {
+    const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "SubscriptionHelper::get. entityId must be greater than 0";
+
     /**
      * @var SubscriptionApiService
      */
-    private $service;
+    private SubscriptionApiService $service;
 
     /**
      * @param Client $api
@@ -39,6 +45,34 @@ class SubscriptionHelper
     }
 
     /**
+     * @param int $entityId
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function get(int $entityId): array
+    {
+        if ($entityId < 1) {
+            throw new Exception(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+        }
+
+        return $this->service->find(new IdentifiedValue($entityId));
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getBy(array $parameters): array
+    {
+        return $this->service->findBy(
+            new ParametersValue($parameters)
+        );
+    }
+
+    /**
      * @param array $parameters
      *
      * @return array
@@ -46,7 +80,7 @@ class SubscriptionHelper
      */
     public function getSubscriptions(array $parameters = []): array
     {
-        $results = $this->service->findBy(new ParametersValue($parameters));
+        $results = $this->getBy($parameters);
 
         return ApiResultsHelper::extractResults($results);
     }

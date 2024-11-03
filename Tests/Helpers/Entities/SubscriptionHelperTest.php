@@ -24,12 +24,12 @@ class SubscriptionHelperTest extends TestCase
     /**
      * @var TestHelper
      */
-    private $testHelper;
+    private TestHelper $testHelper;
 
     /**
      * @var ClientMock
      */
-    private $api;
+    private ClientMock $api;
 
     /**
      * @param $name
@@ -89,6 +89,56 @@ class SubscriptionHelperTest extends TestCase
         $service = $helper->getService();
 
         $this->assertInstanceOf(SubscriptionApiService::class, $service);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetThrowsArgumentCountErrorException()
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        $helper = new SubscriptionHelper($this->api);
+        $result = $helper->get();
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetThrowsTypeErrorException()
+    {
+        $this->expectException(TypeError::class);
+
+        $helper = new SubscriptionHelper($this->api);
+        $result = $helper->get(null);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGetThrowsExceptionMessageEntityIdGreaterThanZero()
+    {
+        $this->expectExceptionMessage(SubscriptionHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
+
+        $helper = new SubscriptionHelper($this->api);
+        $result = $helper->get($this->testHelper->getZeroOrNegativeValue());
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testGet()
+    {
+        $helper = new SubscriptionHelper($this->api);
+        $result = $helper->get(1);
+
+        $expected = [EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true];
+
+        $this->assertEquals($expected, $result);
     }
 
     /**

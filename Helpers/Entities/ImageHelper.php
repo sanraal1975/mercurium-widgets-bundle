@@ -4,6 +4,7 @@ namespace Comitium5\MercuriumWidgetsBundle\Helpers\Entities;
 
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetLastInterface;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropsValueObject;
 use Comitium5\MercuriumWidgetsBundle\ValueObjects\CropValueObject;
 use Exception;
@@ -13,8 +14,28 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Helpers\Entities
  */
-class ImageHelper extends AssetHelper
+class ImageHelper extends AssetHelper implements EntityGetLastInterface
 {
+    /**
+     * @param int $imageId
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function get(int $imageId): array
+    {
+        $image = [];
+
+        if ($imageId > 0) {
+            $image = parent::get($imageId);
+            if (!empty($image)) {
+                $image = $this->setOrientation($image);
+            }
+        }
+
+        return $image;
+    }
+
     /**
      * @return array
      * @throws Exception
@@ -27,9 +48,7 @@ class ImageHelper extends AssetHelper
             EntityConstants::TYPE_FIELD_KEY => "image",
         ];
 
-        $image = $this->getBy(
-            $options
-        );
+        $image = $this->getBy($options);
 
         return ApiResultsHelper::extractOne($image);
     }
@@ -121,8 +140,10 @@ class ImageHelper extends AssetHelper
 
         if ($height > $width) {
             $image['orientation'] = "is-vertical";
-        } else {
+        } elseif ($height < $width) {
             $image['orientation'] = "is-horizontal";
+        } else {
+            $image['orientation'] = "is-square";
         }
 
         return $image;

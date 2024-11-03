@@ -7,10 +7,13 @@ use Comitium5\ApiClientBundle\Client\Services\AbstractApiService;
 use Comitium5\ApiClientBundle\Client\Services\PollApiService;
 use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\ApiClientBundle\ValueObject\ParametersValue;
-use Comitium5\MercuriumWidgetsBundle\Abstracts\Helpers\AbstractEntityHelper;
 use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Helpers\ApiResultsHelper;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetByInterface;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetInterface;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetLastInterface;
+use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetServiceInterface;
 use Exception;
 
 /**
@@ -18,7 +21,7 @@ use Exception;
  *
  * @package Comitium5\MercuriumWidgetsBundle\Helpers\Entities
  */
-class PollHelper extends AbstractEntityHelper
+class PollHelper implements EntityGetServiceInterface, EntityGetInterface, EntityGetByInterface, EntityGetLastInterface
 {
     const ENTITY_ID_MUST_BE_GREATER_THAN_ZERO = "PollHelper::get. entityId must be greater than 0";
 
@@ -27,7 +30,7 @@ class PollHelper extends AbstractEntityHelper
     /**
      * @var PollApiService
      */
-    private $service;
+    private PollApiService $service;
 
     /**
      * @param Client $api
@@ -63,82 +66,6 @@ class PollHelper extends AbstractEntityHelper
     }
 
     /**
-     * @param string $entitiesIds
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getByIds(string $entitiesIds): array
-    {
-        if (empty($entitiesIds)) {
-            return [];
-        }
-
-        $helper = new EntityHelper();
-
-        $entitiesIdsAsArray = explode(",", $entitiesIds);
-        $entities = [];
-
-        foreach ($entitiesIdsAsArray as $entityId) {
-            $entityId = (int)$entityId;
-
-            $entity = $this->get($entityId);
-
-            if (!$helper->isValid($entity)) {
-                continue;
-            }
-
-            $entities[] = $entity;
-        }
-
-        return $entities;
-    }
-
-    /**
-     * @param string $entitiesIds
-     * @param int $quantityOfEntities
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getByIdsAndQuantity(string $entitiesIds, int $quantityOfEntities = PHP_INT_MAX): array
-    {
-        if (empty($entitiesIds)) {
-            return [];
-        }
-
-        if ($quantityOfEntities < 0) {
-            throw new Exception(self::QUANTITY_MUST_BE_EQUAL_OR_GREATER_THAN_ZERO);
-        }
-
-        if ($quantityOfEntities == 0) {
-            return [];
-        }
-
-        $helper = new EntityHelper();
-
-        $entitiesIdsAsArray = explode(",", $entitiesIds);
-        $entities = [];
-
-        foreach ($entitiesIdsAsArray as $entityId) {
-            $entityId = (int)$entityId;
-            $entity = $this->get($entityId);
-
-            if (!$helper->isValid($entity)) {
-                continue;
-            }
-
-            $entities[] = $entity;
-
-            if (count($entities) == $quantityOfEntities) {
-                break;
-            }
-        }
-
-        return $entities;
-    }
-
-    /**
      * @param array $parameters
      *
      * @return array
@@ -155,7 +82,7 @@ class PollHelper extends AbstractEntityHelper
      * @return array
      * @throws Exception
      */
-    public function getLastPublished(): array
+    public function getLast(): array
     {
         $results = $this->getBy(
             [

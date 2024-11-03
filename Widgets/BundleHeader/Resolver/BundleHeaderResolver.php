@@ -113,7 +113,7 @@ class BundleHeaderResolver
     {
         $page = [];
         $pageId = $this->valueObject->getSearchPageId();
-        if (!empty($pageId)) {
+        if ($pageId > 0) {
             $page = $this->helper->getPage($pageId);
         }
 
@@ -128,7 +128,7 @@ class BundleHeaderResolver
     {
         $page = [];
         $pageId = $this->valueObject->getRegisterPageId();
-        if (!empty($pageId)) {
+        if ($pageId > 0) {
             $page = $this->helper->getPage($pageId);
         }
 
@@ -143,7 +143,7 @@ class BundleHeaderResolver
     {
         $page = [];
         $pageId = $this->valueObject->getLoginPageId();
-        if (!empty($pageId)) {
+        if ($pageId > 0) {
             $page = $this->helper->getPage($pageId);
         }
 
@@ -158,8 +158,9 @@ class BundleHeaderResolver
     {
         $navItems = [];
         $menuId = $this->valueObject->getNavItemsMenuId();
-        if (!empty($menuId)) {
-            $navItems = $this->helper->getNavItems();
+        if ($menuId > 0) {
+            $menu = $this->helper->getMenu($menuId);
+            $navItems = $this->helper->getMenuItems($menu);
         }
 
         return $navItems;

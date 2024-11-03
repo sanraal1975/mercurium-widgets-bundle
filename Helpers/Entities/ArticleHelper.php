@@ -29,7 +29,7 @@ class ArticleHelper extends AbstractEntityHelper
     /**
      * @var ArticleApiService
      */
-    private $service;
+    private ArticleApiService $service;
 
     /**
      * @param Client $api
@@ -74,17 +74,10 @@ class ArticleHelper extends AbstractEntityHelper
         $entities = [];
 
         if (!empty($entitiesIds)) {
-            $helper = new EntityHelper();
-
             $entitiesIdsAsArray = explode(",", $entitiesIds);
             foreach ($entitiesIdsAsArray as $entityId) {
                 $entityId = (int)$entityId;
                 $entity = $this->get($entityId);
-
-                if (!$helper->isValid($entity)) {
-                    continue;
-                }
-
                 $entities[] = $entity;
             }
         }

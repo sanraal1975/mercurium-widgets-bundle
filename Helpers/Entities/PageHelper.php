@@ -23,7 +23,7 @@ class PageHelper implements EntityGetServiceInterface, EntityGetInterface
     /**
      * @var PagesApiService
      */
-    private $service;
+    private PagesApiService $service;
 
     /**
      * @param Client $api

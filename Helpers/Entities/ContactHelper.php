@@ -24,7 +24,7 @@ class ContactHelper implements EntityGetServiceInterface, EntityGetByInterface
     /**
      * @var ContactApiService
      */
-    private $service;
+    private ContactApiService $service;
 
     /**
      * @param Client $api

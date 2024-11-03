@@ -9,6 +9,7 @@ use Comitium5\ApiClientBundle\ValueObject\IdentifiedValue;
 use Comitium5\MercuriumWidgetsBundle\Factories\ApiServiceFactory;
 use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetInterface;
 use Comitium5\MercuriumWidgetsBundle\Interfaces\EntityGetServiceInterface;
+use Exception;
 
 /**
  * Class MenuHelper
@@ -20,7 +21,7 @@ class MenuHelper implements EntityGetInterface, EntityGetServiceInterface
     /**
      * @var MenuApiService
      */
-    private $service;
+    private MenuApiService $service;
 
     /**
      * @param Client $api
@@ -43,7 +44,7 @@ class MenuHelper implements EntityGetInterface, EntityGetServiceInterface
      * @param int $entityId
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function get(int $entityId): array
     {
