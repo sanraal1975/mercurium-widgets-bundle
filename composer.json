@@ -15,7 +15,7 @@
         }
     },
     "require": {
-        "php": "^7.4",
+        "php": "^8.3",
         "comitium5/api-client-bundle": "^7.1",
         "ext-json": "*",
         "ext-openssl": "*",
