@@ -198,15 +198,19 @@ class WidgetHelper
         if ($helper !== null) {
             $apiParameters = $valueObject->getParameters();
             $entitiesFromApi = $helper->getBy($apiParameters);
-            if (!empty($entitiesFromApi)) {
+            $results = ApiResultsHelper::extractResults($entitiesFromApi);
+            if (!empty($results)) {
                 $entityHelper = new EntityHelper();
-                foreach ($entitiesFromApi as $entity) {
+                $validEntities=[];
+                foreach ($results as $entity) {
                     $isValidEntity = $entityHelper->isValid($entity);
                     if ($isValidEntity) {
-                        $entities[] = $entity;
+                        $validEntities[] = $entity;
                     }
                 }
             }
+            $entitiesFromApi['results']=$validEntities;
+            $entities=$entitiesFromApi;
         }
 
         return $entities;

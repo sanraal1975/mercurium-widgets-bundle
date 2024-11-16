@@ -251,17 +251,21 @@ class ArticleHelperTest extends TestCase
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY,
-                "expected" => [[
+                "expected" => [
+                    [
                     EntityConstants::ID_FIELD_KEY => 1,
                     EntityConstants::SEARCHABLE_FIELD_KEY => true
-                ]]
+                    ]
+                ]
             ],
             [
                 "entitiesIds" => "1," . $this->testHelper::ENTITY_ID_TO_RETURN_EMPTY_SEARCHABLE,
-                "expected" => [[
+                "expected" => [
+                    [
                     EntityConstants::ID_FIELD_KEY => 1,
                     EntityConstants::SEARCHABLE_FIELD_KEY => true
-                ]]
+                    ]
+                ]
             ]
         ];
     }

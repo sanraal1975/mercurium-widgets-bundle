@@ -60,7 +60,7 @@ class EntityImageNormalizer implements AbstractEntityNormalizerInterface
      * @return array
      * @throws Exception
      */
-    public function normalize(array $entity): array
+    public function normalize(array $entity, bool $dump=false): array
     {
         if (!empty($entity)) {
             if (!empty($entity[$this->field])) {

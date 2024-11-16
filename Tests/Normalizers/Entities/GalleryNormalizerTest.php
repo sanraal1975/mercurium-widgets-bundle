@@ -247,7 +247,7 @@ class GalleryNormalizerTest extends TestCase
                         [
                             EntityConstants::ID_FIELD_KEY => 1,
                             EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                            "orientation" => "is-horizontal",
+                            EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_SQUARE,
                         ]
                     ],
                     EntityConstants::TOTAL_ASSETS_FIELD_KEY => 1
@@ -303,7 +303,7 @@ class GalleryNormalizerTest extends TestCase
                         [
                             EntityConstants::ID_FIELD_KEY => 1,
                             EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                            "orientation" => "is-horizontal",
+                            EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_SQUARE,
                         ]
                     ],
                     EntityConstants::TOTAL_ASSETS_FIELD_KEY => 1

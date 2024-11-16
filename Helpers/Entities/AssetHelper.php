@@ -45,7 +45,6 @@ class AssetHelper implements EntityGetInterface, EntityGetByInterface
         if ($entityId < 1) {
             throw new Exception(self::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
         }
-
         return $this->service->find(new IdentifiedValue($entityId));
     }
 

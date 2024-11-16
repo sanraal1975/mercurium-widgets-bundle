@@ -147,7 +147,8 @@ class BundleOpinionHelperTest extends TestCase
 
         $expected = [
             EntityConstants::ID_FIELD_KEY => 1,
-            EntityConstants::SEARCHABLE_FIELD_KEY => true
+            EntityConstants::SEARCHABLE_FIELD_KEY => true,
+            EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_SQUARE
         ];
 
         $this->assertEquals($expected, $image);

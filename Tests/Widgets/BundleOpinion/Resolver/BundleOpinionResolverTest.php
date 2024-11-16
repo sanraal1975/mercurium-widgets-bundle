@@ -100,7 +100,14 @@ class BundleOpinionResolverTest extends TestCase
 
         $asset = $resolver->resolveSponsorImage();
 
-        $this->assertEquals([EntityConstants::ID_FIELD_KEY => 1, EntityConstants::SEARCHABLE_FIELD_KEY => true], $asset);
+        $this->assertEquals(
+            [
+                EntityConstants::ID_FIELD_KEY => 1, 
+                EntityConstants::SEARCHABLE_FIELD_KEY => true, 
+                EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_SQUARE
+            ], 
+            $asset
+        );
     }
 
     /**

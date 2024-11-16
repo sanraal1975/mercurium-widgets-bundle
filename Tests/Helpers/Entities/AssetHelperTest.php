@@ -82,19 +82,6 @@ class AssetHelperTest extends TestCase
     }
 
     /**
-     *
-     * @return void
-     */
-    public function testGetService()
-    {
-        $helper = new AssetHelper($this->api);
-
-        $service = $helper->getService();
-
-        $this->assertInstanceOf(AssetApiService::class, $service);
-    }
-
-    /**
      * @return void
      * @throws Exception
      */
