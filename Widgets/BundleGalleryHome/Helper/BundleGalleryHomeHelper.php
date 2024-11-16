@@ -23,7 +23,7 @@ class BundleGalleryHomeHelper extends WidgetHelper
      */
     public function __construct(BundleGalleryHomeValueObjectInterface $valueObject)
     {
-        $api = $this->valueObject->getApi();
+        $api = $valueObject->getApi();
         parent::__construct($api);
 
         $this->valueObject = $valueObject;

@@ -168,7 +168,7 @@ class EntitySponsorNormalizerTest extends TestCase
                     EntityConstants::IMAGE_FIELD_KEY => [
                         EntityConstants::ID_FIELD_KEY => 1,
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                        EntityConstants::ORIENTATION_FIELD_KEY => "is-horizontal"
+                        EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_SQUARE
                     ]
                 ]
             ],

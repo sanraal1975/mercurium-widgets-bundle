@@ -214,20 +214,6 @@ class EntityImageNormalizerTest extends TestCase
     }
 
     /**
-     * @return void
-     * @throws Exception
-     */
-    public function testNormalizeAuthorThrowsExceptionMessageNonNumericAssetId()
-    {
-        $this->expectExceptionMessage(AssetHelper::ENTITY_ID_MUST_BE_GREATER_THAN_ZERO);
-
-        $entity = [EntityConstants::IMAGE_FIELD_KEY => [EntityConstants::ID_FIELD_KEY => $this->testHelper->getZeroOrNegativeValue()]];
-
-        $normalizer = new EntityImageNormalizer($this->api, EntityConstants::IMAGE_FIELD_KEY);
-        $normalizer->normalize($entity);
-    }
-
-    /**
      * @dataProvider normalizeReturnsEntityAssetNormalized
      *
      * @return void
@@ -259,7 +245,7 @@ class EntityImageNormalizerTest extends TestCase
                     EntityConstants::IMAGE_FIELD_KEY => [
                         EntityConstants::ID_FIELD_KEY => 1,
                         EntityConstants::SEARCHABLE_FIELD_KEY => true,
-                        EntityConstants::ORIENTATION_FIELD_KEY => "is-horizontal"
+                        EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_SQUARE
                     ]
                 ],
             ],

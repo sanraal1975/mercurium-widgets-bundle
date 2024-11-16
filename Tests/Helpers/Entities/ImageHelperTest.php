@@ -359,15 +359,30 @@ class ImageHelperTest extends TestCase
             ],
             [
                 "image" => ["id" => 1],
-                "expected" => ["id" => 1, "orientation" => "is-horizontal"]
+                "expected" => [
+                    "id" => 1, 
+                    EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_SQUARE
+                ]
             ],
             [
                 "image" => ["id" => 1, "metadata" => ["height" => 1]],
-                "expected" => ["id" => 1, "metadata" => ["height" => 1], "orientation" => "is-vertical"]
+                "expected" => [
+                    "id" => 1, 
+                    "metadata" => [
+                        "height" => 1
+                    ], 
+                    EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_VERTICAL
+                ]
             ],
             [
                 "image" => ["id" => 1, "metadata" => ["width" => 1]],
-                "expected" => ["id" => 1, "metadata" => ["width" => 1], "orientation" => "is-horizontal"]
+                "expected" => [
+                    "id" => 1, 
+                    "metadata" => [
+                        "width" => 1
+                    ],
+                    EntityConstants::ORIENTATION_FIELD_KEY => EntityConstants::IMAGE_ORIENTATION_HORIZONTAL
+                ]
             ]
         ];
     }

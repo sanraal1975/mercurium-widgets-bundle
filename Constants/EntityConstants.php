@@ -80,4 +80,9 @@ class EntityConstants
     const HAS_SPONSOR = "has-sponsor";
     const HAS_SUBSCRIPTION = "has-subscription";
     const HAS_VIDEO = "has-video";
+
+    // Image orientation keys
+    const IMAGE_ORIENTATION_VERTICAL = "is-vertical";
+    const IMAGE_ORIENTATION_HORIZONTAL = "is-horizontal";
+    const IMAGE_ORIENTATION_SQUARE = "is-square";
 }

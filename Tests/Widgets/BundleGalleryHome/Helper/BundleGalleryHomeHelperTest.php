@@ -76,7 +76,7 @@ class BundleGalleryHomeHelperTest extends TestCase
     public function testGetGallery($valueObject, $expected)
     {
         $helper = new BundleGalleryHomeHelper($valueObject);
-        $gallery = $helper->getGallery();
+        $gallery = $helper->getGalleryFromApi();
 
         $this->assertEquals($expected, $gallery);
     }

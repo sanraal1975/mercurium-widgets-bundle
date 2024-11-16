@@ -75,10 +75,14 @@ class ArticleHelper extends AbstractEntityHelper
 
         if (!empty($entitiesIds)) {
             $entitiesIdsAsArray = explode(",", $entitiesIds);
+            $helper=new EntityHelper();
             foreach ($entitiesIdsAsArray as $entityId) {
                 $entityId = (int)$entityId;
                 $entity = $this->get($entityId);
-                $entities[] = $entity;
+                $isValid=$helper->isValid($entity);
+                if($isValid) {
+                    $entities[] = $entity;
+                }
             }
         }
 

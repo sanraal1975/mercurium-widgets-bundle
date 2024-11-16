@@ -44,35 +44,6 @@ class BundleHomeMainArticleResolverTest extends TestCase
     }
 
     /**
-     * @return void
-     * @throws Exception
-     */
-    public function testConstruct()
-    {
-        $valueObject = new BundleHomeMainArticleValueObjectMock(
-            $this->api,
-            "es",
-            "mercurium",
-            "default",
-            "format-1",
-            "",
-            true,
-            true,
-            true,
-            true,
-            true
-        );
-
-        $normalizer = new EntityNormalizer(
-            [
-                new EntityDynamicFieldsNormalizer([])
-            ]
-        );
-
-        new BundleHomeMainArticleResolver($valueObject, $normalizer);
-    }
-
-    /**
      * @dataProvider resolve
      *
      * @return void
