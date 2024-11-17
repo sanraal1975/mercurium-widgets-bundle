@@ -2,6 +2,7 @@
 
 namespace Comitium5\MercuriumWidgetsBundle\Tests\Helpers\Entities;
 
+use Comitium5\MercuriumWidgetsBundle\Constants\EntityConstants;
 use Comitium5\ApiClientBundle\Client\Services\MenuApiService;
 use Comitium5\MercuriumWidgetsBundle\Helpers\Entities\MenuHelper;
 use Comitium5\MercuriumWidgetsBundle\Tests\Helpers\TestHelper;
@@ -78,9 +79,10 @@ class MenuHelperTest extends TestCase
                     "items" => [
                         [
                             "title" => "foo",
-                            "permalink" => "https://www.bar.com"
+                            "permalink" => "/bar"
                         ]
-                    ]
+                    ],
+                    EntityConstants::SEARCHABLE_FIELD_KEY => true
                 ]
             ],
         ];

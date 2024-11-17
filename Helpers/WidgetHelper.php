@@ -137,6 +137,7 @@ class WidgetHelper
         if (!empty($menu)) {
             $helper = new EntityHelper();
             $items = $helper->getField($menu, EntityConstants::ITEMS_FIELD_KEY);
+            $items = empty($items) ? [] : $items;
         }
 
         return $items;
